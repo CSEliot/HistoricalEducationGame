@@ -10,6 +10,7 @@ public class Buttons : MonoBehaviour {
         if (NewSceneNum != 0)
         {
             CallSceneChange(NewSceneNum);
+			NewSceneNum = 0;
         }
     }
     public void CallSceneChange(float NewScene)
