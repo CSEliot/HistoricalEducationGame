@@ -27,8 +27,14 @@ public class AllMenuNav : MonoBehaviour {
 
     public void ChangeSceneTo(int MenuInt)
     {
-        Canvases[CurrentCanvasNum].SetActive(false);
-        Canvases[MenuInt].SetActive(true);
-        CurrentCanvasNum = MenuInt;
+        if (MenuInt == 5)
+        {
+            Canvases[MenuInt].SetActive(true);
+        }
+        else {
+            Canvases[CurrentCanvasNum].SetActive(false);
+            Canvases[MenuInt].SetActive(true);
+            CurrentCanvasNum = MenuInt;
+        }
     }
 }
