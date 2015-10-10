@@ -14,8 +14,20 @@ public class Buttons : MonoBehaviour {
         }
     }
     public void CallSceneChange(float NewScene)
-    { 
-        GameObject.FindGameObjectWithTag("MenuController").
-            GetComponent<AllMenuNav>().ChangeSceneTo((int)NewScene);
+    {
+        if (NewScene == -1)
+        {
+            QuitGameActually();
+        }
+        else
+        {
+            GameObject.FindGameObjectWithTag("MenuController").
+                GetComponent<AllMenuNav>().ChangeSceneTo((int)NewScene);
+        }
+    }
+
+    public void QuitGameActually()
+    {
+        Application.Quit();
     }
 }
