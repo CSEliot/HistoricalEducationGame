@@ -3,14 +3,20 @@ using System.Collections;
 
 public class Buttons : MonoBehaviour {
 
-    public float NewSceneNum = 0;
+    public float NewSceneNum; //animation-based button detection
+
+    public void Start()
+    {
+        NewSceneNum = 0;
+    }
 
     void Update()
     {
         if (NewSceneNum != 0)
         {
+            Go.Do("Not Zero!");
             CallSceneChange(NewSceneNum);
-			NewSceneNum = 0;
+            NewSceneNum = 0;
         }
     }
     public void CallSceneChange(float NewScene)
