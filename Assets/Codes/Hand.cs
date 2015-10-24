@@ -4,31 +4,34 @@ using System.Collections.Generic;
 
 public class Hand : MonoBehaviour {
 
-	private List<Card> Cards;
-	private int HandSize;
-	private Deck deck;
+    private LinkedList<GameObject> Cards;
+    public Deck deck;
+    public Transform[] HandCardPositions;
 
-	// Use this for initialization
-	void Start () {
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    // Use this for initialization
+    void Start () {
+    }
+    
+    // Update is called once per frame
+    void Update () {
+    
+    }
 
-	public void NewGame(){
-		Cards = new List<Card> (5);
-	}
+    public void NewGame(){
+        Cards = new LinkedList<GameObject>();
+    }
 
-	public void DrawCard(Card NewCard){
+    public void DrawCard(){
+        while (Cards.Count < 5) {
+            Cards.AddLast(deck.Top());
+            Cards.Last.Value.transform.po = HandCardPositions[
+                Cards.Count-1];
+        }
+    }
 
-		Cards.Add (NewCard);
-	}
-
-	public void PlayCard(int ChosenCardNum){
-		//Animation Calls
-		//Put card in Field list. (C# defaults to PbV)
-		//Remove card from Hand list.
-	}
+    public void PlayCard(int ChosenCardNum){
+        //Animation Calls
+        //Put card in Field list. (C# defaults to PbV)
+        //Remove card from Hand list.
+    }
 }
