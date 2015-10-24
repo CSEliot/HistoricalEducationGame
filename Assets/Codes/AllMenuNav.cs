@@ -22,7 +22,6 @@ public class AllMenuNav : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
 	}
 
     public void ChangeSceneTo(int MenuInt)

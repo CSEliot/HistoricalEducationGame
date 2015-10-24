@@ -9,8 +9,8 @@ public class Card : MonoBehaviour {
 	private string FlavorText;
 	private Image Graphic;
 	private bool IsSpecial;
-	private delegate void PrintyFunction();
-	private Action SpecialAbility;
+	//private delegate void PrintyFunction();
+	public Action SpecialAbility;
 
 	// Use this for initialization
 	void Start () {
