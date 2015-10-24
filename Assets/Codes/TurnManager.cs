@@ -5,15 +5,17 @@ public class TurnManager : MonoBehaviour {
 
 	public Hand PlayerHand;
 	public Hand AIHand;
-    public Deck PlayerDeck;
-    public Deck AIDeck;
-    public PlayField PlayerField;
-    public PlayField AIField;
-    public LevelTracking LevelTracker;
-    public InfluenceManager InfluenceManager;
+	public Deck PlayerDeck;
+	public Deck AIDeck;
+	public PlayField PlayerField;
+	public PlayField AIField;
+	public LevelTracking LevelTracker;
+	public InfluenceManager InfluenceManager;
+
+	private bool PlayerTurn;
 
 	private enum Turn{
-        Launching,
+		Launching,
 		FillingHand,
 		ChoosingCard,
 		ActivatingAbilities,
@@ -33,10 +35,16 @@ public class TurnManager : MonoBehaviour {
 			//StartCoroutine("PlayerDrawCard");
 			TurnState = Turn.Waiting;
 		}
+		if (TurnState == Turn.Launching) {
+			//play teacher lady info
+			//wait for her to finish
+			if(PlayerTurn){
+				PlayerHand.DrawCard();
+			}
+		}
 	}
 
 	IEnumerator PlayerDrawCard(){
-
 		TurnState = Turn.ChoosingCard;
 		yield return null;
 	}
@@ -50,16 +58,17 @@ public class TurnManager : MonoBehaviour {
 	private void ActivateCardAbilties(){
 	}
 
-    public void Launch(int StageNum)
-    {
-        TurnState = Turn.Launching;
-        AIDeck.NewGame(StageNum);
-        PlayerDeck.NewGame(StageNum);
-        AIHand.NewGame();
-        PlayerHand.NewGame();
-        AIField.NewGame();
-        PlayerField.NewGame();
-        InfluenceManager.NewGame();
-    }
+	public void Launch(int StageNum)
+	{
+		PlayerTurn = true;
+		TurnState = Turn.Launching;
+		AIDeck.NewGame(StageNum);
+		PlayerDeck.NewGame(StageNum);
+		AIHand.NewGame();
+		PlayerHand.NewGame();
+		AIField.NewGame();
+		PlayerField.NewGame();
+		InfluenceManager.NewGame();
+	}
 
 }

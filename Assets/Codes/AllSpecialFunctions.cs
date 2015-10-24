@@ -9,7 +9,13 @@ public class AllSpecialFunctions : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		SpecialAbilityList = new Dictionary<int, Action> ();
-		SpecialAbilityList.Add(1, ()=>PlusOne());
+		SpecialAbilityList.Add(1, () => PlusOne());
+        SpecialAbilityList.Add(2, () => PlusTwo());
+        SpecialAbilityList.Add(3, () => PlusThree());
+        SpecialAbilityList.Add(4, () => PlusTwo());
+        SpecialAbilityList.Add(5, () => Clear());
+        SpecialAbilityList.Add(6, () => Stop());
+        SpecialAbilityList.Add(7, () => Double());
 	}
 	
 	// Update is called once per frame
@@ -43,6 +49,11 @@ public class AllSpecialFunctions : MonoBehaviour {
             GetComponent<PlayField>().Clear();
         GameObject.FindGameObjectWithTag("PlayFieldYours").
             GetComponent<PlayField>().Clear();
+        yield return new WaitForSeconds(0.3f);
+    }
+
+    IEnumerator Stop()
+    {
         yield return new WaitForSeconds(0.3f);
     }
 
