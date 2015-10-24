@@ -19,7 +19,6 @@ public class Hand : MonoBehaviour {
 
 	public void NewGame(){
 		Cards = new List<Card> (5);
-
 	}
 
 	public void DrawCard(Card NewCard){

@@ -3,6 +3,8 @@ using System.Collections;
 
 public class SetupCardGame : MonoBehaviour {
 
+    public TurnManager turnManager;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -15,5 +17,6 @@ public class SetupCardGame : MonoBehaviour {
 
     public void StartGame(int StageNum) {
         GameObject.FindGameObjectWithTag("MenuController").GetComponent<AllMenuNav>().ChangeSceneTo(4);
+        turnManager.Launch(StageNum);
     }
 }

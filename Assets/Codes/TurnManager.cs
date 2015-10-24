@@ -5,8 +5,15 @@ public class TurnManager : MonoBehaviour {
 
 	public Hand PlayerHand;
 	public Hand AIHand;
+    public Deck PlayerDeck;
+    public Deck AIDeck;
+    public PlayField PlayerField;
+    public PlayField AIField;
+    public LevelTracking LevelTracker;
+    public InfluenceManager InfluenceManager;
 
 	private enum Turn{
+        Launching,
 		FillingHand,
 		ChoosingCard,
 		ActivatingAbilities,
@@ -17,7 +24,7 @@ public class TurnManager : MonoBehaviour {
 	private Turn TurnState; 
 	// Use this for initialization
 	void Start () {
-		TurnState = Turn.FillingHand;
+		TurnState = Turn.Launching;
 	}
 	
 	// Update is called once per frame
@@ -43,5 +50,16 @@ public class TurnManager : MonoBehaviour {
 	private void ActivateCardAbilties(){
 	}
 
+    public void Launch(int StageNum)
+    {
+        TurnState = Turn.Launching;
+        AIDeck.NewGame(StageNum);
+        PlayerDeck.NewGame(StageNum);
+        AIHand.NewGame();
+        PlayerHand.NewGame();
+        AIField.NewGame();
+        PlayerField.NewGame();
+        InfluenceManager.NewGame();
+    }
 
 }
