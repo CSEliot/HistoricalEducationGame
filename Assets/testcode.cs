@@ -2,10 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using UnityEngine.UI;
 public class testcode : MonoBehaviour {
 
     public LinkedList<int> testList;
-    public Action SpecialAbility;
 
     public int TESTINT = 1;
 	// Use this for initialization
@@ -16,7 +16,7 @@ public class testcode : MonoBehaviour {
         testList.AddLast(3);
         testList.AddLast(2);
         testList.AddLast(4);
-        SpecialAbility = gameObject.GetComponent<AllSpecialFunctions>().SpecialAbilityList[6];
+
 	}
 	
 	// Update is called once per frame
@@ -32,7 +32,25 @@ public class testcode : MonoBehaviour {
         }
         if (Input.GetKeyDown("d"))
         {
-            SpecialAbility();
+            Debug.Log("Gtween!");
+            //Color temp = GameObject.Find("Image (1)").GetComponent<Image>().material.color;
+            //temp = new Color
+            Color Dark = new Color(.5f, .5f,.5f,.5f);
+            GameObject.Find("Image (1)").GetComponent<Image>().CrossFadeColor(Dark, 0f, false,true);
+            //GameObject.Find("Image (1)").GetComponent<Image>().color = testC;
+            //GameObject temp = Instantiate(GameObject.Find("Image (1)"), Vector3.zero, Quaternion.identity) as GameObject;
+            //temp.transform.SetParent(GameObject.Find("Image (1)").transform.parent);
+        }
+        if (Input.GetKeyDown("e"))
+        {
+            Debug.Log("Gtween!");
+            //Color temp = GameObject.Find("Image (1)").GetComponent<Image>().material.color;
+            //temp = new Color
+            Color Dark = new Color(2f, 2f, 2f, 2f);
+            GameObject.Find("Image (1)").GetComponent<Image>().CrossFadeColor(Dark, 0f, false, true);
+            //GameObject.Find("Image (1)").GetComponent<Image>().color = testC;
+            //GameObject temp = Instantiate(GameObject.Find("Image (1)"), Vector3.zero, Quaternion.identity) as GameObject;
+            //temp.transform.SetParent(GameObject.Find("Image (1)").transform.parent);
         }
 	}
 
@@ -51,11 +69,16 @@ public class testcode : MonoBehaviour {
 
     void OnDestroy()
     {
-        Go.Do("DESTROYED");
-        GameObject test = Instantiate(gameObject, transform.position, transform.localRotation) as GameObject;
-        test.transform.parent = null;
-        test.SetActive(true);
-        test.GetComponent<testcode>().enabled = true;
+        //Debug.Log("DESTROYED");
+        //GameObject test = Instantiate(gameObject, transform.position, transform.localRotation) as GameObject;
+        //test.transform.parent = null;
+        //test.SetActive(true);
+        //test.GetComponent<testcode>().enabled = true;
+    }
+
+    public int GetNum()
+    {
+        return 3;
     }
 
 }

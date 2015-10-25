@@ -7,7 +7,7 @@ public class InfluenceManager : MonoBehaviour {
     private int influenceCount;
     public GameObject YourBar;
     public GameObject InfluenceText;
-    public int AITurn;  //influence manager should know when to
+    private int AITurn;  //influence manager should know when to
                         //increase or decrease influence.
                         //-1 means AITurn
     private int DoubleCount;
@@ -27,6 +27,7 @@ public class InfluenceManager : MonoBehaviour {
     {
         AITurn = 1;
         influenceCount = 15;
+        DoubleCount = 1;
         YourBar.GetComponent<Image>().fillAmount = 0.5f;
         InfluenceText.GetComponent<Text>().text = "15/30";
     }
@@ -46,13 +47,14 @@ public class InfluenceManager : MonoBehaviour {
 
     public void IncreaseInfluence(int amount)
     {
-        amount *= AITurn;
+        amount *= AITurn; //AITurn = -1
         amount *= DoubleCount; //applying modification from any double cards.
         //Once double's been used, reset it.
         DoubleCount = 1;
         //cap influence at 30
-        influenceCount = ((influenceCount - amount) > 30) ? 30 :
-            influenceCount - amount;
+        Debug.Log("Increasing by amount: " + amount);
+        influenceCount = ((influenceCount + amount) > 30) ? 30 :
+            influenceCount + amount;
         YourBar.GetComponent<Image>().fillAmount = influenceCount / 30f;
         InfluenceText.GetComponent<Text>().text = "" + influenceCount + "/30";
     }
@@ -81,6 +83,7 @@ public class InfluenceManager : MonoBehaviour {
     public void TurnChange()
     {
         AITurn = AITurn * -1;
+        DoubleCount = 1;
     }
 
     public void DoubleNext()

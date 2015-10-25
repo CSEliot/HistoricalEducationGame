@@ -30,7 +30,7 @@ public class TurnManager : MonoBehaviour {
 	private Turn TurnState; 
 	// Use this for initialization
 	void Start () {
-        Go.Do("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
+        Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
 	}
 	
 	// Update is called once per frame
@@ -40,7 +40,7 @@ public class TurnManager : MonoBehaviour {
             PlayerHand.DrawCard();
             AIHand.DrawCard();
 			TurnState = Turn.ChoosingCard;
-            Go.Do("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
+            Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
 		}
 		if (TurnState == Turn.Launching) {
             AIDeck.NewGame(CurrentLevel);
@@ -54,7 +54,7 @@ public class TurnManager : MonoBehaviour {
 			//wait for her to finish
 
             TurnState = Turn.FillingHand;
-            Go.Do("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
+            Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
 		}
         if (TurnState == Turn.ActivatingAbilities)
         {
@@ -67,7 +67,7 @@ public class TurnManager : MonoBehaviour {
                 AIField.ActivateCardsOnField();
             }
             TurnState = Turn.Waiting;
-            Go.Do("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
+            Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
         }
         if (TurnState == Turn.SwitchingTurn)
         {
@@ -77,11 +77,11 @@ public class TurnManager : MonoBehaviour {
             if (winCon == 0)
             {
                 //influence manager has to flip adding or subtracting points.
-                Go.Do("Switching FROM player? " + IsPlayerTurn);
                 temp.TurnChange();
                 IsPlayerTurn = !IsPlayerTurn;
+                Debug.Log("Turn Change to: " + (IsPlayerTurn ? "Player":"AI"));
                 TurnState = Turn.FillingHand;
-                Go.Do("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
+                Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
                 //no winner yet
             }
             else if (winCon == 1) 
@@ -108,12 +108,12 @@ public class TurnManager : MonoBehaviour {
     IEnumerator CardPlayed(){
         yield return new WaitForSeconds(2f);
         //wait for abilities to go off.
-        TurnState = Turn.SwitchingTurn; Go.Do("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
+        TurnState = Turn.SwitchingTurn; Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
     }
 
 	public void EndTurn(){
         TurnState = Turn.SwitchingTurn;
-        Go.Do("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
+        Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
 	}
 
 	public void Launch(int StageNum)
@@ -121,7 +121,7 @@ public class TurnManager : MonoBehaviour {
 		IsPlayerTurn = true;
         CurrentLevel = StageNum;
 		TurnState = Turn.Launching;
-        Go.Do("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
+        Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
 	}
 
     public void HandPlayed(Transform theChosenOne, int HandNumber)
@@ -133,25 +133,27 @@ public class TurnManager : MonoBehaviour {
             bool tempIsEvent = SuspendedCard.GetComponent<Card>().GetIsEvent();
             if (IsPlayerTurn)
             {
-                Go.Do("HandNumber played by Player: " + HandNumber);
+                Debug.Log("HandNumber played by Player: " + HandNumber);
                 //handnumber tells us which one to remove from 
                 // hand (not delete)
                 PlayerHand.RemoveCard(HandNumber);
                 if (!tempIsEvent)
                 {
                     TurnState = Turn.ChoosingFieldPos;
-                    Go.Do("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
+                    Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
                     
                     //StartCoroutine(WaitingForField());
                 }
                 else
                 {
-                    Go.Do("Event Played");
+                    Debug.Log("Event Played");
                     //if event card, play from hand and not onto field.
+                    SuspendedCard.gameObject.SetActive(true);
+                    SuspendedCard.transform.localScale = new Vector3(5f, 5f, 5f);
                     SuspendedCard.GetComponent<Card>().SpecialAbility();
                     SuspendedCard = null;
                     Destroy(theChosenOne.gameObject);
-                    TurnState = Turn.ChoosingFieldPos;
+                    TurnState = Turn.ActivatingAbilities;
                 }
             }
             else
@@ -160,7 +162,7 @@ public class TurnManager : MonoBehaviour {
                 if (!tempIsEvent)
                 {
                     TurnState = Turn.ChoosingFieldPos;;
-                    Go.Do("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
+                    Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
                     //StartCoroutine(WaitingForField());
                 }
                 else
@@ -169,7 +171,7 @@ public class TurnManager : MonoBehaviour {
                     SuspendedCard.GetComponent<Card>().SpecialAbility();
                     SuspendedCard = null;
                     Destroy(theChosenOne.gameObject);
-                    TurnState = Turn.ChoosingFieldPos;
+                    TurnState = Turn.ActivatingAbilities;
                 }
 
             }
@@ -183,6 +185,7 @@ public class TurnManager : MonoBehaviour {
             yield return 1;
         }
     }
+
     /// <summary>
     /// For When placing the card onto the field.
     /// </summary>
@@ -193,18 +196,18 @@ public class TurnManager : MonoBehaviour {
         {
             if (IsPlayerTurn)
             {
-                Go.Do("Spot Chosen: " + spot);
+                Debug.Log("Spot Chosen: " + spot);
                 PlayerField.PlaceCard(SuspendedCard, spot);
                 //CHECK HERE IF WEIRD REPLACE SWAP BUG OCCURS
                 TurnState = Turn.ActivatingAbilities;
-                Go.Do("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
+                Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
             }
             else
             {
-                Go.Do("AI Spot Chosen: " + spot);
+                Debug.Log("AI Spot Chosen: " + spot);
                 AIField.PlaceCard(SuspendedCard, spot);
                 TurnState = Turn.ActivatingAbilities;
-                Go.Do("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
+                Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
             }
         }
     }
@@ -218,4 +221,6 @@ public class TurnManager : MonoBehaviour {
     {
         return IsPlayerTurn ? AIField : PlayerField;
     }
+
+
 }

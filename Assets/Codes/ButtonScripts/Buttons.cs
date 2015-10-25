@@ -14,7 +14,7 @@ public class Buttons : MonoBehaviour {
     {
         if (NewSceneNum != 0)
         {
-            //Go.Do("Not Zero!");
+            //Debug.Log("Not Zero!");
             CallSceneChange(NewSceneNum);
             NewSceneNum = 0;
         }

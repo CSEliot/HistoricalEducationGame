@@ -8,7 +8,8 @@ syntax: glob
 *.suo
 *.unityproj
 *.bin
- 
+*.dflgadvixe
+
 syntax: regexp
 ^Library/.*
 ^Temp/.*
