@@ -9,13 +9,12 @@ public class AllSpecialFunctions : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		SpecialAbilityList = new Dictionary<int, Action> ();
-		SpecialAbilityList.Add(1, () => PlusOne());
-        SpecialAbilityList.Add(2, () => PlusTwo());
-        SpecialAbilityList.Add(3, () => PlusThree());
-        SpecialAbilityList.Add(4, () => PlusTwo());
-        SpecialAbilityList.Add(5, () => Clear());
-        SpecialAbilityList.Add(6, () => Stop());
-        SpecialAbilityList.Add(7, () => Double());
+		SpecialAbilityList.Add(0, () => PlusOne());
+        SpecialAbilityList.Add(1, () => PlusTwo());
+        SpecialAbilityList.Add(2, () => PlusThree());
+        SpecialAbilityList.Add(3, () => Clear());
+        SpecialAbilityList.Add(4, () => Stop());
+        SpecialAbilityList.Add(5, () => Double());
 	}
 	
 	// Update is called once per frame
@@ -23,42 +22,49 @@ public class AllSpecialFunctions : MonoBehaviour {
 	
 	}
 
-	IEnumerator PlusOne(){
+    public void PlusOne()
+    {
+        Go.Do("+1 card called!");
         GameObject.FindGameObjectWithTag("InfluenceManager").
             GetComponent<InfluenceManager>().IncreaseInfluence(1);
-        yield return new WaitForSeconds(0.3f);
 	}
 
-    IEnumerator PlusTwo()
+    public void PlusTwo()
     {
+        Go.Do("+2 card called!");
         GameObject.FindGameObjectWithTag("InfluenceManager").
             GetComponent<InfluenceManager>().IncreaseInfluence(2);
-        yield return new WaitForSeconds(0.3f);
     }
 
-    IEnumerator PlusThree()
+    public void PlusThree()
     {
+        Go.Do("+3 card called!");
         GameObject.FindGameObjectWithTag("InfluenceManager").
-            GetComponent<InfluenceManager>().IncreaseInfluence(1);
-        yield return new WaitForSeconds(0.3f);
+            GetComponent<InfluenceManager>().IncreaseInfluence(3);
     }
 
-    IEnumerator Clear()
+    public void Clear()
     {
+        Go.Do("Clear card called!");
         GameObject.FindGameObjectWithTag("PlayFieldAI").
             GetComponent<PlayField>().Clear();
         GameObject.FindGameObjectWithTag("PlayFieldYours").
             GetComponent<PlayField>().Clear();
-        yield return new WaitForSeconds(0.3f);
     }
 
-    IEnumerator Stop()
+    public void Stop()
     {
-        yield return new WaitForSeconds(0.3f);
+        Go.Do("Stop card called!");
+        //int thisCardPos = gameObject.GetComponent<Card>().GetNumPos();
+        //GameObject.FindGameObjectWithTag("TurnManager").
+        //    GetComponent<TurnManager>().GetInactiveField().
+        //    Stop(thisCardPos);
     }
 
-    IEnumerator Double()
+    public void Double()
     {
-        yield return new WaitForSeconds(0.3f);
+        Go.Do("Double card called!");
+        GameObject.FindGameObjectWithTag("InfluenceManager").
+            GetComponent<InfluenceManager>().DoubleNext();
     }
 }

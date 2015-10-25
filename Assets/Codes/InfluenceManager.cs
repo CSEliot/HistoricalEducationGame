@@ -10,6 +10,8 @@ public class InfluenceManager : MonoBehaviour {
     public int AITurn;  //influence manager should know when to
                         //increase or decrease influence.
                         //-1 means AITurn
+    private int DoubleCount;
+
 
 	// Use this for initialization
 	void Start () {
@@ -23,6 +25,7 @@ public class InfluenceManager : MonoBehaviour {
 
     public void NewGame()
     {
+        AITurn = 1;
         influenceCount = 15;
         YourBar.GetComponent<Image>().fillAmount = 0.5f;
         InfluenceText.GetComponent<Text>().text = "15/30";
@@ -31,17 +34,27 @@ public class InfluenceManager : MonoBehaviour {
     public void DecreaseInfluence(int amount)
     {
         amount *= AITurn;
-        influenceCount -= amount;
-        YourBar.GetComponent<Image>().fillAmount = amount / 30f;
-        InfluenceText.GetComponent<Text>().text = "" + amount + "/30";
+        amount *= DoubleCount; //applying modification from any double cards.
+        //Once double's been used, reset it.
+        DoubleCount = 1;
+        //floor influence at 0
+        influenceCount = ((influenceCount-amount) < 0 )? 0 : 
+            influenceCount - amount;
+        YourBar.GetComponent<Image>().fillAmount = influenceCount / 30f;
+        InfluenceText.GetComponent<Text>().text = "" + influenceCount+ "/30";
     }
 
     public void IncreaseInfluence(int amount)
     {
         amount *= AITurn;
-        influenceCount += amount;
-        YourBar.GetComponent<Image>().fillAmount = amount / 30f;
-        InfluenceText.GetComponent<Text>().text = "" + amount + "/30";
+        amount *= DoubleCount; //applying modification from any double cards.
+        //Once double's been used, reset it.
+        DoubleCount = 1;
+        //cap influence at 30
+        influenceCount = ((influenceCount - amount) > 30) ? 30 :
+            influenceCount - amount;
+        YourBar.GetComponent<Image>().fillAmount = influenceCount / 30f;
+        InfluenceText.GetComponent<Text>().text = "" + influenceCount + "/30";
     }
 
     public void SetInfluence(int amount)
@@ -49,5 +62,34 @@ public class InfluenceManager : MonoBehaviour {
         influenceCount = amount;
         YourBar.GetComponent<Image>().fillAmount = amount / 30f;
         InfluenceText.GetComponent<Text>().text = "" + amount + "/30";
+    }
+
+    public int GetWinStatus()
+    {
+        if (influenceCount >= 30)
+        {
+            return 1;
+        }
+        else if (influenceCount <= 0)
+        {
+            return -1;
+        }else{
+            return 0;
+        }
+    }
+
+    public void TurnChange()
+    {
+        AITurn = AITurn * -1;
+    }
+
+    public void DoubleNext()
+    {
+        DoubleCount *= 2;
+    }
+
+    public void CancelDouble()
+    {
+        DoubleCount = 1;
     }
 }
