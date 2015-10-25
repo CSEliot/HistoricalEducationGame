@@ -8,13 +8,6 @@ public class AllSpecialFunctions : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		SpecialAbilityList = new Dictionary<int, Action> ();
-		SpecialAbilityList.Add(0, () => PlusOne());
-        SpecialAbilityList.Add(1, () => PlusTwo());
-        SpecialAbilityList.Add(2, () => PlusThree());
-        SpecialAbilityList.Add(3, () => Clear());
-        SpecialAbilityList.Add(4, () => Stop());
-        SpecialAbilityList.Add(5, () => Double());
 	}
 	
 	// Update is called once per frame
@@ -22,48 +15,77 @@ public class AllSpecialFunctions : MonoBehaviour {
 	
 	}
 
-    public void PlusOne()
+    public static void ActivateAbility(Card ActivatedCard)
     {
-        Go.Do("+1 card called!");
+        int cardType = ActivatedCard.GetCardType();
+        switch(cardType){
+            case 0:
+                PlusOne();
+                break;
+            case 1:
+                PlusTwo();
+                break;
+            case 2:
+                PlusThree();
+                break;
+            case 3:
+                Clear();
+                break;
+            case 4:
+                Stop(ActivatedCard.GetNumPos());
+                break;
+            case 5:
+                Double();
+                break;
+            default:
+                Debug.Log("Card Type Unhandled: " + cardType);
+                break;
+
+        }
+    }
+
+    private static void PlusOne()
+    {
+        Debug.Log("+1 card called!");
         GameObject.FindGameObjectWithTag("InfluenceManager").
             GetComponent<InfluenceManager>().IncreaseInfluence(1);
 	}
 
-    public void PlusTwo()
+    private static void PlusTwo()
     {
-        Go.Do("+2 card called!");
+        Debug.Log("+2 card called!");
         GameObject.FindGameObjectWithTag("InfluenceManager").
             GetComponent<InfluenceManager>().IncreaseInfluence(2);
     }
 
-    public void PlusThree()
+    private static void PlusThree()
     {
-        Go.Do("+3 card called!");
+        Debug.Log("+3 card called!");
         GameObject.FindGameObjectWithTag("InfluenceManager").
             GetComponent<InfluenceManager>().IncreaseInfluence(3);
     }
 
-    public void Clear()
+    private static void Clear()
     {
-        Go.Do("Clear card called!");
+        Debug.Log("Clear card called!");
         GameObject.FindGameObjectWithTag("PlayFieldAI").
             GetComponent<PlayField>().Clear();
         GameObject.FindGameObjectWithTag("PlayFieldYours").
             GetComponent<PlayField>().Clear();
     }
 
-    public void Stop()
+    private static void Stop(int num)
     {
-        Go.Do("Stop card called!");
-        //int thisCardPos = gameObject.GetComponent<Card>().GetNumPos();
-        //GameObject.FindGameObjectWithTag("TurnManager").
-        //    GetComponent<TurnManager>().GetInactiveField().
-        //    Stop(thisCardPos);
+        Debug.Log("Stop card called!: " + num);
+        
+        GameObject.FindGameObjectWithTag("TurnManager").
+            GetComponent<TurnManager>().GetInactiveField().
+            Stop(num);
     }
 
-    public void Double()
+    private static void Double()
     {
-        Go.Do("Double card called!");
+        Debug.Log("Double card called!");
         GameObject.FindGameObjectWithTag("InfluenceManager").
             GetComponent<InfluenceManager>().DoubleNext();
     }

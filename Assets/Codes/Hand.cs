@@ -35,13 +35,12 @@ public class Hand : MonoBehaviour {
 
     public void RemoveCard(int CardNumber)
     {
-        Go.Do("Card NUmber: " + CardNumber);
+        //Debug.Log("Card NUmber: " + CardNumber);
         RemoveRcsv(0, CardNumber, Cards.First);
     }
 
     private void RemoveRcsv(int test, int target, LinkedListNode<GameObject> node)
     {
-        Go.Do(""+test+" "+target);
         if (test != target)
         {
             RemoveRcsv(test + 1, target, node.Next);
@@ -49,6 +48,7 @@ public class Hand : MonoBehaviour {
         else
         {
             node.Value.SetActive(false); //hide the card till new loc. chosen.
+            node.Value.transform.SetParent(null);
             Cards.Remove(node);
         }
         if (test == 0)
@@ -67,11 +67,11 @@ public class Hand : MonoBehaviour {
     {
         if (node.Value.transform.parent == null)
         {
-            Go.Do("Sa");
+            Debug.Log("Sa");
         }
         else if (HandCardPositions[start] == null)
         {
-            Go.Do("sass");
+            Debug.Log("sass");
         }
         node.Value.transform.SetParent(HandCardPositions[start]);
         node.Value.transform.localPosition = new Vector3(0, 0, 0);

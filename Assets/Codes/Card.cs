@@ -10,7 +10,6 @@ public class Card : MonoBehaviour {
     public Image Graphic;
     private bool IsSpecial;
     //private delegate void PrintyFunction();
-    public Action SpecialAbility;
     private bool IsEvent;
     private TurnManager MyManager;
 
@@ -23,6 +22,7 @@ public class Card : MonoBehaviour {
         //short on time . . .
         MyManager = GameObject.FindGameObjectWithTag("TurnManager").
             GetComponent<TurnManager>();
+
     }
     
     // Update is called once per frame
@@ -69,10 +69,18 @@ public class Card : MonoBehaviour {
                 MyManager.GetInactiveField().UnStop(NumPos);
                 break;
             default:
-                Go.Do("Uncaught type num: " + Type);
+                Debug.Log("Uncaught type num: " + Type);
                 break;
         }
     }
 
+    public void SpecialAbility()
+    {
+        AllSpecialFunctions.ActivateAbility(this);
+    }
 
+    public int GetCardType()
+    {
+        return Type;
+    }
 }

@@ -98,8 +98,6 @@ public class Deck : MonoBehaviour {
 		tempCard.GetComponent<Card>().AssignData(CardImages[cardNum], 
             TitleList[cardNum],FlavorList[cardNum],(cardNum < 15)? false : true,
             Convert.ToBoolean(IsEventList[cardNum]), cardNum);
-        tempCard.GetComponent<Card>().SpecialAbility = GameObject.Find("Main Camera").
-                GetComponent<AllSpecialFunctions>().SpecialAbilityList[cardNum];
 
 		deck.RemoveLast ();
         return tempCard;

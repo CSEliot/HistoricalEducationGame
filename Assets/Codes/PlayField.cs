@@ -34,6 +34,8 @@ public class PlayField : MonoBehaviour {
 
     IEnumerator ActivateField()
     {
+        Color Light = new Color(2f, 2f, 2f, 2f);
+        yield return new WaitForSeconds(ActivationTime);
         for (int pos = 0; pos < 5; pos++ )
         {
             //don't activate if not holding a card,
@@ -41,13 +43,11 @@ public class PlayField : MonoBehaviour {
             if (field[pos].transform.childCount != 0 &&
                 IsDisabled[pos] != 1)
             {
-                Go.Do("Activating Card: " + pos);
+                Debug.Log("Activating Card: " + pos);
                 field[pos].transform.GetChild(0).
-                    GetComponent<Image>().color =
-                    new Color(255f, 255f, 255f, 255f);
-                field[pos].transform.GetChild(0).
-                    GetChild(3).GetComponent<Image>().color =
-                    new Color(255f, 255f, 255f, 255f);
+                    GetComponent<Image>().CrossFadeColor(Light, 0f, false, true);
+                field[pos].transform.GetChild(0).GetChild(3).
+                    GetComponent<Image>().CrossFadeColor(Light, 0f, false, true);
                 field[pos].transform.GetChild(0).
                     GetComponent<Card>().SpecialAbility();
                 yield return new WaitForSeconds(ActivationTime);
@@ -58,7 +58,7 @@ public class PlayField : MonoBehaviour {
 
     public void Clear()
     {
-        Go.Do("Clear played");
+        Debug.Log("Clear played");
         foreach (GameObject CardField in field)
         {
             if (CardField.transform.childCount != 0)
@@ -74,15 +74,17 @@ public class PlayField : MonoBehaviour {
         //get rid of any old card there.
         if (field[pos].transform.childCount != 0)
         {
-            Go.Do("Destroyin the theingd: " + field[pos].transform.childCount);
+            Debug.Log("Destroyin the theingd: " + field[pos].transform.childCount);
             Destroy(field[pos].transform.GetChild(0).gameObject);
         }
         newCard.transform.SetParent(field[pos].transform);
-        field[pos].transform.GetChild(0).localScale = 
-            new Vector3(1f, 1f, 1f);
         field[pos].transform.GetChild(0).localPosition =
             new Vector3(0f, 0f, 0f);
+        field[pos].transform.GetChild(0).localScale = 
+            new Vector3(1f, 1f, 1f);
         newCard.GetComponent<Card>().SetNumPos(pos);
+        field[pos].transform.GetChild(0).localPosition =
+            new Vector3(0f, 0f, 0f);
     }
 
     public void ActivateCardsOnField()
@@ -90,14 +92,14 @@ public class PlayField : MonoBehaviour {
         //darken all cards, in coroutine re-light on use.
         foreach (GameObject CardField in field)
         {
+            Color Dark = new Color(0.4f, 0.4f, 0.4f, 0.4f);
             if (CardField.transform.childCount != 0)
             {
+                Debug.Log("Darkening Card");
                 CardField.transform.GetChild(0).
-                    GetComponent<Image>().color =
-                    new Color(255f, 255f, 255f, 69f);
-                CardField.transform.GetChild(0).
-                    GetChild(3).GetComponent<Image>().color =
-                    new Color(255f, 255f, 255f, 69f);
+                    GetComponent<Image>().CrossFadeColor(Dark, ActivationTime, false, true);
+                CardField.transform.GetChild(0).GetChild(3).
+                    GetComponent<Image>().CrossFadeColor(Dark, ActivationTime, false, true);
             }
         }
         StartCoroutine(ActivateField());

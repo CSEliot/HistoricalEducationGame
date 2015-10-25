@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- <!DOCTYPE IntelParallelAdvisorAnnotationDatabase SYSTEM "IntelParallelAdvisorAnnotationDatabase.dtd"> -->
+<IntelParallelAdvisorAnnotationDatabase
+  version="0.9.2"
+  database="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\My Advisor XE Results - UnityVS.historical-education-game.CSharp\annotations.advidb"
+  next_handle="1"
+  next_site="1"
+  next_task="1">
+  <language name="cpp" pattern=".*\.(c|h|cc|hh|c++|h++|cpp|hpp|cp|hp|cxx|hxx|C|H|CPP|HPP|tcc|i|ii|m|mi|mm|M|mii)" />
+  <language name="c_sharp" pattern=".*\.cs" />
+  <language name="fortran" pattern=".*\.(f|F|for|FOR|fpp|FPP|ftn|FTN|f77|F77|f90|F90|f95|F95|f03|F03|f08|F08|fi|fd)" />
+  <language name="unknown" pattern=".*" />
+  <source_exclude name="*\source_cache\temporary_files\*" />
+  <source_ide_project name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\UnityVS.historical-education-game.CSharp.csproj" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Codes\AllChapterButtons.cs" modification_bin_time="562b4fbc" language="c_sharp" lines="17" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Codes\AllMenuNav.cs" modification_bin_time="56249b30" language="c_sharp" lines="37" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Codes\AllSpecialFunctions.cs" modification_bin_time="562c67da" language="c_sharp" lines="70" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Codes\ButtonScripts\Buttons.cs" modification_bin_time="561b5002" language="c_sharp" lines="39" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Codes\ButtonScripts\ChapterLearnButton.cs" modification_bin_time="561a1be4" language="c_sharp" lines="28" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Codes\ButtonScripts\CheckPassword.cs" modification_bin_time="561213b8" language="c_sharp" lines="28" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Codes\ButtonScripts\CheckPasswordExport.cs" modification_bin_time="5618b9d4" language="c_sharp" lines="28" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Codes\ButtonScripts\EnableDisableTarget.cs" modification_bin_time="561afc41" language="c_sharp" lines="32" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Codes\ButtonScripts\RateButton.cs" modification_bin_time="5618c94c" language="c_sharp" lines="60" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Codes\ButtonScripts\ResearchButton.cs" modification_bin_time="5619e9d5" language="c_sharp" lines="28" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Codes\Card.cs" modification_bin_time="562c51aa" language="c_sharp" lines="78" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Codes\Deck.cs" modification_bin_time="562c6770" language="c_sharp" lines="129" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Codes\Go.cs" modification_bin_time="562c2d14" language="c_sharp" lines="38" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Codes\Hand.cs" modification_bin_time="562c696f" language="c_sharp" lines="85" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Codes\InfluenceManager.cs" modification_bin_time="562c4489" language="c_sharp" lines="95" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Codes\LevelTracking.cs" modification_bin_time="562b4fbc" language="c_sharp" lines="107" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Codes\Out.cs" modification_bin_time="560cb2c9" language="c_sharp" lines="15" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Codes\PlayField.cs" modification_bin_time="562c6b9f" language="c_sharp" lines="116" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Codes\SetupCardGame.cs" modification_bin_time="5622d4ef" language="c_sharp" lines="22" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Codes\SoundEffectManager.cs" modification_bin_time="5618b9d4" language="c_sharp" lines="21" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Codes\StartGame.cs" modification_bin_time="560cfa54" language="c_sharp" lines="13" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Codes\TurnManager.cs" modification_bin_time="562c6abc" language="c_sharp" lines="221" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Codes\UpPixelAlpha.cs" modification_bin_time="560cfd82" language="c_sharp" lines="28" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\testcode.cs" modification_bin_time="562c511f" language="c_sharp" lines="61" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Unity Given Assets\CrossPlatformInput\Scripts\AxisTouchButton.cs" modification_bin_time="560cb2c9" language="c_sharp" lines="74" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Unity Given Assets\CrossPlatformInput\Scripts\ButtonHandler.cs" modification_bin_time="560cb2c9" language="c_sharp" lines="50" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Unity Given Assets\CrossPlatformInput\Scripts\CrossPlatformInputManager.cs" modification_bin_time="560cb2c9" language="c_sharp" lines="318" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Unity Given Assets\CrossPlatformInput\Scripts\InputAxisScrollbar.cs" modification_bin_time="560cb2c9" language="c_sharp" lines="17" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Unity Given Assets\CrossPlatformInput\Scripts\Joystick.cs" modification_bin_time="560cb2c9" language="c_sharp" lines="117" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Unity Given Assets\CrossPlatformInput\Scripts\MobileControlRig.cs" modification_bin_time="560cb2c9" language="c_sharp" lines="86" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Unity Given Assets\CrossPlatformInput\Scripts\PlatformSpecific\MobileInput.cs" modification_bin_time="560cb2c9" language="c_sharp" lines="133" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Unity Given Assets\CrossPlatformInput\Scripts\PlatformSpecific\StandaloneInput.cs" modification_bin_time="560cb2c9" language="c_sharp" lines="78" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Unity Given Assets\CrossPlatformInput\Scripts\TiltInput.cs" modification_bin_time="560cb2c9" language="c_sharp" lines="145" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Unity Given Assets\CrossPlatformInput\Scripts\TouchPad.cs" modification_bin_time="560cb2c9" language="c_sharp" lines="155" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Unity Given Assets\CrossPlatformInput\Scripts\VirtualInput.cs" modification_bin_time="560cb2c9" language="c_sharp" lines="134" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Unity Given Assets\Utility\ActivateTrigger.cs" modification_bin_time="560cb2ca" language="c_sharp" lines="95" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Unity Given Assets\Utility\AutoMobileShaderSwitch.cs" modification_bin_time="560cb2ca" language="c_sharp" lines="199" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Unity Given Assets\Utility\AutoMoveAndRotate.cs" modification_bin_time="560cb2ca" language="c_sharp" lines="41" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Unity Given Assets\Utility\CameraRefocus.cs" modification_bin_time="560cb2ca" language="c_sharp" lines="58" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Unity Given Assets\Utility\CurveControlledBob.cs" modification_bin_time="560cb2ca" language="c_sharp" lines="54" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Unity Given Assets\Utility\DragRigidbody.cs" modification_bin_time="560cb2ca" language="c_sharp" lines="96" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Unity Given Assets\Utility\DynamicShadowSettings.cs" modification_bin_time="560cb2ca" language="c_sharp" lines="51" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Unity Given Assets\Utility\FollowTarget.cs" modification_bin_time="560cb2ca" language="c_sharp" lines="18" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Unity Given Assets\Utility\ForcedReset.cs" modification_bin_time="560cb2ca" language="c_sharp" lines="17" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Unity Given Assets\Utility\FOVKick.cs" modification_bin_time="560cb2ca" language="c_sharp" lines="73" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Unity Given Assets\Utility\FPSCounter.cs" modification_bin_time="560cb2ca" language="c_sharp" lines="37" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Unity Given Assets\Utility\LerpControlledBob.cs" modification_bin_time="560cb2ca" language="c_sharp" lines="45" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Unity Given Assets\Utility\ObjectResetter.cs" modification_bin_time="560cb2ca" language="c_sharp" lines="57" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Unity Given Assets\Utility\ParticleSystemDestroyer.cs" modification_bin_time="560cb2ca" language="c_sharp" lines="61" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Unity Given Assets\Utility\SimpleMouseRotator.cs" modification_bin_time="560cb2ca" language="c_sharp" lines="113" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Unity Given Assets\Utility\SmoothFollow.cs" modification_bin_time="560cb2ca" language="c_sharp" lines="60" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Unity Given Assets\Utility\TimedObjectActivator.cs" modification_bin_time="560cb2ca" language="c_sharp" lines="215" />
+  <file name="C:\Users\eliot2\Documents\Software_Development\Unity\historical-education-game\Assets\Unity Given Assets\Utility\TimedObjectDestructor.cs" modification_bin_time="560cb2ca" language="c_sharp" lines="27" />
+  <statistics files="53" lines="3981" annotations="0" site_annotations="0" task_annotations="0" lock_annotations="0" other_annotations="0" />
+</IntelParallelAdvisorAnnotationDatabase>
