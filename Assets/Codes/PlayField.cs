@@ -73,7 +73,7 @@ public class PlayField : MonoBehaviour {
         newCard.gameObject.SetActive(true);
         //get rid of any old card there.
         if (field[pos].transform.childCount != 0)
-        {
+        { 
             Debug.Log("Destroyin the theingd: " + field[pos].transform.childCount);
             Destroy(field[pos].transform.GetChild(0).gameObject);
         }

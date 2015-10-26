@@ -16,11 +16,11 @@ public class Buttons : MonoBehaviour {
         {
             //Debug.Log("Not Zero!");
             CallSceneChange(NewSceneNum);
-            NewSceneNum = 0;
         }
     }
     public void CallSceneChange(float NewScene)
     {
+        NewSceneNum = 0;
         if (NewScene == -1)
         {
             QuitGameActually();

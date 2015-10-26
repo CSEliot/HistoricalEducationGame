@@ -11,7 +11,8 @@ public class TurnManager : MonoBehaviour {
 	public PlayField AIField;
 	public LevelTracking LevelTracker;
 	public InfluenceManager InfluenceManager;
-    
+    public GameObject WinPanel;
+    public GameObject LosePanel;
 
 	private bool IsPlayerTurn;
     private int CurrentLevel;
@@ -87,10 +88,14 @@ public class TurnManager : MonoBehaviour {
             else if (winCon == 1) 
             {
                 //PLAYER WON
+                GameObject.FindGameObjectWithTag("MenuController").
+                    GetComponent<LevelTracking>().LevelUp();
+                WinPanel.SetActive(true);
+                TurnState = Turn.Waiting;
             }
             else if (winCon == -1)
             {
-                //AI WON D:
+                LosePanel.SetActive(true);
             }
         }
         if (TurnState == Turn.ChoosingCard && !IsPlayerTurn)
@@ -210,6 +215,8 @@ public class TurnManager : MonoBehaviour {
                 Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
             }
         }
+        SuspendedCard.localPosition = Vector3.zero; // a brute force fix on 
+                                                    // weird location bug.
     }
 
     public PlayField GetActiveField()
@@ -220,6 +227,11 @@ public class TurnManager : MonoBehaviour {
     public PlayField GetInactiveField()
     {
         return IsPlayerTurn ? AIField : PlayerField;
+    }
+
+    public bool GetIsPlayerTurn()
+    {
+        return IsPlayerTurn;
     }
 
 

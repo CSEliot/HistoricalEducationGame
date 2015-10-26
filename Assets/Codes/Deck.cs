@@ -97,7 +97,7 @@ public class Deck : MonoBehaviour {
         //create a card based on the number at the top of the deck.
 		tempCard.GetComponent<Card>().AssignData(CardImages[cardNum], 
             TitleList[cardNum],FlavorList[cardNum],(cardNum < 15)? false : true,
-            Convert.ToBoolean(IsEventList[cardNum]), cardNum);
+            Convert.ToBoolean(IsEventList[cardNum]), cardNum, IsAI);
 
 		deck.RemoveLast ();
         return tempCard;
