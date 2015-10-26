@@ -19,6 +19,13 @@ public class Hand : MonoBehaviour {
     }
 
     public void NewGame(){
+        LinkedListNode<GameObject> CurrentNode = 
+            Cards.First;
+
+        for (int x = 0; x < Cards.Count; x++)
+        {
+            //CurrentNode
+        }
         Cards = new LinkedList<GameObject>();
     }
 

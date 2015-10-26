@@ -15,6 +15,7 @@ public class Card : MonoBehaviour {
 
     private int Type; //+1, +2, stop, etc.
     private int NumPos;
+    private bool IsPlayerOwned;
 
     // Use this for initialization
     void Start () {
@@ -27,10 +28,14 @@ public class Card : MonoBehaviour {
     
     // Update is called once per frame
     void Update () {
+        //if (transform.localPosition.magnitude != 0)
+        //{
+        //    transform.localPosition = Vector3.zero;
+        //}
     }
 
     public void AssignData(Sprite graphic, string name, string flavorText, 
-        bool isSpecial, bool isEvent, int type)
+        bool isSpecial, bool isEvent, int type, bool isAI)
     {
         Graphic.sprite = graphic;
         Name.text = name;
@@ -42,7 +47,11 @@ public class Card : MonoBehaviour {
 
     public void Activated()
     {
-        MyManager.HandPlayed(transform, NumPos);
+        if (transform.parent.name.Contains("Hand"))
+        {
+            //only cards in hand can be played.
+            MyManager.HandPlayed(transform, NumPos);
+        }
     }
 
     public bool GetIsEvent()
@@ -65,8 +74,19 @@ public class Card : MonoBehaviour {
         switch(Type)
         {
             case 4:
-                //stops should unstop when removed:
-                MyManager.GetInactiveField().UnStop(NumPos);
+                Debug.Log("Destroyed, Unstopping: " + NumPos);
+                if (IsPlayerOwned == MyManager.GetIsPlayerTurn())
+                {
+                    //if a stop is destroyed on it's turn,
+                    // call unstop on the inactive field
+                    MyManager.GetInactiveField().UnStop(NumPos);
+                }
+                else
+                {
+                    //if a stop is destroyed on the opponent's turn
+                    //  call unstop on active field
+                    MyManager.GetActiveField().UnStop(NumPos);
+                }                
                 break;
             default:
                 Debug.Log("Uncaught type num: " + Type);

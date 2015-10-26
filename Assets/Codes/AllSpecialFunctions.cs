@@ -72,6 +72,10 @@ public class AllSpecialFunctions : MonoBehaviour {
             GetComponent<PlayField>().Clear();
         GameObject.FindGameObjectWithTag("PlayFieldYours").
             GetComponent<PlayField>().Clear();
+        GameObject.FindGameObjectWithTag("ClearText").transform.
+            GetChild(0).gameObject.SetActive(true);
+        GameObject.FindGameObjectWithTag("ClearText").transform.
+            GetChild(1).gameObject.SetActive(true);
     }
 
     private static void Stop(int num)
