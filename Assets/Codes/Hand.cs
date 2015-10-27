@@ -19,13 +19,8 @@ public class Hand : MonoBehaviour {
     }
 
     public void NewGame(){
-        LinkedListNode<GameObject> CurrentNode = 
-            Cards.First;
-
-        for (int x = 0; x < Cards.Count; x++)
-        {
-            //CurrentNode
-        }
+        //from previous game.
+        if (Cards != null) { EmptyHand(); } 
         Cards = new LinkedList<GameObject>();
     }
 
@@ -42,10 +37,16 @@ public class Hand : MonoBehaviour {
 
     public void RemoveCard(int CardNumber)
     {
-        //Debug.Log("Card NUmber: " + CardNumber);
+        
         RemoveRcsv(0, CardNumber, Cards.First);
     }
 
+    /// <summary>
+    /// Removes card and restructures hand and list.
+    /// </summary>
+    /// <param name="test"></param>
+    /// <param name="target"></param>
+    /// <param name="node"></param>
     private void RemoveRcsv(int test, int target, LinkedListNode<GameObject> node)
     {
         if (test != target)
@@ -64,7 +65,11 @@ public class Hand : MonoBehaviour {
         }
     }
 
-    public Transform GetRandomCard()
+    /// <summary>
+    /// FOR AI USE ONLY
+    /// </summary>
+    /// <returns>First card in hand.</returns>
+    public Transform GetRandomCard() 
     {
         //since decks are shuffled, this is technically a random card.
         return Cards.First.Value.transform;
@@ -88,5 +93,20 @@ public class Hand : MonoBehaviour {
         {
             FixHand(start + 1, node.Next);
         }    
+    }
+
+    private void EmptyHand()
+    {
+        //for (card in CARDS.count)
+        GameObject tempObj;
+        for (int x = 0; x < Cards.Count; x++)
+        {
+            //Get gameobject reference
+            tempObj = Cards.First.Value;
+            //delete node
+            RemoveCard(0);
+            //delete gameobject reference
+            Destroy(tempObj);
+        }
     }
 }

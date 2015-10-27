@@ -32,11 +32,12 @@ public class ButtonLevelManager : MonoBehaviour {
 
     private void UpdateButtonUnlocks()
     {
+        int unlockedLevelsCalc; //used purely for mathing buttons out.
         unlockedLevels = LevelClass.GetLevel() + 1;//levels represented 1-15
-        unlockedLevels = (unlockedLevels >= 15) ? 15 : unlockedLevels;
-        int activeColumns = Mathf.CeilToInt(((float)unlockedLevels) / 3f);
-        activeColumns = (unlockedLevels == 0) ? 1 : activeColumns;
-        int buttonsInColumn = unlockedLevels - ((activeColumns - 1) * 3);
+        unlockedLevelsCalc = (unlockedLevels >= 15) ? 15 : unlockedLevels;
+        int activeColumns = Mathf.CeilToInt(((float)unlockedLevelsCalc) / 3f);
+        activeColumns = (unlockedLevelsCalc == 0) ? 1 : activeColumns;
+        int buttonsInColumn = unlockedLevelsCalc - ((activeColumns - 1) * 3);
         Debug.Log("At level: " + unlockedLevels +
             ", Columns Unlocked: " + activeColumns + ", Buttons: "
             + buttonsInColumn); 

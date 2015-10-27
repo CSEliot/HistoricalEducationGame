@@ -16,9 +16,11 @@ public class Card : MonoBehaviour {
     private int Type; //+1, +2, stop, etc.
     private int NumPos;
     private bool IsPlayerOwned;
+    private bool OnField;
 
     // Use this for initialization
     void Start () {
+        OnField = false;
         //normally wouldn't give card connection to manager, but we're
         //short on time . . .
         MyManager = GameObject.FindGameObjectWithTag("TurnManager").
@@ -51,6 +53,11 @@ public class Card : MonoBehaviour {
         {
             //only cards in hand can be played.
             MyManager.HandPlayed(transform, NumPos);
+            OnField = true;
+        }
+        else
+        {
+            MyManager.CardSpotChosen(NumPos);
         }
     }
 
