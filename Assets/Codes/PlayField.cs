@@ -29,7 +29,8 @@ public class PlayField : MonoBehaviour {
 	}
 
     public void NewGame()
-    {//nothing for now.
+    {
+        Clear(); //from previous games.
     }
 
     IEnumerator ActivateField()
@@ -85,7 +86,11 @@ public class PlayField : MonoBehaviour {
         newCard.GetComponent<Card>().SetNumPos(pos);
         field[pos].transform.GetChild(0).localPosition =
             new Vector3(0f, 0f, 0f);
+        Destroy(field[pos].transform.GetChild(0).gameObject.GetComponent<Button>());
+        //field[pos].transform.GetChild(0).gameObject.AddComponent<Button>().getc
     }
+
+
 
     public void ActivateCardsOnField()
     {

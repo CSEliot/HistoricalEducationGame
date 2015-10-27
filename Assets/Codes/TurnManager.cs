@@ -36,14 +36,24 @@ public class TurnManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(TurnState == Turn.FillingHand){
+		if(TurnState == Turn.FillingHand
+            && !IsPlayerTurn){
             //StartCoroutine("PlayerDrawCard");
-            PlayerHand.DrawCard();
             AIHand.DrawCard();
 			TurnState = Turn.ChoosingCard;
             Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
 		}
+        if (TurnState == Turn.FillingHand
+            && IsPlayerTurn)
+        {
+            //StartCoroutine("PlayerDrawCard");
+            PlayerHand.DrawCard();
+            TurnState = Turn.ChoosingCard;
+            Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
+        }
 		if (TurnState == Turn.Launching) {
+            WinPanel.SetActive(false);
+            LosePanel.SetActive(false);
             AIDeck.NewGame(CurrentLevel);
             PlayerDeck.NewGame(CurrentLevel);
             AIHand.NewGame();
@@ -72,6 +82,7 @@ public class TurnManager : MonoBehaviour {
         }
         if (TurnState == Turn.SwitchingTurn)
         {
+            //i really should not be doing this every turn . . .
             InfluenceManager temp = GameObject.FindGameObjectWithTag("InfluenceManager").
             GetComponent<InfluenceManager>();
             int winCon = temp.GetWinStatus();
