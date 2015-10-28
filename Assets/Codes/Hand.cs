@@ -7,7 +7,6 @@ public class Hand : MonoBehaviour {
     private LinkedList<GameObject> Cards;
     public Deck deck;
     public Transform[] HandCardPositions;
-    private bool IsAI;
 
     // Use this for initialization
     void Start () {

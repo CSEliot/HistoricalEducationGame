@@ -45,6 +45,7 @@ public class Deck : MonoBehaviour {
 	void Start () {
 		if (gameObject.name.Contains("AI"))
 		{
+            Debug.Log("Is Deck AI? " + gameObject.name);
 			IsAI = true;
 		}
 		else
