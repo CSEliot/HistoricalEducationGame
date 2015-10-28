@@ -45,10 +45,22 @@ public class PlayField : MonoBehaviour {
                 IsDisabled[pos] != 1)
             {
                 Debug.Log("Activating Card: " + pos);
-                field[pos].transform.GetChild(0).
-                    GetComponent<Image>().CrossFadeColor(Light, 0f, false, true);
-                field[pos].transform.GetChild(0).GetChild(3).
-                    GetComponent<Image>().CrossFadeColor(Light, 0f, false, true);
+                //Different cards per game, different layout:
+                if (field[pos].transform.GetChild(0).
+                    GetComponent<Image>() == null)
+                {
+                    field[pos].transform.GetChild(0).GetChild(1).
+                        GetComponent<Image>().CrossFadeColor(Light, 0f, false, true);
+                    field[pos].transform.GetChild(0).GetChild(0).
+                        GetComponent<Image>().CrossFadeColor(Light, 0f, false, true);
+                }
+                else
+                {
+                    field[pos].transform.GetChild(0).
+                        GetComponent<Image>().CrossFadeColor(Light, 0f, false, true);
+                    field[pos].transform.GetChild(0).GetChild(3).
+                        GetComponent<Image>().CrossFadeColor(Light, 0f, false, true);
+                }
                 field[pos].transform.GetChild(0).
                     GetComponent<Card>().SpecialAbility();
                 yield return new WaitForSeconds(ActivationTime);
@@ -101,10 +113,22 @@ public class PlayField : MonoBehaviour {
             if (CardField.transform.childCount != 0)
             {
                 Debug.Log("Darkening Card");
-                CardField.transform.GetChild(0).
+                //Different cards per game, different layout:
+                if (CardField.transform.GetChild(0).
+                    GetComponent<Image>() == null)
+                {
+                    CardField.transform.GetChild(0).GetChild(1).
                     GetComponent<Image>().CrossFadeColor(Dark, ActivationTime, false, true);
-                CardField.transform.GetChild(0).GetChild(3).
-                    GetComponent<Image>().CrossFadeColor(Dark, ActivationTime, false, true);
+                    CardField.transform.GetChild(0).GetChild(0).
+                        GetComponent<Image>().CrossFadeColor(Dark, ActivationTime, false, true);
+                }
+                else
+                {
+                    CardField.transform.GetChild(0).
+                        GetComponent<Image>().CrossFadeColor(Dark, ActivationTime, false, true);
+                    CardField.transform.GetChild(0).GetChild(3).
+                        GetComponent<Image>().CrossFadeColor(Dark, ActivationTime, false, true);
+                }
             }
         }
         StartCoroutine(ActivateField());
