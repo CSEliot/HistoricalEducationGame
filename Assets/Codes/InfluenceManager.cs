@@ -13,15 +13,15 @@ public class InfluenceManager : MonoBehaviour {
     private int DoubleCount;
 
 
-	// Use this for initialization
-	void Start () {
-	    
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    // Use this for initialization
+    void Start () {
+        
+    }
+    
+    // Update is called once per frame
+    void Update () {
+    
+    }
 
     public void NewGame()
     {
@@ -89,6 +89,12 @@ public class InfluenceManager : MonoBehaviour {
     public void DoubleNext()
     {
         DoubleCount *= 2;
+    }
+
+
+    public void TripleNext()
+    {
+        DoubleCount *= 3; //bad variable name, sue me.
     }
 
     public void CancelDouble()
