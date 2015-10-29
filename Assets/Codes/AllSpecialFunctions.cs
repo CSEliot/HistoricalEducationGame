@@ -4,16 +4,16 @@ using System.Collections.Generic;
 using System;
 public class AllSpecialFunctions : MonoBehaviour {
 
-	public Dictionary<int, Action> SpecialAbilityList; 
+    public Dictionary<int, Action> SpecialAbilityList; 
 
-	// Use this for initialization
-	void Start () {
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    // Use this for initialization
+    void Start () {
+    }
+    
+    // Update is called once per frame
+    void Update () {
+    
+    }
 
     public static void ActivateAbility(Card ActivatedCard)
     {
@@ -37,6 +37,11 @@ public class AllSpecialFunctions : MonoBehaviour {
             case 5:
                 Double();
                 break;
+            case 6:
+                Triple();
+                Stop(ActivatedCard.GetNumPos());
+                PlusOne();
+                break;
             default:
                 Debug.Log("Card Type Unhandled: " + cardType);
                 break;
@@ -49,7 +54,7 @@ public class AllSpecialFunctions : MonoBehaviour {
         Debug.Log("+1 card called!");
         GameObject.FindGameObjectWithTag("InfluenceManager").
             GetComponent<InfluenceManager>().IncreaseInfluence(1);
-	}
+    }
 
     private static void PlusTwo()
     {
@@ -92,5 +97,11 @@ public class AllSpecialFunctions : MonoBehaviour {
         Debug.Log("Double card called!");
         GameObject.FindGameObjectWithTag("InfluenceManager").
             GetComponent<InfluenceManager>().DoubleNext();
+    }
+    private static void Triple()
+    {
+        Debug.Log("Triple card called!");
+        GameObject.FindGameObjectWithTag("InfluenceManager").
+            GetComponent<InfluenceManager>().TripleNext();
     }
 }

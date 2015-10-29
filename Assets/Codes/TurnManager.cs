@@ -3,46 +3,46 @@ using System.Collections;
 using System;
 public class TurnManager : MonoBehaviour {
 
-	public Hand PlayerHand;
-	public Hand AIHand;
-	public Deck PlayerDeck;
-	public Deck AIDeck;
-	public PlayField PlayerField;
-	public PlayField AIField;
-	public LevelTracking LevelTracker;
-	public InfluenceManager InfluenceManager;
+    public Hand PlayerHand;
+    public Hand AIHand;
+    public Deck PlayerDeck;
+    public Deck AIDeck;
+    public PlayField PlayerField;
+    public PlayField AIField;
+    public LevelTracking LevelTracker;
+    public InfluenceManager InfluenceManager;
     public GameObject WinPanel;
     public GameObject LosePanel;
 
-	private bool IsPlayerTurn;
+    private bool IsPlayerTurn;
     private int CurrentLevel;
     private Transform SuspendedCard;
 
-	private enum Turn{
-		Launching,
-		FillingHand,
-		ChoosingCard,
-		ActivatingAbilities,
-		SwitchingTurn,
-		Waiting,
+    private enum Turn{
+        Launching,
+        FillingHand,
+        ChoosingCard,
+        ActivatingAbilities,
+        SwitchingTurn,
+        Waiting,
         ChoosingFieldPos
-	};
+    };
 
-	private Turn TurnState; 
-	// Use this for initialization
-	void Start () {
+    private Turn TurnState; 
+    // Use this for initialization
+    void Start () {
         Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		if(TurnState == Turn.FillingHand
+    }
+    
+    // Update is called once per frame
+    void Update () {
+        if(TurnState == Turn.FillingHand
             && !IsPlayerTurn){
             //StartCoroutine("PlayerDrawCard");
             AIHand.DrawCard();
-			TurnState = Turn.ChoosingCard;
+            TurnState = Turn.ChoosingCard;
             Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
-		}
+        }
         if (TurnState == Turn.FillingHand
             && IsPlayerTurn)
         {
@@ -51,22 +51,22 @@ public class TurnManager : MonoBehaviour {
             TurnState = Turn.ChoosingCard;
             Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
         }
-		if (TurnState == Turn.Launching) {
+        if (TurnState == Turn.Launching) {
             WinPanel.SetActive(false);
             LosePanel.SetActive(false);
-            AIDeck.NewGame(CurrentLevel);
-            PlayerDeck.NewGame(CurrentLevel);
+            AIDeck.NewGame(CurrentLevel, LevelTracker.GetLevel());
+            PlayerDeck.NewGame(CurrentLevel, LevelTracker.GetLevel());
             AIHand.NewGame();
             PlayerHand.NewGame();
             AIField.NewGame();
             PlayerField.NewGame();
             InfluenceManager.NewGame();
-			//play teacher lady info on gameplay
-			//wait for her to finish
+            //play teacher lady info on gameplay
+            //wait for her to finish
 
             TurnState = Turn.FillingHand;
             Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
-		}
+        }
         if (TurnState == Turn.ActivatingAbilities)
         {
             if (IsPlayerTurn)
@@ -119,7 +119,7 @@ public class TurnManager : MonoBehaviour {
             //AI can't press buttons, so we press for it.
             CardSpotChosen(UnityEngine.Random.Range(0, 5));
         }
-	}
+    }
 
     IEnumerator CardPlayed(){
         yield return new WaitForSeconds(2f);
@@ -127,18 +127,18 @@ public class TurnManager : MonoBehaviour {
         TurnState = Turn.SwitchingTurn; Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
     }
 
-	public void EndTurn(){
+    public void EndTurn(){
         TurnState = Turn.SwitchingTurn;
         Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
-	}
+    }
 
-	public void Launch(int StageNum)
-	{
-		IsPlayerTurn = true;
+    public void Launch(int StageNum)
+    {
+        IsPlayerTurn = true;
         CurrentLevel = StageNum;
-		TurnState = Turn.Launching;
+        TurnState = Turn.Launching;
         Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
-	}
+    }
 
     public void HandPlayed(Transform theChosenOne, int HandNumber)
     {

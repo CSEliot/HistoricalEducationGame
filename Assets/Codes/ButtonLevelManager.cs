@@ -6,8 +6,8 @@ public class ButtonLevelManager : MonoBehaviour {
     public LevelTracking LevelClass;
     int unlockedLevels;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         //disable ALL buttons, then enable unlocked
         for (int x = 4; x >= 0; x--)
         {
@@ -20,15 +20,15 @@ public class ButtonLevelManager : MonoBehaviour {
                     interactable = false;
             }
         }
-	}
-	
-	// Update is called once per frame
-	void FixedUpdate () {
+    }
+    
+    // Update is called once per frame
+    void FixedUpdate () {
         if (unlockedLevels != LevelClass.GetLevel()+1)
         {
             UpdateButtonUnlocks();
         }
-	}
+    }
 
     private void UpdateButtonUnlocks()
     {
@@ -38,7 +38,7 @@ public class ButtonLevelManager : MonoBehaviour {
         int activeColumns = Mathf.CeilToInt(((float)unlockedLevelsCalc) / 3f);
         activeColumns = (unlockedLevelsCalc == 0) ? 1 : activeColumns;
         int buttonsInColumn = unlockedLevelsCalc - ((activeColumns - 1) * 3);
-        Debug.Log("At level: " + unlockedLevels +
+        Debug.Log("At level stage: " + unlockedLevels +
             ", Columns Unlocked: " + activeColumns + ", Buttons: "
             + buttonsInColumn); 
         for (int x = activeColumns-2; x >= 0; x--)
