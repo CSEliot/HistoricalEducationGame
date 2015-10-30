@@ -11,10 +11,11 @@ public class Deck : MonoBehaviour {
     private int DeckSize = 30;
     private bool IsAI;
     public GameObject CardPrefab;
+    public GameObject Info_Panel;
 
     public Sprite[] CardImages;
 
-
+    
     public string[] TitleList;
     public string[] FlavorList;
 
@@ -39,6 +40,10 @@ public class Deck : MonoBehaviour {
 
     private int[] IsEventList = new int[] { 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 
                                             1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1 };
+
+    private bool[] InfoDisplayed = new bool[] { false, false, false, false, 
+        false, false,false,false,false,false,false,false,false,false,false};
+        
     private LinkedList<int> deck;
 
     // Use this for initialization
@@ -107,6 +112,8 @@ public class Deck : MonoBehaviour {
 
     private void FindAndReplace(int specialReplaceNum)
     {
+        //cieling @ 14
+        specialReplaceNum = (specialReplaceNum > 14) ? 14 : specialReplaceNum;
         for (int x = 0; x < specialReplaceNum; x++)
         {
             //6 is the first number for the special values
@@ -124,6 +131,19 @@ public class Deck : MonoBehaviour {
             Convert.ToBoolean(IsEventList[cardNum]), cardNum, IsAI);
 
         deck.RemoveLast ();
+        //Every time a card is removed (drawn), if it's a special card
+        // display it if it hasn't been displayed before, else,
+        // don't display
+        if (!IsAI)
+        {
+            //if it's a special card (#>=6) and it hasn't been displayed before
+            if (cardNum > 5 && !InfoDisplayed[cardNum - 6])
+            {
+                InfoDisplayed[cardNum - 6] = true;
+                ActivateInfo(tempCard.GetComponent<Card>());
+                
+            }
+        }
         return tempCard;
     }
 
@@ -148,4 +168,11 @@ public class Deck : MonoBehaviour {
         }
     }
 
+    private void ActivateInfo(Card ActivatedCard)
+    {
+        Info_Panel.SetActive(true);
+        Info_Panel.GetComponent<InfoPanel>().
+            SetInfo(ActivatedCard.Name.text, ActivatedCard.Graphic.sprite,
+            ActivatedCard.GetCardType());
+    }
 }

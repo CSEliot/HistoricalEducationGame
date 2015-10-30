@@ -11,21 +11,21 @@ public class LevelTracking : MonoBehaviour {
     private bool DataLoaded;
     private string filename = "SaveData.data";
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         DataLoaded = false;
         LoadData();
         DataLoaded = true;
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    }
+    
+    // Update is called once per frame
+    void Update () {
         if (Input.GetKeyDown("s"))
         {
             SaveData();
         }
 
-	}
+    }
 
     public void LevelUp()
     {

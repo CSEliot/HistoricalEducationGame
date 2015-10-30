@@ -15,21 +15,23 @@ public class PlayField : MonoBehaviour {
     private bool nextIsDoubled;
     private InfluenceManager MyInfluenceMan;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         MyInfluenceMan = GameObject.FindGameObjectWithTag("InfluenceManager").
             GetComponent<InfluenceManager>();
         nextIsDoubled = false;
-	    IsDisabled = new int[5]{0,0,0,0,0};
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	    
-	}
+        IsDisabled = new int[5]{0,0,0,0,0};
+    }
+    
+    // Update is called once per frame
+    void Update () {
+        
+    }
 
     public void NewGame()
     {
+        nextIsDoubled = false;
+        IsDisabled = new int[5] { 0, 0, 0, 0, 0 };
         Clear(); //from previous games.
     }
 

@@ -25,7 +25,6 @@ public class Card : MonoBehaviour {
         //short on time . . .
         MyManager = GameObject.FindGameObjectWithTag("TurnManager").
             GetComponent<TurnManager>();
-
     }
     
     // Update is called once per frame
