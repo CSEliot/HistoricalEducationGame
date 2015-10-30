@@ -17,6 +17,7 @@ public class AllSpecialFunctions : MonoBehaviour {
 
     public static void ActivateAbility(Card ActivatedCard)
     {
+        
         int cardType = ActivatedCard.GetCardType();
         switch(cardType){
             case 0:
@@ -98,6 +99,7 @@ public class AllSpecialFunctions : MonoBehaviour {
         GameObject.FindGameObjectWithTag("InfluenceManager").
             GetComponent<InfluenceManager>().DoubleNext();
     }
+
     private static void Triple()
     {
         Debug.Log("Triple card called!");
