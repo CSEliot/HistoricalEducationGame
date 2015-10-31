@@ -11,7 +11,7 @@ public class Deck : MonoBehaviour {
     private int DeckSize = 30;
     private bool IsAI;
     public GameObject CardPrefab;
-    public GameObject Info_Panel;
+    public GameObject InfoPrefab;
 
     public Sprite[] CardImages;
 
@@ -61,7 +61,10 @@ public class Deck : MonoBehaviour {
     
     // Update is called once per frame
     void Update () {
-        
+        if (Input.GetKeyDown("k"))
+        {
+            PrintLinkedList<int>(deck.First); ;
+        }
     }
 
     public void NewGame(int StageNum, int PlayerLevel)
@@ -91,6 +94,8 @@ public class Deck : MonoBehaviour {
         }
 
         FindAndReplace(specialReplaceNum);
+        Debug.Log("Print out LinkedList");
+        PrintLinkedList<int>(deck.First);
         int totalShuffles = 7;
         //SEVEN SHUFFLES CUZ MATH
         for (int x = 0; x < totalShuffles; x++)
@@ -139,6 +144,7 @@ public class Deck : MonoBehaviour {
             //if it's a special card (#>=6) and it hasn't been displayed before
             if (cardNum > 5 && !InfoDisplayed[cardNum - 6])
             {
+                Debug.Log("Displaying Info for cardNum:" + cardNum);
                 InfoDisplayed[cardNum - 6] = true;
                 ActivateInfo(tempCard.GetComponent<Card>());
                 
@@ -174,5 +180,14 @@ public class Deck : MonoBehaviour {
         Info_Panel.GetComponent<InfoPanel>().
             SetInfo(ActivatedCard.Name.text, ActivatedCard.Graphic.sprite,
             ActivatedCard.GetCardType());
+    }
+
+    private void PrintLinkedList<T>(LinkedListNode<T> Current)
+    {
+        Debug.Log(Current.Value);
+        if (Current.Next != null)
+        {
+            PrintLinkedList<T>(Current.Next);
+        }
     }
 }
