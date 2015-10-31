@@ -100,6 +100,8 @@ public class Card : MonoBehaviour {
         }
     }
 
+
+
     public void SpecialAbility()
     {
         AllSpecialFunctions.ActivateAbility(this);

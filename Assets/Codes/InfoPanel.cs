@@ -26,11 +26,25 @@ public class InfoPanel : MonoBehaviour {
         InfoTitle.text = NewTitle;
         InfoImage.sprite = NewImage;
         //start of first special cards is #6
+        Debug.Log("Card Type Set is: " + cardType);
         InfoDesc.text = InfoStrings[cardType-6];
     }
 
     private void AssignInfoStrings(){
         InfoStrings = new string[]{
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
             "",
             ""
         };
