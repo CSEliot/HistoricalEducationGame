@@ -20,14 +20,7 @@ public class DataTracking : MonoBehaviour {
         //if the key in GETINT doesn't exist, it returns 0
         if (PlayerPrefs.GetInt("FirstLaunch") == 0)
         {
-            Debug.Log("First Launch!");
-            PlayerPrefs.SetInt("FirstLaunch", 1);
-            PlayerPrefs.SetInt("FirstDay", DateTime.Now.Day);
-            PlayerPrefs.SetInt("FirstMonth", DateTime.Now.Month);
-            PlayerPrefs.SetInt("FirstYear", DateTime.Now.Year);
-            PlayerPrefs.SetInt("FirstSecond", DateTime.Now.Second);
-            PlayerPrefs.SetInt("FirstMinute", DateTime.Now.Minute);
-            PlayerPrefs.SetInt("FirstHour", DateTime.Now.Hour);
+            ResetStats();
         }
         startTime += DateTime.Now.Second + ":";
         startTime += DateTime.Now.Minute + ":";
@@ -45,12 +38,29 @@ public class DataTracking : MonoBehaviour {
         }
 	}
 
+    public void WriteNewGameLine()
+    {
+        string path = GetPath(filename);
+        FileStream file = new FileStream(path, FileMode.Append, FileAccess.Write);
+        StreamWriter sw = new StreamWriter(file);
+        string LineToWrite = "NewGame,NewGame,NewGame,NewGame,NewGame,NewGame";
+        sw.WriteLine(LineToWrite);
+
+        sw.Close();
+        file.Close();
+
+        ResetStats();
+        //SAVED DATA
+
+    }
+
     void OnApplicationQuit()
     {
         SaveData();
     }
     public void SaveData()
     {
+        Debug.Log("Exporting . . .");
         string path = GetPath(filename);
         FileStream file = new FileStream(path, FileMode.Append, FileAccess.Write);
         StreamWriter sw = new StreamWriter(file);
@@ -70,6 +80,17 @@ public class DataTracking : MonoBehaviour {
         sw.Close();
         file.Close();
         //SAVED DATA
+    }
+
+    private void ResetStats()
+    {
+        //Debug.Log("Reset Data!");
+        PlayerPrefs.SetInt("FirstDay", DateTime.Now.Day);
+        PlayerPrefs.SetInt("FirstMonth", DateTime.Now.Month);
+        PlayerPrefs.SetInt("FirstYear", DateTime.Now.Year);
+        PlayerPrefs.SetInt("FirstSecond", DateTime.Now.Second);
+        PlayerPrefs.SetInt("FirstMinute", DateTime.Now.Minute);
+        PlayerPrefs.SetInt("FirstHour", DateTime.Now.Hour);
     }
 
     private string GetTotalTimePlayed()

@@ -34,6 +34,7 @@ public class Buttons : MonoBehaviour {
 
     public void QuitGameActually()
     {
+        Debug.Log("Quitting Game . . .");
         Application.Quit();
     }
 }

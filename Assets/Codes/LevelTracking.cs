@@ -14,11 +14,11 @@ public class LevelTracking : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        //if (Application.isEditor)
-        //{
-        //    PlayerLevel = TempLevel;
-        //    SaveData();
-        //}
+        if (Application.isEditor)
+        {
+            PlayerLevel = TempLevel;
+            SaveData();
+        }
         DataLoaded = false;
         LoadData();
         DataLoaded = true;
@@ -48,7 +48,10 @@ public class LevelTracking : MonoBehaviour {
     public void ResetStats()
     {
         PlayerLevel = 0;
-        SaveData();
+        PlayerPrefs.SetInt("level", PlayerLevel);
+        PlayerPrefs.SetInt("Rating", 0);
+        GetComponent<DataTracking>().WriteNewGameLine();
+        
     }
 
     public void SaveData()
