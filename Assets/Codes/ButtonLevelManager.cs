@@ -9,6 +9,21 @@ public class ButtonLevelManager : MonoBehaviour {
     // Use this for initialization
     void Start () {
         //disable ALL buttons, then enable unlocked
+        DisableAllButtons();
+    }
+    
+    // Update is called once per frame
+    void FixedUpdate () {
+        if (unlockedLevels != LevelClass.GetLevel()+1)
+        {
+            DisableAllButtons();
+            UpdateButtonUnlocks();
+            Debug.Log("Level Change Detected");
+        }
+    }
+
+    private void DisableAllButtons()
+    {
         for (int x = 4; x >= 0; x--)
         {
             //x = 5 columns of buttons
@@ -19,14 +34,6 @@ public class ButtonLevelManager : MonoBehaviour {
                 transform.GetChild(x).GetChild(y).GetComponent<Button>().
                     interactable = false;
             }
-        }
-    }
-    
-    // Update is called once per frame
-    void FixedUpdate () {
-        if (unlockedLevels != LevelClass.GetLevel()+1)
-        {
-            UpdateButtonUnlocks();
         }
     }
 
