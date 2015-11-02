@@ -15,7 +15,7 @@ public class ButtonLevelManager : MonoBehaviour {
             for (int y = 2; y >= 0; y--)
             {
                 //y = 3 buttons per column
-                Debug.Log("Disabling: x: " + x + " y:" + y);
+                //Debug.Log("Disabling: x: " + x + " y:" + y);
                 transform.GetChild(x).GetChild(y).GetComponent<Button>().
                     interactable = false;
             }
@@ -47,7 +47,7 @@ public class ButtonLevelManager : MonoBehaviour {
             for (int y = 2; y >= 0; y--)
             {
                 //y = 3 buttons per column
-                Debug.Log("Enabling: x: " + x + " y:" + y);
+                //Debug.Log("Enabling: x: " + x + " y:" + y);
                 transform.GetChild(x).GetChild(y).GetComponent<Button>().
                     interactable = true;
             }

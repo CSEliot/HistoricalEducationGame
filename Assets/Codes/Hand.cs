@@ -27,7 +27,7 @@ public class Hand : MonoBehaviour {
         while (Cards.Count < 5) {
             Cards.AddLast(deck.Top());
             Cards.Last.Value.transform.SetParent(HandCardPositions[
-                Cards.Count - 1]);
+                Cards.Count - 1], false);
             Cards.Last.Value.transform.localPosition = new Vector3(0, 0, 0);
             Cards.Last.Value.transform.localScale = new Vector3(1f, 1f, 1f);
             Cards.Last.Value.GetComponent<Card>().SetNumPos(Cards.Count - 1);
@@ -55,7 +55,7 @@ public class Hand : MonoBehaviour {
         else
         {
             node.Value.SetActive(false); //hide the card till new loc. chosen.
-            node.Value.transform.SetParent(null);
+            node.Value.transform.SetParent(null, false);
             Cards.Remove(node);
         }
         if (test == 0)
@@ -84,7 +84,7 @@ public class Hand : MonoBehaviour {
         {
             Debug.Log("sass");
         }
-        node.Value.transform.SetParent(HandCardPositions[start]);
+        node.Value.transform.SetParent(HandCardPositions[start], false);
         node.Value.transform.localPosition = new Vector3(0, 0, 0);
         node.Value.transform.localScale = new Vector3(1f, 1f, 1f);
         node.Value.GetComponent<Card>().SetNumPos(start);

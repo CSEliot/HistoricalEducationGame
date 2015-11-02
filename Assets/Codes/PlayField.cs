@@ -83,6 +83,7 @@ public class PlayField : MonoBehaviour {
         }
     }
 
+    //From Hand, To playfield
     public void PlaceCard(Transform newCard, int pos)
     {
         newCard.gameObject.SetActive(true);
@@ -92,10 +93,10 @@ public class PlayField : MonoBehaviour {
             Debug.Log("Destroyin the theingd: " + field[pos].transform.childCount);
             Destroy(field[pos].transform.GetChild(0).gameObject);
         }
-        newCard.transform.SetParent(field[pos].transform);
+        newCard.transform.SetParent(field[pos].transform, false);
         field[pos].transform.GetChild(0).localPosition =
             new Vector3(0f, 0f, 0f);
-        field[pos].transform.GetChild(0).localScale = 
+        field[pos].transform.GetChild(0).localScale =
             new Vector3(1f, 1f, 1f);
         newCard.GetComponent<Card>().SetNumPos(pos);
         field[pos].transform.GetChild(0).localPosition =

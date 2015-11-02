@@ -29,10 +29,10 @@ public class Card : MonoBehaviour {
     
     // Update is called once per frame
     void Update () {
-        //if (transform.localPosition.magnitude != 0)
-        //{
-        //    transform.localPosition = Vector3.zero;
-        //}
+        if (transform.localPosition.magnitude != 0)
+        {
+            transform.localPosition = Vector3.zero;
+        }
     }
 
     public void AssignData(Sprite graphic, string name, string flavorText, 
@@ -77,21 +77,20 @@ public class Card : MonoBehaviour {
 
     void OnDestroy()
     {
+        Debug.Log("I am a card being destroyed! Type: " + Type);
         switch(Type)
         {
             case 4:
                 Debug.Log("Destroyed, Unstopping: " + NumPos);
-                if (IsPlayerOwned == MyManager.GetIsPlayerTurn())
+                if (IsPlayerOwned)
                 {
-                    //if a stop is destroyed on it's turn,
-                    // call unstop on the inactive field
-                    MyManager.GetInactiveField().UnStop(NumPos);
+                    //GetAIField
+                    MyManager.GetField(true).UnStop(NumPos);
                 }
                 else
                 {
-                    //if a stop is destroyed on the opponent's turn
-                    //  call unstop on active field
-                    MyManager.GetActiveField().UnStop(NumPos);
+                    //get player field
+                    MyManager.GetField(false).UnStop(NumPos);
                 }                
                 break;
             default:

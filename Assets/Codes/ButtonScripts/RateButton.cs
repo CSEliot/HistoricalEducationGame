@@ -5,7 +5,8 @@ using UnityEngine.UI;
 public class RateButton : MonoBehaviour {
 
     public Button[] StarRatings;
-
+    public Sprite StarFilled;
+    public Sprite StarEmpty;
     private ColorBlock DefaultColorSet;
 	// Use this for initialization
 	void Start () {
@@ -45,16 +46,15 @@ public class RateButton : MonoBehaviour {
 
     private void ColorRaters(int Rating)
     {
-        
+        //from 0 to rating, fill star
         for (int x = 0; x < Rating; x++)
         {
-            ColorBlock TempColorSet =  StarRatings[x].colors;
-            TempColorSet.normalColor = Color.yellow;
-            StarRatings[x].colors = TempColorSet;
+            StarRatings[x].image.sprite = StarFilled;
         }
+        //from rating max stars, empty
         for (int x = Rating; x < 5; x++)
         {
-            StarRatings[x].colors = DefaultColorSet;
+            StarRatings[x].image.sprite = StarEmpty;
         }
     }
 }
