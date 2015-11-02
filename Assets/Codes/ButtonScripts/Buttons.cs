@@ -20,7 +20,7 @@ public class Buttons : MonoBehaviour {
     }
     public void CallSceneChange(float NewScene)
     {
-        NewSceneNum = -1;
+        NewSceneNum = 0;
         if (NewScene == -1)
         {
             QuitGameActually();

@@ -11,7 +11,14 @@ public class RateButton : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         DefaultColorSet = StarRatings[0].colors;
+        
+        SetRating((float)PlayerPrefs.GetInt("Rating"));
 	}
+
+    void OnEnable()
+    {
+        SetRating((float)PlayerPrefs.GetInt("Rating"));
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -23,6 +30,9 @@ public class RateButton : MonoBehaviour {
         int RateSwitch = (int)Rating;
         switch (RateSwitch)
         {
+            case 0:
+                ColorRaters(0);
+                break;
             case 1:
                 ColorRaters(1);
                 break;
@@ -46,6 +56,7 @@ public class RateButton : MonoBehaviour {
 
     private void ColorRaters(int Rating)
     {
+        PlayerPrefs.SetInt("Rating", Rating);
         //from 0 to rating, fill star
         for (int x = 0; x < Rating; x++)
         {
