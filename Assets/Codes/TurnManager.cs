@@ -226,8 +226,20 @@ public class TurnManager : MonoBehaviour {
                 Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
             }
         }
-        SuspendedCard.localPosition = Vector3.zero; // a brute force fix on 
-                                                    // weird location bug.
+        //SuspendedCard.localPosition = Vector3.zero; // a brute force fix on 
+        //                                            // weird location bug.
+    }
+
+    public PlayField GetField(bool GetAIField)
+    {
+        if (GetAIField)
+        {
+            return AIField;
+        }
+        else
+        {
+            return PlayerField;
+        }
     }
 
     public PlayField GetActiveField()

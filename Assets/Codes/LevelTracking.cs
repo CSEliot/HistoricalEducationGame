@@ -38,6 +38,12 @@ public class LevelTracking : MonoBehaviour {
         return PlayerLevel;
     }
 
+    public void ResetStats()
+    {
+        PlayerLevel = 0;
+        SaveData();
+    }
+
     public void SaveData()
     {
         string path = GetPath(filename);

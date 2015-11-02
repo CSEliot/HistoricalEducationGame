@@ -4,7 +4,7 @@ using System.Collections;
 public class Buttons : MonoBehaviour {
 
     public float NewSceneNum; //animation-based button detection
-
+    
     public void Start()
     {
         NewSceneNum = 0;
@@ -20,7 +20,7 @@ public class Buttons : MonoBehaviour {
     }
     public void CallSceneChange(float NewScene)
     {
-        NewSceneNum = 0;
+        NewSceneNum = -1;
         if (NewScene == -1)
         {
             QuitGameActually();

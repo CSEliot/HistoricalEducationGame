@@ -11,8 +11,7 @@ public class Deck : MonoBehaviour {
     private int DeckSize = 30;
     private bool IsAI;
     public GameObject CardPrefab;
-    public GameObject InfoPrefab;
-
+    public GameObject KnowPrefabTest;
     public Sprite[] CardImages;
 
     
@@ -94,10 +93,11 @@ public class Deck : MonoBehaviour {
         }
 
         FindAndReplace(specialReplaceNum);
-        Debug.Log("Print out LinkedList");
-        PrintLinkedList<int>(deck.First);
+        //Debug.Log("Print out LinkedList");
+        //PrintLinkedList<int>(deck.First);
         int totalShuffles = 7;
         //SEVEN SHUFFLES CUZ MATH
+        UnityEngine.Random.seed = (int)Time.time;
         for (int x = 0; x < totalShuffles; x++)
         {
             ShuffleDeck();
@@ -124,12 +124,12 @@ public class Deck : MonoBehaviour {
             //6 is the first number for the special values
             deck.Find(CardToRemove[x]).Value = x + 6;
         }
-        Debug.Log("JONGOR SLAIN");
     }
 
     public GameObject Top(){
         int cardNum = deck.Last.Value;
         GameObject tempCard = Instantiate(CardPrefab) as GameObject;
+        Debug.Log("Instantiating Card: " + TitleList[cardNum]);
         //create a card based on the number at the top of the deck.
         tempCard.GetComponent<Card>().AssignData(CardImages[cardNum], 
             TitleList[cardNum],FlavorList[cardNum],(cardNum < 15)? false : true,
@@ -146,8 +146,7 @@ public class Deck : MonoBehaviour {
             {
                 Debug.Log("Displaying Info for cardNum:" + cardNum);
                 InfoDisplayed[cardNum - 6] = true;
-                ActivateInfo(tempCard.GetComponent<Card>());
-                
+                ActivateInfo(cardNum);
             }
         }
         return tempCard;
@@ -155,13 +154,15 @@ public class Deck : MonoBehaviour {
 
     private void ShuffleDeck()
     {
-        System.Random rand = new System.Random();
-
+        int randNum;
         for (LinkedListNode<int> n = deck.First; n != null; n = n.Next)
         {
             int num = n.Value;
             //swap with top, or bottom.
-            if (rand.Next(0, 2) == 1)
+            
+            randNum = UnityEngine.Random.Range(1, 3);
+            Debug.Log("Random Number is: " + randNum);
+            if (randNum == 1)
             {
                 n.Value = deck.Last.Value;
                 deck.Last.Value = num;
@@ -174,12 +175,12 @@ public class Deck : MonoBehaviour {
         }
     }
 
-    private void ActivateInfo(Card ActivatedCard)
+    private void ActivateInfo(int specialCard)
     {
-        Info_Panel.SetActive(true);
-        Info_Panel.GetComponent<InfoPanel>().
-            SetInfo(ActivatedCard.Name.text, ActivatedCard.Graphic.sprite,
-            ActivatedCard.GetCardType());
+        GameObject tempthing = Instantiate(KnowPrefabTest) as GameObject; 
+        tempthing.GetComponent<InfoPanel>().
+            SetInfo(TitleList[specialCard], CardImages[specialCard],
+            specialCard);
     }
 
     private void PrintLinkedList<T>(LinkedListNode<T> Current)

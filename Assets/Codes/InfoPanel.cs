@@ -7,18 +7,23 @@ public class InfoPanel : MonoBehaviour {
     public Text InfoTitle;
     public Image InfoImage;
     public Text InfoDesc;
-
+    
+    private RectTransform MyRect; 
     private string[] InfoStrings;
 
     // Use this for initialization
-    void Start () {
+    void Awake () {
         AssignInfoStrings();
-        transform.gameObject.SetActive(false);
+        MyRect = GetComponent<RectTransform>();
+        MyRect.SetParent(GameObject.FindGameObjectWithTag("InfoPanelLoc")
+            .transform, false);
+        //transform.SetParent(GameObject.FindGameObjectWithTag("TurnManager")
+        //    .transform);
+        
     }
     
     // Update is called once per frame
     void Update () {
-    
     }
 
     public void SetInfo(string NewTitle, Sprite NewImage, int cardType)
@@ -31,6 +36,7 @@ public class InfoPanel : MonoBehaviour {
     }
 
     private void AssignInfoStrings(){
+        Debug.Log("Info Strings Assigned");
         InfoStrings = new string[]{
             "",
             "",
@@ -52,6 +58,6 @@ public class InfoPanel : MonoBehaviour {
 
     public void CloseInfo()
     {
-        gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 }
