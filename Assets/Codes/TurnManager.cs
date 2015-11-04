@@ -212,7 +212,7 @@ public class TurnManager : MonoBehaviour {
         {
             if (IsPlayerTurn)
             {
-                Debug.Log("Spot Chosen: " + spot);
+                //Debug.Log("Spot Chosen: " + spot);
                 PlayerField.PlaceCard(SuspendedCard, spot);
                 //CHECK HERE IF WEIRD REPLACE SWAP BUG OCCURS
                 TurnState = Turn.ActivatingAbilities;
