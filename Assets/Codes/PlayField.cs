@@ -46,7 +46,7 @@ public class PlayField : MonoBehaviour {
             if (field[pos].transform.childCount != 0 &&
                 IsDisabled[pos] != 1)
             {
-                Debug.Log("Activating Card: " + pos);
+                //Debug.Log("Activating Card: " + pos);
                 //Different cards per game, different layout:
                 if (field[pos].transform.GetChild(0).
                     GetComponent<Image>() == null)
@@ -73,7 +73,7 @@ public class PlayField : MonoBehaviour {
 
     public void Clear()
     {
-        Debug.Log("Clear played");
+        //Debug.Log("Clear played");
         foreach (GameObject CardField in field)
         {
             if (CardField.transform.childCount != 0)
@@ -115,7 +115,7 @@ public class PlayField : MonoBehaviour {
             Color Dark = new Color(0.4f, 0.4f, 0.4f, 0.4f);
             if (CardField.transform.childCount != 0)
             {
-                Debug.Log("Darkening Card");
+                //Debug.Log("Darkening Card");
                 //Different cards per game, different layout:
                 if (CardField.transform.GetChild(0).
                     GetComponent<Image>() == null)
@@ -144,7 +144,7 @@ public class PlayField : MonoBehaviour {
 
     public void UnStop(int stopPos)
     {
-        Debug.Log("Unstopping Pos: " + stopPos + "of " + gameObject.name);
+        Debug.Log("Unstopping Pos: " + stopPos + " of " + gameObject.name);
         IsDisabled[stopPos] = 0;
     }
 
