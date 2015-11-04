@@ -44,6 +44,7 @@ public class Card : MonoBehaviour {
         IsSpecial = isSpecial;
         IsEvent = isEvent;
         Type = type;
+        IsPlayerOwned = !isAI;
     }
 
     public void Activated()
@@ -81,19 +82,22 @@ public class Card : MonoBehaviour {
 
     void OnDestroy()
     {
-        Debug.Log("I am a card being destroyed! Type: " + Type);
+        //Debug.Log("I am a card being destroyed! Type: " + Type);
         switch(Type)
         {
+            case 6:
             case 4:
                 Debug.Log("Destroyed, Unstopping: " + NumPos);
                 if (IsPlayerOwned)
                 {
                     //GetAIField
+                    Debug.Log("Unstopping AI card . . .");
                     MyManager.GetField(true).UnStop(NumPos);
                 }
                 else
                 {
                     //get player field
+                    Debug.Log("Unstopping Player card . . .");
                     MyManager.GetField(false).UnStop(NumPos);
                 }                
                 break;
