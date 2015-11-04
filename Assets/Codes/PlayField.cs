@@ -144,6 +144,7 @@ public class PlayField : MonoBehaviour {
 
     public void UnStop(int stopPos)
     {
+        Debug.Log("Unstopping Pos: " + stopPos + "of " + gameObject.name);
         IsDisabled[stopPos] = 0;
     }
 

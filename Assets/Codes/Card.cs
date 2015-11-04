@@ -53,10 +53,14 @@ public class Card : MonoBehaviour {
             //only cards in hand can be played.
             MyManager.HandPlayed(transform, NumPos);
             OnField = true;
+            GameObject.FindGameObjectWithTag("SFXController").GetComponent
+                <SoundEffectManager>().PlaySound(4);
         }
         else
         {
             MyManager.CardSpotChosen(NumPos);
+            GameObject.FindGameObjectWithTag("SFXController").GetComponent
+                <SoundEffectManager>().PlaySound(5);
         }
     }
 
@@ -99,10 +103,14 @@ public class Card : MonoBehaviour {
         }
     }
 
-
-
     public void SpecialAbility()
     {
+        GameObject temp = GameObject.FindGameObjectWithTag("SFXController");
+
+        temp.GetComponent<AudioSource>().pitch = 1 + ((float)NumPos / 5f)*2f; 
+        temp.GetComponent<SoundEffectManager>().PlaySound(12);
+        //temp.GetComponent<AudioSource>().pitch = 1;
+
         AllSpecialFunctions.ActivateAbility(this);
     }
 
