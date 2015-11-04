@@ -52,28 +52,28 @@ public class AllSpecialFunctions : MonoBehaviour {
 
     private static void PlusOne()
     {
-        Debug.Log("+1 card called!");
+        //Debug.Log("+1 card called!");
         GameObject.FindGameObjectWithTag("InfluenceManager").
             GetComponent<InfluenceManager>().IncreaseInfluence(1);
     }
 
     private static void PlusTwo()
     {
-        Debug.Log("+2 card called!");
+        //Debug.Log("+2 card called!");
         GameObject.FindGameObjectWithTag("InfluenceManager").
             GetComponent<InfluenceManager>().IncreaseInfluence(2);
     }
 
     private static void PlusThree()
     {
-        Debug.Log("+3 card called!");
+        //Debug.Log("+3 card called!");
         GameObject.FindGameObjectWithTag("InfluenceManager").
             GetComponent<InfluenceManager>().IncreaseInfluence(3);
     }
 
     private static void Clear()
     {
-        Debug.Log("Clear card called!");
+        //Debug.Log("Clear card called!");
         GameObject.FindGameObjectWithTag("PlayFieldAI").
             GetComponent<PlayField>().Clear();
         GameObject.FindGameObjectWithTag("PlayFieldYours").
@@ -86,7 +86,7 @@ public class AllSpecialFunctions : MonoBehaviour {
 
     private static void Stop(int num)
     {
-        Debug.Log("Stop card called!: " + num);
+        //Debug.Log("Stop card called!: " + num);
         
         GameObject.FindGameObjectWithTag("TurnManager").
             GetComponent<TurnManager>().GetInactiveField().
@@ -95,7 +95,7 @@ public class AllSpecialFunctions : MonoBehaviour {
 
     private static void Double()
     {
-        Debug.Log("Double card called!");
+        //Debug.Log("Double card called!");
         GameObject.FindGameObjectWithTag("InfluenceManager").
             GetComponent<InfluenceManager>().DoubleNext();
     }

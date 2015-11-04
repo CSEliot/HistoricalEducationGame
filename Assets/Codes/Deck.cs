@@ -129,7 +129,7 @@ public class Deck : MonoBehaviour {
     public GameObject Top(){
         int cardNum = deck.Last.Value;
         GameObject tempCard = Instantiate(CardPrefab) as GameObject;
-        Debug.Log("Instantiating Card: " + TitleList[cardNum]);
+        //Debug.Log("Instantiating Card: " + TitleList[cardNum]);
         //create a card based on the number at the top of the deck.
         tempCard.GetComponent<Card>().AssignData(CardImages[cardNum], 
             TitleList[cardNum],FlavorList[cardNum],(cardNum < 15)? false : true,
@@ -161,7 +161,7 @@ public class Deck : MonoBehaviour {
             //swap with top, or bottom.
             
             randNum = UnityEngine.Random.Range(1, 3);
-            Debug.Log("Random Number is: " + randNum);
+            //Debug.Log("Random Number is: " + randNum);
             if (randNum == 1)
             {
                 n.Value = deck.Last.Value;
