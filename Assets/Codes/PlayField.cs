@@ -14,6 +14,7 @@ public class PlayField : MonoBehaviour {
     private int[] IsDisabled;
     private bool nextIsDoubled;
     private InfluenceManager MyInfluenceMan;
+    private bool IsAI;
 
     // Use this for initialization
     void Start () {
@@ -21,6 +22,7 @@ public class PlayField : MonoBehaviour {
             GetComponent<InfluenceManager>();
         nextIsDoubled = false;
         IsDisabled = new int[5]{0,0,0,0,0};
+        IsAI = gameObject.name.Contains("AI")? true : false;
     }
     
     // Update is called once per frame
@@ -140,6 +142,36 @@ public class PlayField : MonoBehaviour {
     public void Stop(int stopPos)
     {
         IsDisabled[stopPos] = 1;
+    }
+
+    public void ConvertAllCardsTo(int cardType)
+    {
+        int totalSpaces = 5;
+        for (int i = 0; i < totalSpaces; i++)
+        {
+            //this method only converts existing cards
+            if (field[i].transform.childCount != 0)
+            {
+                if (IsAI)
+                {
+                    PlaceCard(
+                        GameObject.FindGameObjectWithTag("DeckAI").
+                        GetComponent<Deck>().BuildClone(cardType).transform,
+                        i
+                    );
+                }
+                else
+                {
+                    PlaceCard(
+                        GameObject.FindGameObjectWithTag("DeckYours").
+                        GetComponent<Deck>().BuildClone(cardType).transform,
+                        i
+                    );
+                }
+                GameObject.FindGameObjectWithTag("SFXController").
+                GetComponent<SoundEffectManager>().PlaySound(5);
+            }
+        }
     }
 
     public void UnStop(int stopPos)

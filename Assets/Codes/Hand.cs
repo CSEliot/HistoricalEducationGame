@@ -31,6 +31,8 @@ public class Hand : MonoBehaviour {
             Cards.Last.Value.transform.localPosition = new Vector3(0, 0, 0);
             Cards.Last.Value.transform.localScale = new Vector3(1f, 1f, 1f);
             Cards.Last.Value.GetComponent<Card>().SetNumPos(Cards.Count - 1);
+            GameObject.FindGameObjectWithTag("SFXController").
+                GetComponent<SoundEffectManager>().PlaySound(14);
         }
     }
 

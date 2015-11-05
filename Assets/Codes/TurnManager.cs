@@ -130,6 +130,8 @@ public class TurnManager : MonoBehaviour {
     public void EndTurn(){
         TurnState = Turn.SwitchingTurn;
         Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
+        //GameObject.FindGameObjectWithTag("SFXController").
+        //        GetComponent<SoundEffectManager>().PlaySound(15);
     }
 
     public void Launch(int StageNum)

@@ -88,13 +88,13 @@ public class InfluenceManager : MonoBehaviour {
 
     public void DoubleNext()
     {
-        DoubleCount *= 2;
+        DoubleCount = 2;
     }
 
 
     public void TripleNext()
     {
-        DoubleCount *= 3; //bad variable name, sue me.
+        DoubleCount = 3; //bad variable name, sue me.
     }
 
     public void CancelDouble()

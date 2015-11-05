@@ -39,15 +39,26 @@ public class AllSpecialFunctions : MonoBehaviour {
                 Double();
                 break;
             case 6:
-                Triple();
                 Stop(ActivatedCard.GetNumPos());
                 PlusOne();
+                Triple();
+                break;
+            case 7:
+                ConvertAllCardsTo(0);
                 break;
             default:
                 Debug.Log("Card Type Unhandled: " + cardType);
                 break;
 
         }
+    }
+
+    private static void ConvertAllCardsTo(int cardType)
+    {
+        GameObject.FindGameObjectWithTag("PlayFieldYours").
+            GetComponent<PlayField>().ConvertAllCardsTo(cardType);
+        GameObject.FindGameObjectWithTag("PlayFieldAI").
+            GetComponent<PlayField>().ConvertAllCardsTo(cardType);
     }
 
     private static void PlusOne()
