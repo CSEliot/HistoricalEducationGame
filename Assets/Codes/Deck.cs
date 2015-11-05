@@ -38,7 +38,7 @@ public class Deck : MonoBehaviour {
 
 
     private int[] IsEventList = new int[] { 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 
-                                            1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1 };
+                                            1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1 };
 
     private bool[] InfoDisplayed = new bool[] { false, false, false, false, 
         false, false,false,false,false,false,false,false,false,false,false};
@@ -102,6 +102,8 @@ public class Deck : MonoBehaviour {
         {
             ShuffleDeck();
         }
+        GameObject.FindGameObjectWithTag("SFXController").
+                GetComponent<SoundEffectManager>().PlaySound(16);
     }
     //if (x == CardToRemove[replaceNum] &&
     //                    replaceNum < SpecialReplaceNum)
@@ -149,6 +151,24 @@ public class Deck : MonoBehaviour {
                 ActivateInfo(cardNum);
             }
         }
+        return tempCard;
+    }
+
+    /// <summary>
+    /// Given card number, it'll build a card to be reused elsewhere.
+    /// This is intended to be used with cards that spawn more cards
+    /// or turn cards into other cards.
+    /// </summary>
+    /// <param name="cardNum"></param>
+    /// <returns>New Card with stats for cardNum</returns>
+    public GameObject BuildClone(int cardNum)
+    {
+        GameObject tempCard = Instantiate(CardPrefab) as GameObject;
+        //Debug.Log("Instantiating Card: " + TitleList[cardNum]);
+        //create a card based on the number at the top of the deck.
+        tempCard.GetComponent<Card>().AssignData(CardImages[cardNum],
+            TitleList[cardNum], FlavorList[cardNum], (cardNum < 15) ? false : true,
+            Convert.ToBoolean(IsEventList[cardNum]), cardNum, IsAI);
         return tempCard;
     }
 
