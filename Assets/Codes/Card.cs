@@ -83,28 +83,29 @@ public class Card : MonoBehaviour {
     void OnDestroy()
     {
         //Debug.Log("I am a card being destroyed! Type: " + Type);
-        switch(Type)
+        //switch(Type)
+        //{
+        //    case 6:
+        //    case 4:
+                             
+        //        break;
+        //    default:
+        //        Debug.Log("Uncaught type num: " + Type);
+        //        break;
+        //}
+        Debug.Log("Destroyed, Unstopping: " + NumPos);
+        if (IsPlayerOwned)
         {
-            case 6:
-            case 4:
-                Debug.Log("Destroyed, Unstopping: " + NumPos);
-                if (IsPlayerOwned)
-                {
-                    //GetAIField
-                    Debug.Log("Unstopping AI card . . .");
-                    MyManager.GetField(true).UnStop(NumPos);
-                }
-                else
-                {
-                    //get player field
-                    Debug.Log("Unstopping Player card . . .");
-                    MyManager.GetField(false).UnStop(NumPos);
-                }                
-                break;
-            default:
-                Debug.Log("Uncaught type num: " + Type);
-                break;
+            //GetAIField
+            Debug.Log("Unstopping AI card . . .");
+            MyManager.GetField(true).UnStop(NumPos);
         }
+        else
+        {
+            //get player field
+            Debug.Log("Unstopping Player card . . .");
+            MyManager.GetField(false).UnStop(NumPos);
+        }   
     }
 
     public void SpecialAbility()

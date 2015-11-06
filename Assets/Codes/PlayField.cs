@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using System;
 
 public class PlayField : MonoBehaviour {
 
@@ -15,6 +16,8 @@ public class PlayField : MonoBehaviour {
     private bool nextIsDoubled;
     private InfluenceManager MyInfluenceMan;
     private bool IsAI;
+    private int[] UnstoppableCardTypes = new int[] {11};
+
 
     // Use this for initialization
     void Start () {
@@ -41,12 +44,18 @@ public class PlayField : MonoBehaviour {
     {
         Color Light = new Color(2f, 2f, 2f, 2f);
         yield return new WaitForSeconds(ActivationTime);
+
+        //certain cards are immune to stop. For now
+        ////it's only 1 card.
+        //bool isUnstoppable = field[pos].transform.GetChild(0).
+        //            GetComponent< 
+
         for (int pos = 0; pos < 5; pos++ )
         {
             //don't activate if not holding a card,
             // or that position is disabled
             if (field[pos].transform.childCount != 0 &&
-                IsDisabled[pos] != 1)
+                (IsDisabled[pos] != 1))
             {
                 //Debug.Log("Activating Card: " + pos);
                 //Different cards per game, different layout:
@@ -141,7 +150,30 @@ public class PlayField : MonoBehaviour {
 
     public void Stop(int stopPos)
     {
-        IsDisabled[stopPos] = 1;
+        //There's one card that can't be stopped. If it's in play,
+        //we have to do a check
+        //problem: cards are not stopped, but the location is.
+        //         and a location can be stopped before anything is played on
+        //          it. . . . . 
+        //Solution: Have the stop function test to see if the card at the
+        //location is a stoppable card.
+        //Edge Case: If a card is stoppable, the location becomes stopped, then
+        //always unstop the location when the stopped card is removed and 
+        //only stop locations with stoppable cards in them.
+        bool containsCard = field[stopPos].transform.childCount == 0? false:true;
+        bool isUnstoppable = true;
+        if (containsCard)
+        {
+            int cardType = field[stopPos].transform.GetChild(0).GetComponent<Card>().
+                GetCardType();
+            isUnstoppable = Array.
+                IndexOf(UnstoppableCardTypes, cardType) == -1? false:true;
+        }
+
+        if (containsCard && !isUnstoppable)
+        {
+            IsDisabled[stopPos] = 1;
+        }
     }
 
     public void ConvertAllCardsTo(int cardType)
@@ -171,6 +203,32 @@ public class PlayField : MonoBehaviour {
                 GameObject.FindGameObjectWithTag("SFXController").
                 GetComponent<SoundEffectManager>().PlaySound(5);
             }
+        }
+    }
+
+    public void ConvertWholeFieldTo(int cardType)
+    {
+        int totalSpaces = 5;
+        for (int i = 0; i < totalSpaces; i++)
+        {
+            if (IsAI)
+            {
+                PlaceCard(
+                    GameObject.FindGameObjectWithTag("DeckAI").
+                    GetComponent<Deck>().BuildClone(cardType).transform,
+                    i
+                );
+            }
+            else
+            {
+                PlaceCard(
+                    GameObject.FindGameObjectWithTag("DeckYours").
+                    GetComponent<Deck>().BuildClone(cardType).transform,
+                    i
+                );
+            }
+            GameObject.FindGameObjectWithTag("SFXController").
+            GetComponent<SoundEffectManager>().PlaySound(5);
         }
     }
 
