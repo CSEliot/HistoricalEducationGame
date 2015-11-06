@@ -15,6 +15,15 @@ public class AllSpecialFunctions : MonoBehaviour {
     
     }
 
+
+    public static void  TestAbility(int cardType, int numPos)
+    {
+        GameObject temp = GameObject.Find("DeckYours").
+            GetComponent<Deck>().BuildClone(cardType);
+        temp.GetComponent<Card>().SetNumPos(numPos);
+        ActivateAbility(temp.GetComponent<Card>());
+    }
+
     public static void ActivateAbility(Card ActivatedCard)
     {
         
@@ -46,11 +55,46 @@ public class AllSpecialFunctions : MonoBehaviour {
             case 7:
                 ConvertAllCardsTo(0);
                 break;
+            case 8:
+                IncreaseMultipliers(2);
+                break;
+            case 9:
+                SplitField(0, 5);
+                break;
+            case 10:
+                GameObject.FindGameObjectWithTag("InfluenceManager").
+                    GetComponent<InfluenceManager>().SetInfluence(15);
+                break;
+            case 11:
+                //ignore stops somehow
+                PlusTwo();
+                Stop(ActivatedCard.GetNumPos());
+                break;
             default:
                 Debug.Log("Card Type Unhandled: " + cardType);
                 break;
 
         }
+    }
+
+    /// <summary>
+    /// Replaces each field with each card type.
+    /// </summary>
+    /// <param name="cardType1"> Your field becomes this type.</param>
+    /// <param name="cardType2"> Opponent field becomes this type.</param>
+    private static void SplitField(int cardType1, int cardType2){
+        GameObject.FindGameObjectWithTag("TurnManager").
+            GetComponent<TurnManager>().GetActiveField().
+            ConvertWholeFieldTo(cardType1);
+        GameObject.FindGameObjectWithTag("TurnManager").
+            GetComponent<TurnManager>().GetInactiveField().
+            ConvertWholeFieldTo(cardType2);
+    }
+
+    private static void IncreaseMultipliers(int amount)
+    {
+        GameObject.FindGameObjectWithTag("InfluenceManager").
+            GetComponent<InfluenceManager>().SetSpecialMod(amount);
     }
 
     private static void ConvertAllCardsTo(int cardType)

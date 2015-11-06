@@ -11,7 +11,7 @@ public class InfluenceManager : MonoBehaviour {
                         //increase or decrease influence.
                         //-1 means AITurn
     private int DoubleCount;
-
+    private int SpecialModDouble;
 
     // Use this for initialization
     void Start () {
@@ -28,6 +28,7 @@ public class InfluenceManager : MonoBehaviour {
         AITurn = 1;
         influenceCount = 15;
         DoubleCount = 1;
+        SpecialModDouble = 1;
         YourBar.GetComponent<Image>().fillAmount = 0.5f;
         InfluenceText.GetComponent<Text>().text = "15/30";
     }
@@ -35,7 +36,7 @@ public class InfluenceManager : MonoBehaviour {
     public void DecreaseInfluence(int amount)
     {
         amount *= AITurn;
-        amount *= DoubleCount; //applying modification from any double cards.
+        amount *= (DoubleCount*SpecialModDouble); //applying modification from any double cards.
         //Once double's been used, reset it.
         DoubleCount = 1;
         //floor influence at 0
@@ -48,7 +49,7 @@ public class InfluenceManager : MonoBehaviour {
     public void IncreaseInfluence(int amount)
     {
         amount *= AITurn; //AITurn = -1
-        amount *= DoubleCount; //applying modification from any double cards.
+        amount *= (DoubleCount*SpecialModDouble); //applying modification from any double cards.
         //Once double's been used, reset it.
         DoubleCount = 1;
         //cap influence at 30
@@ -100,5 +101,11 @@ public class InfluenceManager : MonoBehaviour {
     public void CancelDouble()
     {
         DoubleCount = 1;
+        SpecialModDouble = 1;
+    }
+
+    public void SetSpecialMod(int amount)
+    {
+        SpecialModDouble = amount;
     }
 }
