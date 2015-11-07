@@ -94,7 +94,7 @@ public class Card : MonoBehaviour {
         //        break;
         //}
         Debug.Log("Destroyed, Unstopping: " + NumPos);
-        if (IsPlayerOwned)
+        if (IsPlayerOwned && !IsEvent)
         {
             //GetAIField
             Debug.Log("Unstopping AI card . . .");
@@ -114,7 +114,7 @@ public class Card : MonoBehaviour {
 
         temp.GetComponent<AudioSource>().pitch = 1 + ((float)NumPos / 5f)*2f; 
         temp.GetComponent<SoundEffectManager>().PlaySound(12);
-        //temp.GetComponent<AudioSource>().pitch = 1;
+        temp.GetComponent<AudioSource>().pitch = 1;
 
         AllSpecialFunctions.ActivateAbility(this);
     }
@@ -122,5 +122,10 @@ public class Card : MonoBehaviour {
     public int GetCardType()
     {
         return Type;
+    }
+
+    public bool GetIsPlayerOwned()
+    {
+        return IsPlayerOwned;
     }
 }

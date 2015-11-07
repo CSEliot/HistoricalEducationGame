@@ -13,10 +13,17 @@ public class TurnManager : MonoBehaviour {
     public InfluenceManager InfluenceManager;
     public GameObject WinPanel;
     public GameObject LosePanel;
+    public GameObject PlayerTurnText;
+    public GameObject AITurnText;
+
 
     private bool IsPlayerTurn;
     private int CurrentLevel;
     private Transform SuspendedCard;
+
+    //Every turn will check if it should activity an ability number here:
+    private int[] activateAbilityAI = new int[] { -1, -1, -1, -1, -1, -1, -1};
+    private int[] activateAbilityPlayer = new int[] { -1, -1, -1, -1, -1, -1, -1 }; 
 
     private enum Turn{
         Launching,
@@ -36,22 +43,30 @@ public class TurnManager : MonoBehaviour {
     
     // Update is called once per frame
     void Update () {
-        if(TurnState == Turn.FillingHand
-            && !IsPlayerTurn){
-            //StartCoroutine("PlayerDrawCard");
-            AIHand.DrawCard();
-            TurnState = Turn.ChoosingCard;
-            Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
-        }
-        if (TurnState == Turn.FillingHand
-            && IsPlayerTurn)
-        {
-            //StartCoroutine("PlayerDrawCard");
-            PlayerHand.DrawCard();
-            TurnState = Turn.ChoosingCard;
-            Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
+        if(TurnState == Turn.FillingHand){
+            CheckAbilityEnableAI();
+            CheckAbilityEnablePlayer(); 
+            
+            if (IsPlayerTurn)
+            {
+                //StartCoroutine("PlayerDrawCard");
+                PlayerHand.DrawCard();
+                TurnState = Turn.ChoosingCard;
+                Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
+            }
+            else
+            {
+                //StartCoroutine("PlayerDrawCard");
+                AIHand.DrawCard();
+                TurnState = Turn.ChoosingCard;
+                Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
+            }
         }
         if (TurnState == Turn.Launching) {
+            CheckAbilityEnableAI();
+            CheckAbilityEnablePlayer();
+
+            AITurnText.SetActive(false);
             WinPanel.SetActive(false);
             LosePanel.SetActive(false);
             AIDeck.NewGame(CurrentLevel, LevelTracker.GetLevel());
@@ -69,19 +84,25 @@ public class TurnManager : MonoBehaviour {
         }
         if (TurnState == Turn.ActivatingAbilities)
         {
+            CheckAbilityEnableAI();
+            CheckAbilityEnablePlayer(); 
+            
             if (IsPlayerTurn)
             {
-                PlayerField.ActivateCardsOnField();
+                StartCoroutine(PlayerField.ActivateCardsOnField());
             }
             else
             {
-                AIField.ActivateCardsOnField();
+                StartCoroutine(AIField.ActivateCardsOnField());
             }
             TurnState = Turn.Waiting;
             Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
         }
         if (TurnState == Turn.SwitchingTurn)
         {
+            CheckAbilityEnableAI();
+            CheckAbilityEnablePlayer();
+            
             //i really should not be doing this every turn . . .
             InfluenceManager temp = GameObject.FindGameObjectWithTag("InfluenceManager").
             GetComponent<InfluenceManager>();
@@ -95,6 +116,16 @@ public class TurnManager : MonoBehaviour {
                 TurnState = Turn.FillingHand;
                 Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
                 //no winner yet
+                if (IsPlayerTurn)
+                {
+                    PlayerTurnText.SetActive(true);
+                    AITurnText.SetActive(false);
+                }
+                else
+                {
+                    PlayerTurnText.SetActive(false);
+                    AITurnText.SetActive(true);
+                }
             }
             else if (winCon == 1) 
             {
@@ -109,15 +140,27 @@ public class TurnManager : MonoBehaviour {
                 LosePanel.SetActive(true);
             }
         }
-        if (TurnState == Turn.ChoosingCard && !IsPlayerTurn)
+        if (TurnState == Turn.ChoosingCard)
         {
-            //AI can't press buttons, so we press for it.
-            HandPlayed(AIHand.GetRandomCard(), 0);
+            CheckAbilityEnableAI();
+            CheckAbilityEnablePlayer();
+            
+            if (!IsPlayerTurn)
+            {
+                //AI can't press buttons, so we press for it.
+                HandPlayed(AIHand.GetRandomCard(), 0);
+            }
         }
-        if (TurnState == Turn.ChoosingFieldPos && !IsPlayerTurn)
+        if (TurnState == Turn.ChoosingFieldPos)
         {
-            //AI can't press buttons, so we press for it.
-            CardSpotChosen(UnityEngine.Random.Range(0, 5));
+            CheckAbilityEnableAI();
+            CheckAbilityEnablePlayer(); 
+            
+            if (!IsPlayerTurn)
+            {
+                //AI can't press buttons, so we press for it.
+                CardSpotChosen(UnityEngine.Random.Range(0, 5));
+            }
         }
     }
 
@@ -130,8 +173,8 @@ public class TurnManager : MonoBehaviour {
     public void EndTurn(){
         TurnState = Turn.SwitchingTurn;
         Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
-        //GameObject.FindGameObjectWithTag("SFXController").
-        //        GetComponent<SoundEffectManager>().PlaySound(15);
+        GameObject.FindGameObjectWithTag("SFXController").
+                GetComponent<SoundEffectManager>().PlaySound(15);
     }
 
     public void Launch(int StageNum)
@@ -167,10 +210,11 @@ public class TurnManager : MonoBehaviour {
                     Debug.Log("Event Played");
                     //if event card, play from hand and not onto field.
                     SuspendedCard.gameObject.SetActive(true);
-                    SuspendedCard.transform.localScale = new Vector3(5f, 5f, 5f);
+                    //SuspendedCard.transform.localScale = new Vector3(5f, 5f, 5f);
                     SuspendedCard.GetComponent<Card>().SpecialAbility();
                     SuspendedCard = null;
-                    Destroy(theChosenOne.gameObject);
+                    GameObject.FindGameObjectWithTag("EventHolderYours").
+                        GetComponent<EventCardFade>().FadeObj(theChosenOne.gameObject);
                     TurnState = Turn.ActivatingAbilities;
                 }
             }
@@ -188,10 +232,10 @@ public class TurnManager : MonoBehaviour {
                     //if event card, play from hand and not onto field.
                     SuspendedCard.GetComponent<Card>().SpecialAbility();
                     SuspendedCard = null;
-                    Destroy(theChosenOne.gameObject);
+                    GameObject.FindGameObjectWithTag("EventHolderAI").
+                        GetComponent<EventCardFade>().FadeObj(theChosenOne.gameObject);
                     TurnState = Turn.ActivatingAbilities;
                 }
-
             }
         }
     }
@@ -259,5 +303,35 @@ public class TurnManager : MonoBehaviour {
         return IsPlayerTurn;
     }
 
+    public void SetNextAbility(bool forAI, int turnNum, int abilityNum)
+    {
+        if (forAI)
+        {
+            activateAbilityAI[turnNum] = abilityNum;
+        }
+        else
+        {
+            activateAbilityPlayer[turnNum] = abilityNum;
+        }
+    }
 
+    private void CheckAbilityEnableAI()
+    {
+        int abilityNum = activateAbilityAI[(int)TurnState];
+        if (abilityNum != -1)
+        {
+            AllSpecialFunctions.TestAbility(abilityNum, 0);
+            activateAbilityAI[(int)Turn.SwitchingTurn] = -1;
+        }
+    }
+
+    private void CheckAbilityEnablePlayer()
+    {
+        int abilityNum = activateAbilityPlayer[(int)TurnState];
+        if (abilityNum != -1)
+        {
+            AllSpecialFunctions.TestAbility(abilityNum, 0);
+            activateAbilityPlayer[(int)Turn.SwitchingTurn] = -1;
+        }
+    }
 }

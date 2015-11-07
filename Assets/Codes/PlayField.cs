@@ -17,10 +17,11 @@ public class PlayField : MonoBehaviour {
     private InfluenceManager MyInfluenceMan;
     private bool IsAI;
     private int[] UnstoppableCardTypes = new int[] {11};
-
+    private bool card15Activated; //extreme edge case
 
     // Use this for initialization
     void Start () {
+        card15Activated = false;
         MyInfluenceMan = GameObject.FindGameObjectWithTag("InfluenceManager").
             GetComponent<InfluenceManager>();
         nextIsDoubled = false;
@@ -35,6 +36,7 @@ public class PlayField : MonoBehaviour {
 
     public void NewGame()
     {
+        card15Activated = false;
         nextIsDoubled = false;
         IsDisabled = new int[5] { 0, 0, 0, 0, 0 };
         Clear(); //from previous games.
@@ -118,8 +120,9 @@ public class PlayField : MonoBehaviour {
 
 
 
-    public void ActivateCardsOnField()
+    public IEnumerator ActivateCardsOnField()
     {
+        yield return new WaitForSeconds(0.2f);
         //darken all cards, in coroutine re-light on use.
         foreach (GameObject CardField in field)
         {
@@ -238,4 +241,16 @@ public class PlayField : MonoBehaviour {
         IsDisabled[stopPos] = 0;
     }
 
+    public bool GetIf15Activated()
+    {
+        //set card15activated afterwards
+        StartCoroutine(SetPostReturn());
+        return card15Activated;
+    }
+    ///Helper for GetIf15Activated
+    private IEnumerator SetPostReturn()
+    {
+        yield return new WaitForSeconds(0.5f);
+        card15Activated = true;
+    }
 }

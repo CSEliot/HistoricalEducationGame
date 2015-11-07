@@ -38,7 +38,7 @@ public class Deck : MonoBehaviour {
 
 
     private int[] IsEventList = new int[] { 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 
-                                            1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1 };
+                                            1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1 };
 
     private bool[] InfoDisplayed = new bool[] { false, false, false, false, 
         false, false,false,false,false,false,false,false,false,false,false};
