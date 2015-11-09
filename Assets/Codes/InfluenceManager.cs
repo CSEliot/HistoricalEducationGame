@@ -12,10 +12,10 @@ public class InfluenceManager : MonoBehaviour {
                         //-1 means AITurn
     private int DoubleCount;
     private int SpecialModDouble;
+    private bool InfluenceBooster;
 
     // Use this for initialization
     void Start () {
-        
     }
     
     // Update is called once per frame
@@ -31,6 +31,7 @@ public class InfluenceManager : MonoBehaviour {
         SpecialModDouble = 1;
         YourBar.GetComponent<Image>().fillAmount = 0.5f;
         InfluenceText.GetComponent<Text>().text = "15/30";
+        InfluenceBooster = false;
     }
 
     public void DecreaseInfluence(int amount)
@@ -48,6 +49,10 @@ public class InfluenceManager : MonoBehaviour {
 
     public void IncreaseInfluence(int amount)
     {
+        if (InfluenceBooster)
+        {
+            SingleIncreaseInstance();
+        }
         amount *= AITurn; //AITurn = -1
         amount *= (DoubleCount*SpecialModDouble); //applying modification from any double cards.
         //Once double's been used, reset it.
@@ -85,6 +90,7 @@ public class InfluenceManager : MonoBehaviour {
     {
         AITurn = AITurn * -1;
         DoubleCount = 1;
+        InfluenceBooster = false;
     }
 
     public void DoubleNext()
@@ -107,5 +113,28 @@ public class InfluenceManager : MonoBehaviour {
     public void SetSpecialMod(int amount)
     {
         SpecialModDouble = amount;
+    }
+
+    public void EnableSpoilsInfluence()
+    {
+        InfluenceBooster = true;
+    }
+
+    public void DisableSpoilsInfluence()
+    {
+        InfluenceBooster = false;
+    }
+
+    /// <summary>
+    /// Helper function for card 19 ability.
+    /// </summary>
+    private void SingleIncreaseInstance()
+    {
+        int amount = 1;
+        Debug.Log("Increasing by amount: " + amount);
+        influenceCount = ((influenceCount + amount) > 30) ? 30 :
+            influenceCount + amount;
+        YourBar.GetComponent<Image>().fillAmount = influenceCount / 30f;
+        InfluenceText.GetComponent<Text>().text = "" + influenceCount + "/30";
     }
 }

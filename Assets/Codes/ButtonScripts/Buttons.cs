@@ -27,6 +27,7 @@ public class Buttons : MonoBehaviour {
         }
         else
         {
+            Debug.Log("New Scene is: " + (int)NewScene);
             GameObject.FindGameObjectWithTag("MenuController").
                 GetComponent<AllMenuNav>().ChangeSceneTo((int)NewScene);
         }

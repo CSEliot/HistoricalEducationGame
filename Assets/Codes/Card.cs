@@ -93,17 +93,17 @@ public class Card : MonoBehaviour {
         //        Debug.Log("Uncaught type num: " + Type);
         //        break;
         //}
-        Debug.Log("Destroyed, Unstopping: " + NumPos);
+        //Debug.Log("Destroyed, Unstopping: " + NumPos);
         if (IsPlayerOwned && !IsEvent)
         {
             //GetAIField
-            Debug.Log("Unstopping AI card . . .");
+            //Debug.Log("Unstopping AI card . . .");
             MyManager.GetField(true).UnStop(NumPos);
         }
-        else
+        else if (!(IsPlayerOwned || IsEvent))
         {
             //get player field
-            Debug.Log("Unstopping Player card . . .");
+            //Debug.Log("Unstopping Player card . . .");
             MyManager.GetField(false).UnStop(NumPos);
         }   
     }

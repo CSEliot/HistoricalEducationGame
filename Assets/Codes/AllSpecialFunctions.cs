@@ -26,8 +26,8 @@ public class AllSpecialFunctions : MonoBehaviour {
 
     public static void ActivateAbility(Card ActivatedCard)
     {
-        
         int cardType = ActivatedCard.GetCardType();
+        Debug.Log("Card Activated: " + cardType);
         switch(cardType){
             case 0:
                 PlusOne();
@@ -39,7 +39,7 @@ public class AllSpecialFunctions : MonoBehaviour {
                 PlusThree();
                 break;
             case 3:
-                Clear();
+                Clear(true, true);
                 break;
             case 4:
                 Stop(ActivatedCard.GetNumPos());
@@ -87,7 +87,24 @@ public class AllSpecialFunctions : MonoBehaviour {
             case 16:
                 PlusFour();
                 break;
-
+            case 17:
+                ChooseBetween();
+                break;
+            case 18:
+                SplitField(-1, 4);
+                DisableField(true, false);
+                SetDelayedAbility(!ActivatedCard.GetIsPlayerOwned(), 4, 3);
+                break;
+            case 19:
+                ToggleInfluenceBoost();
+                break;
+            case 20:
+                TogglePermaInfluenceBoost(!ActivatedCard.GetIsPlayerOwned());
+                break;
+            case 21:
+                //this is specifically only called by one other card ability.
+                Clear(false, true);
+                break;
             default:
                 Debug.Log("Card Type Unhandled: " + cardType);
                 break;
@@ -95,10 +112,43 @@ public class AllSpecialFunctions : MonoBehaviour {
         }
     }
 
+    private static void TogglePermaInfluenceBoost(bool forAI)
+    {
+        GameObject.FindGameObjectWithTag("TurnManager").
+                GetComponent<TurnManager>().
+                EnablePermaInfluenceBoost(forAI);
+    }
+
+    private static void ToggleInfluenceBoost()
+    {
+        GameObject.FindGameObjectWithTag("InfluenceManager").
+                GetComponent<InfluenceManager>().EnableSpoilsInfluence();
+    }
+
+    /// <summary>
+    /// To be used exclusively when using SplitField to set a whole
+    /// field to all Stops.
+    /// </summary>
+    /// <param name="yourField"></param>
+    /// <param name="opponentField"></param>
+    private static void DisableField(bool yourField, bool opponentField)
+    {
+        if (yourField)
+        {
+            GameObject.FindGameObjectWithTag("TurnManager").
+                GetComponent<TurnManager>().GetActiveField().DisableAll();
+        }
+        if (opponentField)
+        {
+            GameObject.FindGameObjectWithTag("TurnManager").
+                GetComponent<TurnManager>().GetInactiveField().DisableAll();
+        }
+    }
 
     private static void ChooseBetween()
     {
-        
+        GameObject.FindGameObjectWithTag("CardChooseEvent").
+            transform.GetChild(0).gameObject.SetActive(true);
     }
 
     private static void SetDelayedAbility(bool forAI, int turnNum, int abilityNum)
@@ -109,16 +159,23 @@ public class AllSpecialFunctions : MonoBehaviour {
 
     /// <summary>
     /// Replaces each field with each card type.
+    /// if either parameter is -1 then that side is ignored..
     /// </summary>
     /// <param name="cardType1"> Your field becomes this type.</param>
     /// <param name="cardType2"> Opponent field becomes this type.</param>
     private static void SplitField(int cardType1, int cardType2){
-        GameObject.FindGameObjectWithTag("TurnManager").
-            GetComponent<TurnManager>().GetActiveField().
-            ConvertWholeFieldTo(cardType1);
-        GameObject.FindGameObjectWithTag("TurnManager").
-            GetComponent<TurnManager>().GetInactiveField().
-            ConvertWholeFieldTo(cardType2);
+        if (cardType1 != -1)
+        {
+            GameObject.FindGameObjectWithTag("TurnManager").
+                GetComponent<TurnManager>().GetActiveField().
+                ConvertWholeFieldTo(cardType1);
+        }
+        if (cardType2 != -1)
+        {
+            GameObject.FindGameObjectWithTag("TurnManager").
+                GetComponent<TurnManager>().GetInactiveField().
+                ConvertWholeFieldTo(cardType2);
+        }
     }
 
     private static void IncreaseMultipliers(int amount)
@@ -179,36 +236,22 @@ public class AllSpecialFunctions : MonoBehaviour {
         }
     }
 
-    private static void Clear()
+    private static void Clear(bool yourSide, bool opponentSide)
     {
-        //Debug.Log("Clear card called!");
-        GameObject.FindGameObjectWithTag("PlayFieldAI").
-            GetComponent<PlayField>().Clear();
-        GameObject.FindGameObjectWithTag("PlayFieldYours").
-            GetComponent<PlayField>().Clear();
-        GameObject.FindGameObjectWithTag("ClearText").transform.
-            GetChild(0).gameObject.SetActive(true);
-        GameObject.FindGameObjectWithTag("ClearText").transform.
-            GetChild(1).gameObject.SetActive(true);
-    }
-
-    private static void Clear(int fieldSide)
-    {
-        if (fieldSide == 1)
+        if (yourSide)
         {
-            GameObject.FindGameObjectWithTag("PlayFieldAI").
-                GetComponent<PlayField>().Clear();
-            GameObject.FindGameObjectWithTag("ClearText").transform.
-                GetChild(1).gameObject.SetActive(true);
-
-        }
-        else
-        {
-            //Debug.Log("Clear card called!");
             GameObject.FindGameObjectWithTag("PlayFieldYours").
                 GetComponent<PlayField>().Clear();
             GameObject.FindGameObjectWithTag("ClearText").transform.
                 GetChild(0).gameObject.SetActive(true);
+        }
+        if (opponentSide)
+        {
+            //Debug.Log("Clear card called!");
+            GameObject.FindGameObjectWithTag("PlayFieldAI").
+                GetComponent<PlayField>().Clear();
+            GameObject.FindGameObjectWithTag("ClearText").transform.
+                GetChild(1).gameObject.SetActive(true);
         }
     }
 
