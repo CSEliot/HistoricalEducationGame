@@ -10,16 +10,18 @@ public class TurnManager : MonoBehaviour {
     public PlayField PlayerField;
     public PlayField AIField;
     public LevelTracking LevelTracker;
-    public InfluenceManager InfluenceManager;
+    public InfluenceManager MyInfluenceManager;
     public GameObject WinPanel;
     public GameObject LosePanel;
     public GameObject PlayerTurnText;
     public GameObject AITurnText;
-
+    public MusicManager MyMusicManager;
 
     private bool IsPlayerTurn;
     private int CurrentLevel;
     private Transform SuspendedCard;
+    private bool giveTurnlyInfluenceAI;
+    private bool giveTurnlyInfluencePlayer;
 
     //Every turn will check if it should activity an ability number here:
     private int[] activateAbilityAI = new int[] { -1, -1, -1, -1, -1, -1, -1};
@@ -53,6 +55,10 @@ public class TurnManager : MonoBehaviour {
                 PlayerHand.DrawCard();
                 TurnState = Turn.ChoosingCard;
                 Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
+                if (giveTurnlyInfluencePlayer)
+                {
+                    MyInfluenceManager.IncreaseInfluence(1);
+                }
             }
             else
             {
@@ -60,11 +66,18 @@ public class TurnManager : MonoBehaviour {
                 AIHand.DrawCard();
                 TurnState = Turn.ChoosingCard;
                 Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
+                if (giveTurnlyInfluenceAI)
+                {
+                    MyInfluenceManager.IncreaseInfluence(1);
+                }
             }
         }
         if (TurnState == Turn.Launching) {
             CheckAbilityEnableAI();
             CheckAbilityEnablePlayer();
+            giveTurnlyInfluenceAI = false;
+            giveTurnlyInfluencePlayer = false;
+
 
             AITurnText.SetActive(false);
             WinPanel.SetActive(false);
@@ -75,7 +88,7 @@ public class TurnManager : MonoBehaviour {
             PlayerHand.NewGame();
             AIField.NewGame();
             PlayerField.NewGame();
-            InfluenceManager.NewGame();
+            MyInfluenceManager.NewGame();
             //play teacher lady info on gameplay
             //wait for her to finish
 
@@ -103,14 +116,11 @@ public class TurnManager : MonoBehaviour {
             CheckAbilityEnableAI();
             CheckAbilityEnablePlayer();
             
-            //i really should not be doing this every turn . . .
-            InfluenceManager temp = GameObject.FindGameObjectWithTag("InfluenceManager").
-            GetComponent<InfluenceManager>();
-            int winCon = temp.GetWinStatus();
+            int winCon = MyInfluenceManager.GetWinStatus();
             if (winCon == 0)
             {
                 //influence manager has to flip adding or subtracting points.
-                temp.TurnChange();
+                MyInfluenceManager.TurnChange();
                 IsPlayerTurn = !IsPlayerTurn;
                 Debug.Log("Turn Change to: " + (IsPlayerTurn ? "Player":"AI"));
                 TurnState = Turn.FillingHand;
@@ -139,6 +149,9 @@ public class TurnManager : MonoBehaviour {
             {
                 LosePanel.SetActive(true);
             }
+
+            GameObject.FindGameObjectWithTag("InfluenceManager").
+                GetComponent<InfluenceManager>().DisableSpoilsInfluence();
         }
         if (TurnState == Turn.ChoosingCard)
         {
@@ -194,7 +207,7 @@ public class TurnManager : MonoBehaviour {
             bool tempIsEvent = SuspendedCard.GetComponent<Card>().GetIsEvent();
             if (IsPlayerTurn)
             {
-                Debug.Log("HandNumber played by Player: " + HandNumber);
+                //Debug.Log("HandNumber played by Player: " + HandNumber);
                 //handnumber tells us which one to remove from 
                 // hand (not delete)
                 PlayerHand.RemoveCard(HandNumber);
@@ -212,10 +225,13 @@ public class TurnManager : MonoBehaviour {
                     SuspendedCard.gameObject.SetActive(true);
                     //SuspendedCard.transform.localScale = new Vector3(5f, 5f, 5f);
                     SuspendedCard.GetComponent<Card>().SpecialAbility();
-                    SuspendedCard = null;
+                    if (SuspendedCard.GetComponent<Card>().GetCardType() != 17)
+                    {
+                        TurnState = Turn.ActivatingAbilities;
+                    }
                     GameObject.FindGameObjectWithTag("EventHolderYours").
                         GetComponent<EventCardFade>().FadeObj(theChosenOne.gameObject);
-                    TurnState = Turn.ActivatingAbilities;
+                    SuspendedCard = null;
                 }
             }
             else
@@ -223,18 +239,29 @@ public class TurnManager : MonoBehaviour {
                 AIHand.RemoveCard(HandNumber);
                 if (!tempIsEvent)
                 {
-                    TurnState = Turn.ChoosingFieldPos;;
-                    Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
-                    //StartCoroutine(WaitingForField());
+                        TurnState = Turn.ChoosingFieldPos;;
+                        Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
+                        //StartCoroutine(WaitingForField());
                 }
                 else
                 {
-                    //if event card, play from hand and not onto field.
-                    SuspendedCard.GetComponent<Card>().SpecialAbility();
-                    SuspendedCard = null;
-                    GameObject.FindGameObjectWithTag("EventHolderAI").
-                        GetComponent<EventCardFade>().FadeObj(theChosenOne.gameObject);
-                    TurnState = Turn.ActivatingAbilities;
+                    //test card type. if it's #17, don't activate it, instead,
+                    if (SuspendedCard.GetComponent<Card>().GetCardType() == 17)
+                    {
+                        //recall HandPlayed() with either a new double or
+                        // +2 influence card. 
+                        int chosenCard = UnityEngine.Random.Range(1, 3) == 1?1:5;
+                        HandPlayed( AIDeck.BuildClone(chosenCard).transform, -1);
+                    }
+                    else
+                    {
+                        //if event card, play from hand and not onto field.
+                        SuspendedCard.GetComponent<Card>().SpecialAbility();
+                        SuspendedCard = null;
+                        GameObject.FindGameObjectWithTag("EventHolderAI").
+                            GetComponent<EventCardFade>().FadeObj(theChosenOne.gameObject);
+                        TurnState = Turn.ActivatingAbilities;
+                    }
                 }
             }
         }
@@ -274,6 +301,18 @@ public class TurnManager : MonoBehaviour {
         }
         //SuspendedCard.localPosition = Vector3.zero; // a brute force fix on 
         //                                            // weird location bug.
+    }
+
+    public void EnablePermaInfluenceBoost(bool forAI)
+    {
+        if (forAI)
+        {
+            giveTurnlyInfluenceAI = true;
+        }
+        else
+        {
+            giveTurnlyInfluencePlayer = true;
+        }
     }
 
     public PlayField GetField(bool GetAIField)
@@ -333,5 +372,14 @@ public class TurnManager : MonoBehaviour {
             AllSpecialFunctions.TestAbility(abilityNum, 0);
             activateAbilityPlayer[(int)Turn.SwitchingTurn] = -1;
         }
+    }
+
+    /// <summary>
+    /// SHOULD ONLY BE CALLED During Turn.ChoosingFieldPos
+    /// </summary>
+    /// <param name="newCard"></param>
+    public void SetSuspendedCard(Transform newCard)
+    {
+        SuspendedCard = newCard;
     }
 }

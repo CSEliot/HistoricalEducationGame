@@ -209,6 +209,12 @@ public class PlayField : MonoBehaviour {
         }
     }
 
+    
+    public void DisableAll()
+    {
+        IsDisabled = new int[] { 1, 1, 1, 1, 1 };
+    }
+
     public void ConvertWholeFieldTo(int cardType)
     {
         int totalSpaces = 5;

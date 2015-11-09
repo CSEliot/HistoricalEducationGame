@@ -20,5 +20,21 @@ public class TestAbility : MonoBehaviour {
         {
             AllSpecialFunctions.TestAbility(9, 0);
         }
+        if (Input.GetKeyDown("3"))
+        {
+            AllSpecialFunctions.TestAbility(17, 0);
+        }
+        if (Input.GetKeyDown("4"))
+        {
+            AllSpecialFunctions.TestAbility(18, 0);
+        }
+        if (Input.GetKeyDown("5"))
+        {
+            AllSpecialFunctions.TestAbility(19, 0);
+        }
+        if (Input.GetKeyDown("6"))
+        {
+            AllSpecialFunctions.TestAbility(20, 0);
+        }
 	}
 }

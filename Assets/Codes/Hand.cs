@@ -38,8 +38,8 @@ public class Hand : MonoBehaviour {
 
     public void RemoveCard(int CardNumber)
     {
-        
-        RemoveRcsv(0, CardNumber, Cards.First);
+        if(CardNumber != -1)
+            RemoveRcsv(0, CardNumber, Cards.First);
     }
 
     /// <summary>

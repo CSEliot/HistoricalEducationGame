@@ -16,7 +16,8 @@ public class SetupCardGame : MonoBehaviour {
     }
 
     public void StartGame(int StageNum) {
-        GameObject.FindGameObjectWithTag("MenuController").GetComponent<AllMenuNav>().ChangeSceneTo(4);
+        GameObject.FindGameObjectWithTag("MenuController").
+            GetComponent<AllMenuNav>().ChangeSceneTo(4, StageNum);
         turnManager.Launch(StageNum);
     }
 }

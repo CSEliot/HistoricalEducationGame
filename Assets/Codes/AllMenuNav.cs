@@ -1,9 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// BUG: PRESSING "Search" in-cardgame and then returning then
+/// quitting makes the menu navigating all weird . . . o.O
+/// </summary>
 public class AllMenuNav : MonoBehaviour {
 
 	public int CurrentCanvasNum;
+    public MusicManager MyMusicManager;
 
 	public GameObject[] Canvases;
 
@@ -26,6 +31,28 @@ public class AllMenuNav : MonoBehaviour {
 
     public void ChangeSceneTo(int MenuInt)
     {
+        //Music is scene based, and so . . .
+        MyMusicManager.SetMusic(0);
+        
+        if (MenuInt == -1)
+        {
+            Application.Quit();
+        }
+        Canvases[CurrentCanvasNum].SetActive(false);
+        Canvases[MenuInt].SetActive(true);
+        CurrentCanvasNum = MenuInt;
+    }
+
+    /// <summary>
+    /// Only called by the level select buttons.
+    /// </summary>
+    /// <param name="MenuInt"></param>
+    /// <param name="LevelInt"></param>
+    public void ChangeSceneTo(int MenuInt, int LevelInt)
+    {
+        //Music is scene based, and so . . .
+        MyMusicManager.SetMusic(LevelInt > 6?2:1);
+
         if (MenuInt == -1)
         {
             Application.Quit();
