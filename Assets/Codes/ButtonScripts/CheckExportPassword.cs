@@ -23,7 +23,11 @@ public class CheckExportPassword : MonoBehaviour {
         Debug.Log("CSV Export Pass: " + enteredPass);
         if (enteredPass == pass)
         {
-
+            Debug.Log("Exporting Data");
+            GameObject.FindGameObjectWithTag("MenuController").
+                GetComponent<DataTracking>().SaveData();
+            GameObject.FindGameObjectWithTag("SFXController").
+                GetComponent<SoundEffectManager>().PlaySound(13);
         }
     }
 }

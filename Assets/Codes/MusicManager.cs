@@ -7,6 +7,7 @@ public class MusicManager : MonoBehaviour {
     private AudioSource CDPlayer;
 
     private int currentTrack;
+    private int previousTrack;
     private float startVolume;
     private float currentVolume;
 
@@ -17,6 +18,7 @@ public class MusicManager : MonoBehaviour {
         CDPlayer.Play();
         startVolume = CDPlayer.volume;
         currentVolume = startVolume;
+
 	}
 	
 	// Update is called once per frame
@@ -38,6 +40,7 @@ public class MusicManager : MonoBehaviour {
         CDPlayer.Stop();
         CDPlayer.clip = Music[track];
         CDPlayer.Play();
+        previousTrack = currentTrack;
         currentTrack = track;
         StartCoroutine(FadeMusicIn());
     }
@@ -62,6 +65,11 @@ public class MusicManager : MonoBehaviour {
             //+ track);
         if(track != currentTrack)
             StartCoroutine(FadeMusicOut(track));
+    }
+
+    public void Rewind()
+    {
+        SetMusic(previousTrack);
     }
 
 }
