@@ -79,7 +79,7 @@ public class InfoPanel : MonoBehaviour {
                 "As a state, voted to nullify the 1828 and 1832 tariffs. Otherwise they would secede from the Union. This caused very bad tension.",
                 "In 1828, tariffs began causing tension and South Carolina nullifying the tariff laws for themselves.",
                 "In 1832, tension rose between him and Andrew Jackson that were caused by disagreements on if tariffs can be nullified by states. This results in his leave.",
-                " Also known as the TARIFF OF ABOMINATIONS, this raised tariffs on iron textiles and other products. Ended up hurting southerners."
+                "iN 1828, Also known as the TARIFF OF ABOMINATIONS, this raised tariffs on iron textiles and other products. Ended up hurting southerners. This began the NULLIFICATION CRISIS."
             };
         }
     }
