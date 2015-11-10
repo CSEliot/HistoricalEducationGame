@@ -11,6 +11,8 @@ public class DataTracking : MonoBehaviour {
 
     private string startTime;
     private string filename;
+
+    AndroidJavaObject mWifiManager;
     
 	// Use this for initialization
 	void Start () {
@@ -66,7 +68,7 @@ public class DataTracking : MonoBehaviour {
         StreamWriter sw = new StreamWriter(file);
         string LineToWrite;
         string GameName = Application.loadedLevelName;
-        string MACAddress = GetMacAddress();
+        string MACAddress = ReturnMacAddress();
         string StartSession = startTime;
         string EndSession = GetEndSession();
         string GameProgess = PlayerPrefs.GetInt("Level") + "/15";
@@ -151,6 +153,7 @@ public class DataTracking : MonoBehaviour {
             return Path.Combine(path, filename);
         }
     }
+    
 
     private string GetMacAddress()
     {
@@ -174,4 +177,18 @@ public class DataTracking : MonoBehaviour {
         }
         return macAddress;
     }
+
+    string ReturnMacAddress()
+   {
+      string macAddr = "";
+      if (mWifiManager == null)
+      {
+         using (AndroidJavaObject activity = new AndroidJavaClass("com.unity3d.player.UnityPlayer").GetStatic<AndroidJavaObject>("currentActivity"))
+         {
+            mWifiManager = activity.Call<AndroidJavaObject>("getSystemService","wifi");
+         }
+      }
+      macAddr = mWifiManager.Call<AndroidJavaObject>("getConnectionInfo").Call<string>("getMacAddress");
+      return macAddr;
+  }
 }
