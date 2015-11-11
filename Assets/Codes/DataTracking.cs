@@ -14,8 +14,8 @@ public class DataTracking : MonoBehaviour {
 
     AndroidJavaObject mWifiManager;
     
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         startTime = "";
         filename = Application.loadedLevelName + ".csv";
 
@@ -31,14 +31,14 @@ public class DataTracking : MonoBehaviour {
         startTime += DateTime.Now.Month  + ":";
         startTime += DateTime.Now.Year;
         
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	    if(Input.GetKeyDown("p")){
+    }
+    
+    // Update is called once per frame
+    void Update () {
+        if(Input.GetKeyDown("p")){
             SaveData();
         }
-	}
+    }
 
     public void WriteNewGameLine()
     {
@@ -62,13 +62,18 @@ public class DataTracking : MonoBehaviour {
     }
     public void SaveData()
     {
+        AndroidJavaObject jo = new AndroidJavaObject("android.os.Build");
+        string serial = jo.GetStatic<string>("SERIAL");
         Debug.Log("Exporting . . .");
+        Debug.Log("ID IS: " + SystemInfo.deviceUniqueIdentifier);
+        Debug.Log("Serial is: " + serial);
+        Debug.Log("Get Mac Address is: " + GetMacAddress2());
         string path = GetPath(filename);
         FileStream file = new FileStream(path, FileMode.Append, FileAccess.Write);
         StreamWriter sw = new StreamWriter(file);
         string LineToWrite;
         string GameName = Application.loadedLevelName;
-        string MACAddress = "INCORRECTBLANK";//ReturnMacAddress();
+        string MACAddress = "NOPE";//GetMacAddress();
         string StartSession = startTime;
         string EndSession = GetEndSession();
         string GameProgess = PlayerPrefs.GetInt("Level") + "/15";
@@ -82,6 +87,15 @@ public class DataTracking : MonoBehaviour {
         sw.Close();
         file.Close();
         //SAVED DATA
+    }
+
+    private static string GetMacAddress2()
+    {
+        // try to read the address from some file (this works on the Samsung Galaxy Tab 4 with Android 4.4.2)
+        const string l_filePath = "/sys/class/net/wlan0/address"; // substitutions for wlan0: ip6gre0 ip6tnl0 lo p2p0 sit0 wlan0
+        string l_contents = File.ReadAllText(l_filePath);
+        Console.Write("Read from \"" + l_filePath + "\": " + l_contents);
+        return l_contents;
     }
 
     private void ResetStats()

@@ -18,6 +18,7 @@ public class Buttons : MonoBehaviour {
             CallSceneChange(NewSceneNum);
         }
     }
+
     public void CallSceneChange(float NewScene)
     {
         NewSceneNum = 0;
