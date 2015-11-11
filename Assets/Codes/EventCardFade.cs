@@ -23,9 +23,17 @@ public class EventCardFade : MonoBehaviour {
 
     public void FadeObj(GameObject fadeCard)
     {
-        fadeCard.transform.GetChild(0).GetComponent<Image>().material = myMat;
-        fadeCard.transform.GetChild(1).GetComponent<Image>().material = myMat;
-        fadeCard.transform.GetChild(3).GetComponent<Image>().material = myMat;
+        if (!Application.loadedLevelName.Contains("Pop"))
+        {
+            fadeCard.transform.GetComponent<Image>().material = myMat;
+            fadeCard.transform.GetChild(3).GetComponent<Image>().material = myMat;
+        }
+        else
+        {
+            fadeCard.transform.GetChild(0).GetComponent<Image>().material = myMat;
+            fadeCard.transform.GetChild(1).GetComponent<Image>().material = myMat;
+            fadeCard.transform.GetChild(3).GetComponent<Image>().material = myMat;
+        }
         fadeCard.transform.SetParent(transform, false);
         fadeCard.transform.localPosition = Vector3.zero;
         myAlpha = fadeTime;
