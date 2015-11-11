@@ -6,28 +6,31 @@ public class MusicManager : MonoBehaviour {
     public AudioClip[] Music;
     private AudioSource CDPlayer;
 
+    private bool FadingOut;
+
     private int currentTrack;
     private int previousTrack;
     private float startVolume;
     private float currentVolume;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         CDPlayer = GetComponent<AudioSource>();
         CDPlayer.clip = Music[0];
         CDPlayer.Play();
         startVolume = CDPlayer.volume;
         currentVolume = startVolume;
-
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+        FadingOut = false;
+    }
+    
+    // Update is called once per frame
+    void Update () {
+    
+    }
 
     private IEnumerator FadeMusicOut(int track)
     {
+        FadingOut = true;
         while(currentVolume > 0.01f)
         {
             currentVolume = Mathf.Lerp(currentVolume, 0f, Time.deltaTime);
@@ -42,11 +45,16 @@ public class MusicManager : MonoBehaviour {
         CDPlayer.Play();
         previousTrack = currentTrack;
         currentTrack = track;
+        FadingOut = false;
         StartCoroutine(FadeMusicIn());
     }
 
     private IEnumerator FadeMusicIn()
     {
+        while (FadingOut)
+        {
+            yield return null;
+        }
         while(currentVolume < startVolume-0.01f)
         {
             currentVolume = Mathf.Lerp(currentVolume, startVolume, Time.deltaTime);
