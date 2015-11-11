@@ -17,6 +17,8 @@ public class SoundEffectManager : MonoBehaviour {
 	}
 
 	public void PlaySound(int SFXNum){
+        if (SFXNum >= SFXBank.Length)
+            Debug.Log("SFX IS: " + SFXNum);
 		SoundSource.PlayOneShot(SFXBank [SFXNum]);
 	}
 }

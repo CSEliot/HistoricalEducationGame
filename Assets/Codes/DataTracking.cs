@@ -68,7 +68,7 @@ public class DataTracking : MonoBehaviour {
         StreamWriter sw = new StreamWriter(file);
         string LineToWrite;
         string GameName = Application.loadedLevelName;
-        string MACAddress = ReturnMacAddress();
+        string MACAddress = "INCORRECTBLANK";//ReturnMacAddress();
         string StartSession = startTime;
         string EndSession = GetEndSession();
         string GameProgess = PlayerPrefs.GetInt("Level") + "/15";
