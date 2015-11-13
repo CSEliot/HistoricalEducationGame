@@ -63,95 +63,7 @@ public class DataTracking : MonoBehaviour {
     }
     public void SaveData()
     {
-        try
-        {
-            test("/mnt/extsd", 1);  
-        }
-        catch (Exception e)
-        {
-            Debug.Log("1Error!!: " + e.StackTrace);
-        }
-        try
-        {
-            test("/sdcard", 2);
-        }
-        catch (Exception e)
-        {
-            Debug.Log("2Error!!: " + e.StackTrace);
-        }
-        try
-        {
-            test(Application.persistentDataPath + "/sdcard", 3);
-        }
-        catch (Exception e)
-        {
-            Debug.Log("3Error!!: " + e.StackTrace);
-        }
-        try
-        {
-            test("/Android/data/com.KiteLion.Jackson", 4);
-        }
-        catch (Exception e)
-        {
-            Debug.Log("4Error!!: " + e.StackTrace);
-        }
-        try
-        {
-            test("/Android/data/com.KiteLion.Jackson/storage/extSdCard/Android/data/com.KiteLion.Jackson", 5);
-        }
-        catch (Exception e)
-        {
-            Debug.Log("5Error!!: " + e.StackTrace);
-        }
-        try
-        {
-            test("/storage/extSdCard/Android/data/com.KiteLion.Jackson", 6);
-        }
-        catch (Exception e)
-        {
-            Debug.Log("6Error!!: " + e.StackTrace);
-        }
-        try
-        {
-            test("/mnt/extsdcard/Android/data/com.KiteLion.Jackson", 7);
-        }
-        catch (Exception e)
-        {
-            Debug.Log("7Error!!: " + e.StackTrace);
-        }
-        try
-        {
-            test("/mnt/sdcard1/Android/data/com.KiteLion.Jackson", 8);
-        }
-        catch (Exception e)
-        {
-            Debug.Log("8Error!!: " + e.StackTrace);
-        }
-    }
-
-    private void test(string pathString, int testNum)
-    {
-        char[] seperator = new char[] { '/' };
-        string newPath = "";
-        string tempPath = "";
-        foreach (string mypath in pathString.Split(seperator, StringSplitOptions.RemoveEmptyEntries))
-        {
-            tempPath += mypath + ",";
-        }
-        for (int x = 0; x < pathString.Split(seperator, StringSplitOptions.RemoveEmptyEntries).Length; x++)
-        {
-            if (x != 0)
-            {
-                newPath = newPath + "/" + pathString.Split('/')[x];
-                Debug.Log("NewPath is: " + newPath);
-                if (Directory.Exists(newPath) == false)
-                {
-                    Directory.CreateDirectory(pathString);
-                    Debug.Log("Making Directory: " + pathString);
-                } 
-            }
-        }
-        string path = pathString + "/GAME" + testNum + ".csv";//GetPath(filename);
+        string path = "/sdcard/JacksonPopulismCardGame.csv";//GetPath(filename);
         FileStream file = new FileStream(path, FileMode.Append, FileAccess.Write);
         StreamWriter sw = new StreamWriter(file);
         string LineToWrite;
@@ -169,11 +81,9 @@ public class DataTracking : MonoBehaviour {
 
         sw.Close();
         file.Close();
-        
-        //SAVED DATA
+
+        //SAVED DATA   
     }
-
-
 
     private static string GetMacAddress2()
     {
