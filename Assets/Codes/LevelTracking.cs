@@ -71,4 +71,12 @@ public class LevelTracking : MonoBehaviour {
         char randLetter = (char)('a' + randInt);
         return randLetter;
     }
+
+    public void MaxLevelCheat()
+    {
+        PlayerLevel = 14;
+        TempLevel = 14;
+        SaveData();
+        LoadData();
+    }
 }

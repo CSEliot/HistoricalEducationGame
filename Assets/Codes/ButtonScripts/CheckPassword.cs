@@ -26,7 +26,7 @@ public class CheckPassword : MonoBehaviour {
     public void Enter()
     {   
         if (GameObject.FindGameObjectWithTag("PasswordField")
-            .GetComponent<Text>().text == "shoe")
+            .GetComponent<Text>().text == password)
         {
             GameObject.FindGameObjectWithTag("MenuController").
             GetComponent<AllMenuNav>().ChangeSceneTo(1);

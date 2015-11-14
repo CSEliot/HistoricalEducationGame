@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using System.Collections.Generic;
+using System;
 public class MusicManager : MonoBehaviour {
 
     public AudioClip[] Music;
@@ -12,9 +13,9 @@ public class MusicManager : MonoBehaviour {
     private int previousTrack;
     private float startVolume;
     private float currentVolume;
-
     // Use this for initialization
     void Start () {
+        
         CDPlayer = GetComponent<AudioSource>();
         CDPlayer.clip = Music[0];
         CDPlayer.Play();
@@ -28,34 +29,19 @@ public class MusicManager : MonoBehaviour {
     
     }
 
-    private IEnumerator FadeMusicOut(int track)
+
+
+    private IEnumerator FadeMusicIn(int track)
     {
-        FadingOut = true;
-        while(currentVolume > 0.01f)
-        {
-            currentVolume = Mathf.Lerp(currentVolume, 0f, Time.deltaTime);
-            CDPlayer.volume = currentVolume;
-            yield return null;
-            Debug.Log("Fading Volume Out: " + currentVolume);
-        }
-        Debug.Log("Fading Volume Out: " + currentVolume);
         CDPlayer.volume = 0f;
         CDPlayer.Stop();
         CDPlayer.clip = Music[track];
         CDPlayer.Play();
         previousTrack = currentTrack;
         currentTrack = track;
-        FadingOut = false;
-        StartCoroutine(FadeMusicIn());
-    }
 
-    private IEnumerator FadeMusicIn()
-    {
-        while (FadingOut)
-        {
-            yield return null;
-        }
-        while(currentVolume < startVolume-0.01f)
+        CDPlayer.volume = 0f;
+        while(currentVolume < startVolume-0.1f)
         {
             currentVolume = Mathf.Lerp(currentVolume, startVolume, Time.deltaTime);
             CDPlayer.volume = currentVolume;
@@ -71,8 +57,10 @@ public class MusicManager : MonoBehaviour {
     public void SetMusic(int track){
         //Debug.Log("Fading out track: " + currentTrack + " For new Track: "
             //+ track);
-        if(track != currentTrack)
-            StartCoroutine(FadeMusicOut(track));
+        Debug.Log("Set Music called on Song: " + track);
+        Debug.Log("From: " + Environment.StackTrace);
+        if (track != currentTrack)
+            StartCoroutine(FadeMusicIn(track));
     }
 
     public void Rewind()
@@ -81,3 +69,23 @@ public class MusicManager : MonoBehaviour {
     }
 
 }
+//private IEnumerator FadeMusicOut(int track, float startTime)
+//{
+//    FadingOut = true;
+//    while(currentVolume > 0.1f)
+//    {
+//        currentVolume = Mathf.Lerp(currentVolume, 0f, Time.deltaTime);
+//        CDPlayer.volume = currentVolume;
+//        yield return null;
+//        Debug.Log("Fading Volume Out: " + currentVolume);
+//    }
+//    Debug.Log("Fading Volume Out: " + currentVolume);
+//    CDPlayer.volume = 0f;
+//    CDPlayer.Stop();
+//    CDPlayer.clip = Music[track];
+//    CDPlayer.Play();
+//    previousTrack = currentTrack;
+//    currentTrack = track;
+//    FadingOut = false;
+//    StartCoroutine(FadeMusicIn());
+//}
