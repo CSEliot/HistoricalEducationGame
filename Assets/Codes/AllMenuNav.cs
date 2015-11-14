@@ -52,8 +52,7 @@ public class AllMenuNav : MonoBehaviour {
     {
         //Music is scene based, and so . . .
         int setMusicNum = LevelInt > 5 ? 2 : 1;
-        setMusicNum = LevelInt > 10 ? 3 : LevelInt;
-
+        setMusicNum = LevelInt > 10 ? 3 : setMusicNum;
         MyMusicManager.SetMusic(setMusicNum);
 
         if (MenuInt == -1)

@@ -73,7 +73,7 @@ public class PlayField : MonoBehaviour {
                 {
                     field[pos].transform.GetChild(0).
                         GetComponent<Image>().CrossFadeColor(Light, 0f, false, true);
-                    field[pos].transform.GetChild(0).GetChild(3).
+                    field[pos].transform.GetChild(0).GetChild(2).
                         GetComponent<Image>().CrossFadeColor(Light, 0f, false, true);
                 }
                 field[pos].transform.GetChild(0).
@@ -143,7 +143,7 @@ public class PlayField : MonoBehaviour {
                 {
                     CardField.transform.GetChild(0).
                         GetComponent<Image>().CrossFadeColor(Dark, ActivationTime, false, true);
-                    CardField.transform.GetChild(0).GetChild(3).
+                    CardField.transform.GetChild(0).GetChild(2).
                         GetComponent<Image>().CrossFadeColor(Dark, ActivationTime, false, true);
                 }
             }
