@@ -59,16 +59,15 @@ public class DataTracking : MonoBehaviour {
     void OnApplicationQuit()
     {
         SaveData();
-
     }
     public void SaveData()
     {
-        string path = "/sdcard/JacksonPopulismCardGame.csv";//GetPath(filename);
+        string path = GetPath(filename);
         FileStream file = new FileStream(path, FileMode.Append, FileAccess.Write);
         StreamWriter sw = new StreamWriter(file);
         string LineToWrite;
         string GameName = Application.loadedLevelName;
-        string MACAddress = GetMacAddress2();
+        string MACAddress = GetMacAddress();
         string StartSession = startTime;
         string EndSession = GetEndSession();
         string GameProgess = PlayerPrefs.GetInt("Level") + "/15";
@@ -83,15 +82,6 @@ public class DataTracking : MonoBehaviour {
         file.Close();
 
         //SAVED DATA   
-    }
-
-    private static string GetMacAddress2()
-    {
-        // try to read the address from some file (this works on the Samsung Galaxy Tab 4 with Android 4.4.2)
-        const string l_filePath = "/sys/class/net/wlan0/address"; // substitutions for wlan0: ip6gre0 ip6tnl0 lo p2p0 sit0 wlan0
-        string l_contents = File.ReadAllText(l_filePath);
-        Console.Write("Read from \"" + l_filePath + "\": " + l_contents);
-        return l_contents;
     }
 
     private void ResetStats()
@@ -127,7 +117,7 @@ public class DataTracking : MonoBehaviour {
     {
         if (PlayerPrefs.GetInt("Rating") == 0)
         {
-            return "n/a";
+            return "not yet rated";
         }
         else
         {
@@ -152,9 +142,26 @@ public class DataTracking : MonoBehaviour {
         string path;
         if (Application.platform == RuntimePlatform.Android)
         {
-            path = Application.persistentDataPath;
-            path = path.Substring(0, path.LastIndexOf('/'));
-            return Path.Combine(path, filename);
+            try
+            {
+                Directory.CreateDirectory("/storage/emulated/0/Agora");
+                Debug.Log("Making Directory: " + "/storage/emulated/0/Agora");
+            }
+            catch (Exception e)
+            {
+                Debug.Log("Try 1: " + e.StackTrace);
+            }
+            try
+            {
+                Directory.CreateDirectory("/storage/emulated/0/Agora/");
+                Debug.Log("Making Directory: " + "/storage/emulated/0/Agora/");
+            }
+            catch (Exception e)
+            {
+                Debug.Log("Try 2: " + e.StackTrace);
+            }
+            Debug.Log("Attempted directory making . . .");
+            return "/storage/emulated/0/Agora/" + filename;
         }
         else
         {
@@ -167,38 +174,35 @@ public class DataTracking : MonoBehaviour {
 
     private string GetMacAddress()
     {
-        NetworkInterface[] nics = NetworkInterface.GetAllNetworkInterfaces();
-        string macAddress = "";
-
-        foreach (NetworkInterface adapter in nics)
+        if (Application.platform == RuntimePlatform.Android)
         {
-            PhysicalAddress address = adapter.GetPhysicalAddress();
-            byte[] bytes = address.GetAddressBytes();
-            string mac = null;
-            for (int i = 0; i < bytes.Length; i++)
-            {
-                mac = string.Concat(mac + (string.Format("{0}", bytes[i].ToString("X2"))));
-                if (i != bytes.Length - 1)
-                {
-                    mac = string.Concat(mac + "-");
-                }
-            }
-            macAddress += mac;
+            // try to read the address from some file (this works on the Samsung Galaxy Tab 4 with Android 4.4.2)
+            const string l_filePath = "/sys/class/net/wlan0/address"; // substitutions for wlan0: ip6gre0 ip6tnl0 lo p2p0 sit0 wlan0
+            string l_contents = File.ReadAllText(l_filePath);
+            Console.Write("Read from \"" + l_filePath + "\": " + l_contents);
+            return l_contents;
         }
-        return macAddress;
-    }
+        else
+        {
+            NetworkInterface[] nics = NetworkInterface.GetAllNetworkInterfaces();
+            string macAddress = "";
 
-    string ReturnMacAddress()
-   {
-      string macAddr = "";
-      if (mWifiManager == null)
-      {
-         using (AndroidJavaObject activity = new AndroidJavaClass("com.unity3d.player.UnityPlayer").GetStatic<AndroidJavaObject>("currentActivity"))
-         {
-            mWifiManager = activity.Call<AndroidJavaObject>("getSystemService","wifi");
-         }
-      }
-      macAddr = mWifiManager.Call<AndroidJavaObject>("getConnectionInfo").Call<string>("getMacAddress");
-      return macAddr;
-  }
+            foreach (NetworkInterface adapter in nics)
+            {
+                PhysicalAddress address = adapter.GetPhysicalAddress();
+                byte[] bytes = address.GetAddressBytes();
+                string mac = null;
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    mac = string.Concat(mac + (string.Format("{0}", bytes[i].ToString("X2"))));
+                    if (i != bytes.Length - 1)
+                    {
+                        mac = string.Concat(mac + "-");
+                    }
+                }
+                macAddress += mac;
+            }
+            return macAddress;  
+        }
+    }
 }

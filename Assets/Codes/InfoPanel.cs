@@ -66,20 +66,20 @@ public class InfoPanel : MonoBehaviour {
         {
             InfoStrings = new string[]{
                 "Being able to nullify Federal law by State.",
-                "In 1832 Jackson issued a Proclamation of warning to South Carolina about not dissolving the Union.",
                 "Emphasis on individual strength of the State government versus the overall power of the Federal Government.",
-                "In 1833, A compromise was made for lowering tariffs without removing them completely.",
                 "Andrew Jackson's forceful tariff laws and threats were seen as federal government despotism. Meaning showing power in a forceful and often cruel way.",
-                "In 1833, Congress passes a law allowing the federal government to collect the tariffs by force.",
-                "In January of 1830, He Gave a rousing speech to the Senate for Anti-Nullification.",
-                "In 1832, this tariff raised iron & textiles law tariffs a lot and lowered others.",
-                "In 1832, no longer Vice President, he can support South Carolina more effectively as it's Senator. By supporting South Carolina, maybe they can strengthen the possibility of complete Nullification of the Tariffs which Calhoun was against.",
-                "In 1833, South Carolina repealed it's nullification due to Federal pressure and no support from neighboring State government. Ending the crisis.",
-                "In 1833, South Carolina couldn't win support for it's tariff nullification from other states.",
-                "In 1832, As a state, voted to nullify the 1828 and 1832 tariffs. Otherwise they would secede from the Union. This caused very bad tension.",
+                "In 1828, Also known as the TARIFF OF ABOMINATIONS, this raised tariffs on iron textiles and other products. Ended up hurting southerners. This began the NULLIFICATION CRISIS.",
                 "In 1828, tariffs began causing tension and South Carolina nullifying the tariff laws for themselves.",
+                "In 1832, this tariff raised iron & textiles law tariffs a lot and lowered others.",
+                "In 1832, As a state, voted to nullify the 1828 and 1832 tariffs. Otherwise they would secede from the Union. This caused very bad tension.",
                 "In 1832, tension rose between him and Andrew Jackson that were caused by disagreements on if tariffs can be nullified by states. This results in his leave.",
-                "iN 1828, Also known as the TARIFF OF ABOMINATIONS, this raised tariffs on iron textiles and other products. Ended up hurting southerners. This began the NULLIFICATION CRISIS."
+                "In 1832 Jackson issued a Proclamation of warning to South Carolina about not dissolving the Union.",
+                "In 1832, no longer Vice President, he can support South Carolina more effectively as it's Senator. By supporting South Carolina, maybe they can strengthen the possibility of complete Nullification of the Tariffs which Calhoun was against.",
+                "In January of 1830, He Gave a rousing speech to the Senate FOR Anti-Nullification.",
+                "In 1833, Congress passes a law allowing the federal government to collect the tariffs by force.",
+                "In 1833, A compromise was made for lowering tariffs without removing them completely." ,
+                "In 1833, South Carolina couldn't win support for it's tariff nullification from other states.",
+                "In 1833, South Carolina repealed it's nullification due to Federal pressure and no support from neighboring State government. Ending the crisis."
             };
         }
     }
