@@ -26,7 +26,7 @@ public class EventCardFade : MonoBehaviour {
         if (!Application.loadedLevelName.Contains("Pop"))
         {
             fadeCard.transform.GetComponent<Image>().material = myMat;
-            fadeCard.transform.GetChild(3).GetComponent<Image>().material = myMat;
+            fadeCard.transform.GetChild(2).GetComponent<Image>().material = myMat;
         }
         else
         {
