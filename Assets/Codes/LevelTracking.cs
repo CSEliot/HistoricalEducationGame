@@ -36,7 +36,8 @@ public class LevelTracking : MonoBehaviour {
 
     public void LevelUp()
     {
-        PlayerLevel++;
+
+        PlayerLevel = PlayerLevel==15?15:PlayerLevel+1;
         SaveData();
     }
 

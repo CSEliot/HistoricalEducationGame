@@ -11,7 +11,8 @@ public class TurnManager : MonoBehaviour {
     public PlayField AIField;
     public LevelTracking LevelTracker;
     public InfluenceManager MyInfluenceManager;
-    public GameObject WinPanel;
+    public GameObject WinPanel1;
+    public GameObject WinPanel2;
     public GameObject LosePanel;
     public GameObject PlayerTurnText;
     public GameObject AITurnText;
@@ -80,7 +81,7 @@ public class TurnManager : MonoBehaviour {
 
 
             AITurnText.SetActive(false);
-            WinPanel.SetActive(false);
+            WinPanel1.SetActive(false);
             LosePanel.SetActive(false);
             AIDeck.NewGame(CurrentLevel, LevelTracker.GetLevel());
             PlayerDeck.NewGame(CurrentLevel, LevelTracker.GetLevel());
@@ -140,10 +141,19 @@ public class TurnManager : MonoBehaviour {
             else if (winCon == 1) 
             {
                 //PLAYER WON
-                GameObject.FindGameObjectWithTag("MenuController").
-                    GetComponent<LevelTracking>().LevelUp();
-                WinPanel.SetActive(true);
-                TurnState = Turn.Waiting;
+                //if it's a new stage, unlock new card notice
+                if (CurrentLevel == LevelTracker.GetLevel() + 1)
+                {
+                    GameObject.FindGameObjectWithTag("MenuController").
+                        GetComponent<LevelTracking>().LevelUp();
+                    WinPanel1.SetActive(true);
+                    TurnState = Turn.Waiting;
+                }
+                else
+                {
+                    WinPanel2.SetActive(true);
+                    TurnState = Turn.Waiting;
+                }
             }
             else if (winCon == -1)
             {
