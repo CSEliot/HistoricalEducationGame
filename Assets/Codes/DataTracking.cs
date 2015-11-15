@@ -45,7 +45,7 @@ public class DataTracking : MonoBehaviour {
         string path = GetPath(filename);
         FileStream file = new FileStream(path, FileMode.Append, FileAccess.Write);
         StreamWriter sw = new StreamWriter(file);
-        string LineToWrite = "NewGame,NewGame,NewGame,NewGame,NewGame,NewGame";
+        string LineToWrite = "GameName,MacAddress,NewGameTime,SessionEndTime,Progress,Rating,TotalPlayTime";
         sw.WriteLine(LineToWrite);
 
         sw.Close();
@@ -125,7 +125,8 @@ public class DataTracking : MonoBehaviour {
         }
         else
         {
-            return PlayerPrefs.GetInt("Rating") + "/5";
+            string rating = PlayerPrefs.GetInt("Rating") + "/5";
+            return rating;
         }
     }
 
@@ -183,7 +184,8 @@ public class DataTracking : MonoBehaviour {
             // try to read the address from some file (this works on the Samsung Galaxy Tab 4 with Android 4.4.2)
             const string l_filePath = "/sys/class/net/wlan0/address"; // substitutions for wlan0: ip6gre0 ip6tnl0 lo p2p0 sit0 wlan0
             string l_contents = File.ReadAllText(l_filePath);
-            Console.Write("Read from \"" + l_filePath + "\": " + l_contents);
+            Debug.Log("Read from \"" + l_filePath + "\": " + l_contents);
+            l_contents = l_contents.Replace(Environment.NewLine, "");
             return l_contents;
         }
         else
