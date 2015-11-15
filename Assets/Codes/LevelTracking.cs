@@ -47,6 +47,7 @@ public class LevelTracking : MonoBehaviour {
 
     public void ResetStats()
     {
+        PlayerPrefs.SetInt("IsFirstTime", 0);
         PlayerLevel = 0;
         PlayerPrefs.SetInt("level", PlayerLevel);
         PlayerPrefs.SetInt("Rating", 0);
