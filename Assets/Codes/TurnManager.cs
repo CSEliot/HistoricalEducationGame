@@ -13,6 +13,7 @@ public class TurnManager : MonoBehaviour {
     public InfluenceManager MyInfluenceManager;
     public GameObject WinPanel1;
     public GameObject WinPanel2;
+    public GameObject WinPanel3;
     public GameObject LosePanel;
     public GameObject PlayerTurnText;
     public GameObject AITurnText;
@@ -28,6 +29,11 @@ public class TurnManager : MonoBehaviour {
     private int[] activateAbilityAI = new int[] { -1, -1, -1, -1, -1, -1, -1};
     private int[] activateAbilityPlayer = new int[] { -1, -1, -1, -1, -1, -1, -1 }; 
 
+    //Instead of implementing my own AI class, i'm going to implement certain 
+    //AI behaviors right where the relevant code is . . .
+    private int[] IsDoubleList = new int[] { 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0,
+                                             0, 0, 0, 1, 0, 0, 1, 0, 1, 0};
+
     private enum Turn{
         Launching,
         FillingHand,
@@ -37,6 +43,7 @@ public class TurnManager : MonoBehaviour {
         Waiting,
         ChoosingFieldPos
     };
+
 
     private Turn TurnState; 
     // Use this for initialization
@@ -83,6 +90,7 @@ public class TurnManager : MonoBehaviour {
             AITurnText.SetActive(false);
             WinPanel1.SetActive(false);
             WinPanel2.SetActive(false);
+            WinPanel3.SetActive(false);
             LosePanel.SetActive(false);
             AIDeck.NewGame(CurrentLevel, LevelTracker.GetLevel());
             PlayerDeck.NewGame(CurrentLevel, LevelTracker.GetLevel());
@@ -144,16 +152,26 @@ public class TurnManager : MonoBehaviour {
             {
                 //PLAYER WON
                 //if it's a new stage, unlock new card notice
-                if (CurrentLevel == LevelTracker.GetLevel() + 1)
+                if (LevelTracker.GetLevel() <= 13 &&
+                    CurrentLevel == LevelTracker.GetLevel() + 1)
                 {
                     GameObject.FindGameObjectWithTag("MenuController").
                         GetComponent<LevelTracking>().LevelUp();
                     WinPanel1.SetActive(true);
                     TurnState = Turn.Waiting;
                 }
-                else
+                else if (LevelTracker.GetLevel() != 14)
                 {
                     WinPanel2.SetActive(true);
+                    TurnState = Turn.Waiting;
+                }
+                else if (LevelTracker.GetLevel() == 14)
+                {
+                    //activate panel on congratulate the player on beating the 
+                    //game.
+                    GameObject.FindGameObjectWithTag("MenuController").
+                        GetComponent<LevelTracking>().LevelUp();
+                    WinPanel3.SetActive(true);
                     TurnState = Turn.Waiting;
                 }
             }
@@ -173,7 +191,8 @@ public class TurnManager : MonoBehaviour {
             if (!IsPlayerTurn)
             {
                 //AI can't press buttons, so we press for it.
-                HandPlayed(AIHand.GetRandomCard(), 0);
+                Transform fromAIHand = AIHand.GetRandomCard();
+                HandPlayed(fromAIHand, fromAIHand.GetComponent<Card>().GetNumPos());
             }
         }
         if (TurnState == Turn.ChoosingFieldPos)
@@ -184,7 +203,15 @@ public class TurnManager : MonoBehaviour {
             if (!IsPlayerTurn)
             {
                 //AI can't press buttons, so we press for it.
-                CardSpotChosen(UnityEngine.Random.Range(0, 5));
+                int cardType = SuspendedCard.GetComponent<Card>().GetCardType();
+                if (IsDoubleList[cardType] == 1)
+                {
+                    CardSpotChosen(UnityEngine.Random.Range(0, 4));
+                }
+                else
+                {
+                    CardSpotChosen(UnityEngine.Random.Range(1, 5));
+                }
             }
         }
     }

@@ -71,7 +71,34 @@ public class Hand : MonoBehaviour {
     /// </summary>
     /// <returns>First card in hand.</returns>
     public Transform GetRandomCard() 
-    {
+    {   
+        bool playerWinning =
+            GameObject.FindGameObjectWithTag("InfluenceManager").
+                GetComponent<InfluenceManager>().IsPlayerWinning();
+        //AI won't use clears if the AI is winning. Unless of course the
+        //second card is also a clear . . .
+        LinkedListNode<GameObject> tempObj = Cards.First;
+        if (!playerWinning)
+        {
+            for (int x = 0; x < Cards.Count; x++)
+            {
+                if (x == 4)
+                {
+                    //if we go through the whole hand looking for a non-clear
+                    //then just return the last
+                    return tempObj.Value.transform;
+                }
+                if (tempObj.Value.transform.GetComponent<Card>().
+                    GetCardType() == 3)
+                {
+                    tempObj = tempObj.Next;
+                }
+                else
+                {
+                    return tempObj.Value.transform;
+                }
+            }
+        }
         //since decks are shuffled, this is technically a random card.
         return Cards.First.Value.transform;
     }
