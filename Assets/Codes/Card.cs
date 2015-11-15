@@ -59,10 +59,11 @@ public class Card : MonoBehaviour {
         }
         else
         {
+            OnDestroy();
+            Destroy(gameObject, 0.05f);
             MyManager.CardSpotChosen(NumPos);
             GameObject.FindGameObjectWithTag("SFXController").GetComponent
                 <SoundEffectManager>().PlaySound(5);
-            Destroy(transform);
         }
     }
 
@@ -99,13 +100,13 @@ public class Card : MonoBehaviour {
         {
             //GetAIField
             //Debug.Log("Unstopping AI card . . .");
-            MyManager.GetField(true).UnStop(NumPos);
+            MyManager.GetField(false).UnStop(NumPos);
         }
-        else if (!(IsPlayerOwned || IsEvent))
+        else if (!IsPlayerOwned && !IsEvent)
         {
             //get player field
             //Debug.Log("Unstopping Player card . . .");
-            MyManager.GetField(false).UnStop(NumPos);
+            MyManager.GetField(true).UnStop(NumPos);
         }   
     }
 
