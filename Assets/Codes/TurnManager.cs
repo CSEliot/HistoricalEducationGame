@@ -82,6 +82,7 @@ public class TurnManager : MonoBehaviour {
 
             AITurnText.SetActive(false);
             WinPanel1.SetActive(false);
+            WinPanel2.SetActive(false);
             LosePanel.SetActive(false);
             AIDeck.NewGame(CurrentLevel, LevelTracker.GetLevel());
             PlayerDeck.NewGame(CurrentLevel, LevelTracker.GetLevel());
@@ -116,7 +117,8 @@ public class TurnManager : MonoBehaviour {
         {
             CheckAbilityEnableAI();
             CheckAbilityEnablePlayer();
-            
+            MyInfluenceManager.CancelDouble();
+
             int winCon = MyInfluenceManager.GetWinStatus();
             if (winCon == 0)
             {
@@ -265,11 +267,13 @@ public class TurnManager : MonoBehaviour {
                     }
                     else
                     {
+                        Debug.Log("AI Event Played");
                         //if event card, play from hand and not onto field.
+                        SuspendedCard.gameObject.SetActive(true);
                         SuspendedCard.GetComponent<Card>().SpecialAbility();
-                        SuspendedCard = null;
                         GameObject.FindGameObjectWithTag("EventHolderAI").
                             GetComponent<EventCardFade>().FadeObj(theChosenOne.gameObject);
+                        SuspendedCard = null;
                         TurnState = Turn.ActivatingAbilities;
                     }
                 }
@@ -364,6 +368,9 @@ public class TurnManager : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// For turn and phase based ability activation
+    /// </summary>
     private void CheckAbilityEnableAI()
     {
         int abilityNum = activateAbilityAI[(int)TurnState];
