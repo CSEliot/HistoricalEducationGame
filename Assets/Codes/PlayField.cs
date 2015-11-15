@@ -99,6 +99,7 @@ public class PlayField : MonoBehaviour {
     //From Hand, To playfield
     public void PlaceCard(Transform newCard, int pos)
     {
+        IsDisabled[pos] = 0;
         newCard.gameObject.SetActive(true);
         //get rid of any old card there.
         if (field[pos].transform.childCount != 0)

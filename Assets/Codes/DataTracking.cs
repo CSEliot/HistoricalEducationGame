@@ -45,7 +45,7 @@ public class DataTracking : MonoBehaviour {
         string path = GetPath(filename);
         FileStream file = new FileStream(path, FileMode.Append, FileAccess.Write);
         StreamWriter sw = new StreamWriter(file);
-        string LineToWrite = "GameName,MacAddress,NewGameTime,SessionEndTime,Progress,Rating,TotalPlayTime";
+        string LineToWrite = "GameName,MacAddress,NewGameTime(Sec:Min:Hr:Day:Mo:Yr),SessionEndTime,Progress,Rating,TotalPlayTime(Sec:Min:Hr:Days)";
         sw.WriteLine(LineToWrite);
 
         sw.Close();
