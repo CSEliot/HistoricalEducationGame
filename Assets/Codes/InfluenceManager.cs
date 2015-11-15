@@ -138,4 +138,16 @@ public class InfluenceManager : MonoBehaviour {
         YourBar.GetComponent<Image>().fillAmount = influenceCount / 30f;
         InfluenceText.GetComponent<Text>().text = "" + influenceCount + "/30";
     }
+
+    public bool IsPlayerWinning()
+    {
+        if (influenceCount >= 15)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
