@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using UnityEngine.UI;
 public class TurnManager : MonoBehaviour {
 
     public Hand PlayerHand;
@@ -18,6 +19,8 @@ public class TurnManager : MonoBehaviour {
     public GameObject PlayerTurnText;
     public GameObject AITurnText;
     public MusicManager MyMusicManager;
+
+    public GameObject LevelObject;
 
     private bool IsPlayerTurn;
     private int CurrentLevel;
@@ -231,6 +234,12 @@ public class TurnManager : MonoBehaviour {
 
     public void Launch(int StageNum)
     {
+        if (Application.loadedLevelName.Contains("Pop"))
+        {
+            LevelObject.GetComponent<Text>().text = GetText(StageNum);
+            LevelObject.SetActive(true);
+        }
+
         IsPlayerTurn = true;
         CurrentLevel = StageNum;
         TurnState = Turn.Launching;
@@ -425,5 +434,46 @@ public class TurnManager : MonoBehaviour {
     public void SetSuspendedCard(Transform newCard)
     {
         SuspendedCard = newCard;
+    }
+
+    private string GetText(int levelNum)
+    {
+        switch (levelNum)
+        {
+            case 1:
+                return "Level 1:\nLouisiana";
+            case 2:
+                return "Level 2:\nMississippi";
+            case 3:
+                return "Level 3:\nAlabama";
+            case 4:
+                return "Level 4:\nGeorgia";
+            case 5:
+                return "Level 5:\nS. Carolina";
+            case 6:
+                return "Level 6:\nTennessee";
+            case 7:
+                return "Level 7:\nN. Carolina";
+            case 8:
+                return "Level 8:\nKentucky";
+            case 9:
+                return "Level 9:\nVirginia";
+            case 10:
+                return "Level 10:\nMaryland";
+            case 11:
+                return "Level 11:\nIllinois";
+            case 12:
+                return "Level 12:\nIndiana";
+            case 13:
+                return "Level 13:\nOhio";
+            case 14:
+                return "Level 14:\nPennsylvania";
+            case 15:
+                return "Level 15:\nNew York";
+
+            default:
+                Debug.LogError("BAD LEVELNUM GIVEN");
+                return null;
+        }
     }
 }
