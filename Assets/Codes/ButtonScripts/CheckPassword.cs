@@ -31,5 +31,10 @@ public class CheckPassword : MonoBehaviour {
             GameObject.FindGameObjectWithTag("MenuController").
             GetComponent<AllMenuNav>().ChangeSceneTo(1);
         }
+        else
+        {
+            GameObject.FindGameObjectWithTag("SFXController").
+                GetComponent<SoundEffectManager>().PlaySound(17);
+        }
     }
 }

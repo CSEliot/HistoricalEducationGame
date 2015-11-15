@@ -14,9 +14,11 @@ public class SwapGame : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (totalPresses > 11)
+        if (totalPresses > 20)
         {
             totalPresses = 0;
+            GameObject.FindGameObjectWithTag("SFXController").
+                GetComponent<SoundEffectManager>().PlaySound(1);
             Application.LoadLevel(otherSceneNum);
         }
 	}
