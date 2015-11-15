@@ -58,7 +58,7 @@ public class MusicManager : MonoBehaviour {
         //Debug.Log("Fading out track: " + currentTrack + " For new Track: "
             //+ track);
         Debug.Log("Set Music called on Song: " + track);
-        Debug.Log("From: " + Environment.StackTrace);
+        //Debug.Log("From: " + Environment.StackTrace);
         if (track != currentTrack)
             StartCoroutine(FadeMusicIn(track));
     }

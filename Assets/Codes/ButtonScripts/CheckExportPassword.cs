@@ -29,5 +29,10 @@ public class CheckExportPassword : MonoBehaviour {
             GameObject.FindGameObjectWithTag("SFXController").
                 GetComponent<SoundEffectManager>().PlaySound(13);
         }
+        else
+        {
+            GameObject.FindGameObjectWithTag("SFXController").
+                GetComponent<SoundEffectManager>().PlaySound(17);
+        }
     }
 }
