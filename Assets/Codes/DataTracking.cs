@@ -58,6 +58,10 @@ public class DataTracking : MonoBehaviour {
 
     void OnApplicationQuit()
     {
+        PlayerPrefs.SetInt("IsFirstTime", 1);
+        if(Application.isEditor)
+            PlayerPrefs.SetInt("IsFirstTime", 0);
+
         SaveData();
     }
     public void SaveData()
