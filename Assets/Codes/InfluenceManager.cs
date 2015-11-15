@@ -59,9 +59,10 @@ public class InfluenceManager : MonoBehaviour {
         DoubleCount = 1;
         //cap influence at 30
         Debug.Log("Increasing by amount: " + amount);
-        influenceCount = ((influenceCount + amount) > 30) ? 30 :
+        int fillAmount = ((influenceCount + amount) > 30) ? 30 :
             influenceCount + amount;
-        YourBar.GetComponent<Image>().fillAmount = influenceCount / 30f;
+        influenceCount = influenceCount + amount;
+        YourBar.GetComponent<Image>().fillAmount = fillAmount / 30f;
         InfluenceText.GetComponent<Text>().text = "" + influenceCount + "/30";
     }
 
