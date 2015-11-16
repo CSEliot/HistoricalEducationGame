@@ -43,7 +43,7 @@ public class EventCardFade : MonoBehaviour {
 
     private void FadeMaterial()
     {
-        myAlpha = Mathf.Lerp(myAlpha, 0f, Time.deltaTime);
+        myAlpha = Mathf.Lerp(myAlpha, 0f, Time.deltaTime/fadeTime);
         myMat.SetColor("_Color", new Color(1f, 1f, 1f, myAlpha));
         //Debug.Log("My alpha: " + myAlpha);
     }
