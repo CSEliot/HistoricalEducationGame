@@ -19,12 +19,12 @@ public class WinPanelCardUnlock : MonoBehaviour {
         int newLevel = GameObject.FindGameObjectWithTag("MenuController").
             GetComponent<LevelTracking>().GetLevel();
         string title = GameObject.FindGameObjectWithTag("DeckYours").
-            GetComponent<Deck>().TitleList[newLevel + 6];
+            GetComponent<Deck>().TitleList[newLevel + 5];
         CardImage.sprite = GameObject.FindGameObjectWithTag("DeckYours").
-            GetComponent<Deck>().CardImages[newLevel + 6];
+            GetComponent<Deck>().CardImages[newLevel + 5];
         CardTitle.text = title;
         CardText.text = GameObject.FindGameObjectWithTag("DeckYours").
-            GetComponent<Deck>().FlavorList[newLevel + 6];
+            GetComponent<Deck>().FlavorList[newLevel + 5];
         WinText.text = WinText.text.Replace("<cardname>", title);
     }
 
