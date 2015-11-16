@@ -15,6 +15,7 @@ public class WinPanelCardUnlock : MonoBehaviour {
 
     void OnEnable()
     {
+        Debug.Log("NEW CARD UNLOCK DEBUG TEST");
         int newLevel = GameObject.FindGameObjectWithTag("MenuController").
             GetComponent<LevelTracking>().GetLevel();
         string title = GameObject.FindGameObjectWithTag("DeckYours").
