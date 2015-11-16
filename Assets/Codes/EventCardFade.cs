@@ -7,7 +7,6 @@ public class EventCardFade : MonoBehaviour {
     public Material myMat;
     private bool beginFading;
     private float myAlpha;
-    public float fadeTime;
     
     // Use this for initialization
     void Start () {
@@ -36,21 +35,22 @@ public class EventCardFade : MonoBehaviour {
         }
         fadeCard.transform.SetParent(transform, false);
         fadeCard.transform.localPosition = Vector3.zero;
-        myAlpha = fadeTime;
+        myAlpha = 1f;
         beginFading = true;
-        StartCoroutine(DestroyIn(fadeTime, fadeCard));
+        StartCoroutine(DestroyIn(fadeCard));
     }
 
     private void FadeMaterial()
     {
-        myAlpha = Mathf.Lerp(myAlpha, 0f, Time.deltaTime/fadeTime);
+        myAlpha = Mathf.Lerp(myAlpha, 0f, Time.deltaTime/3);
         myMat.SetColor("_Color", new Color(1f, 1f, 1f, myAlpha));
         //Debug.Log("My alpha: " + myAlpha);
     }
 
-    IEnumerator DestroyIn(float seconds, GameObject fadeCard)
+    IEnumerator DestroyIn(GameObject fadeCard)
     {
-        yield return new WaitForSeconds(seconds);
+        while(myAlpha >= 0.3f)
+            yield return null;
         Destroy(fadeCard);
         myAlpha = 1f;
         beginFading = false;

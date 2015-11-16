@@ -18,6 +18,9 @@ public class Deck : MonoBehaviour {
     public string[] TitleList;
     public string[] FlavorList;
 
+    private int myStageNum;
+    private int myPlayerLevel;
+
     private enum CardType{
         Plus1, //0 - Min: 3
         Plus2, //1 - Min: 2
@@ -68,6 +71,8 @@ public class Deck : MonoBehaviour {
 
     public void NewGame(int StageNum, int PlayerLevel)
     {
+        myStageNum = StageNum;
+        myPlayerLevel = PlayerLevel;
         FillDeck(StageNum, PlayerLevel);
     }
 
@@ -129,6 +134,10 @@ public class Deck : MonoBehaviour {
     }
 
     public GameObject Top(){
+        if (deck.Count <= 1)
+        {
+            FillDeck(myStageNum, myPlayerLevel);
+        }
         int cardNum = deck.Last.Value;
         GameObject tempCard = Instantiate(CardPrefab) as GameObject;
         //Debug.Log("Instantiating Card: " + TitleList[cardNum]);
