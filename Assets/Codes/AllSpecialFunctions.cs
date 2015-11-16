@@ -91,9 +91,7 @@ public class AllSpecialFunctions : MonoBehaviour {
                 ChooseBetween();
                 break;
             case 18:
-                SplitField(-1, 4);
-                DisableField(true, false);
-                SetDelayedAbility(!ActivatedCard.GetIsPlayerOwned(), 4, 21);
+                SplitField(4, 1);
                 break;
             case 19:
                 ToggleInfluenceBoost();

@@ -21,7 +21,7 @@ public class AllMenuNav : MonoBehaviour {
         {
             Canvas.SetActive(false);
         }
-        if (Application.isEditor) { CurrentCanvasNum = 0; }
+        if (!Application.isEditor) { CurrentCanvasNum = 0; }
         Canvases[CurrentCanvasNum].SetActive(true);
     }
     
