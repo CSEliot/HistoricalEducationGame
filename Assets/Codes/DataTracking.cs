@@ -12,7 +12,7 @@ public class DataTracking : MonoBehaviour {
     private string startTime;
     private string filename;
 
-    AndroidJavaObject mWifiManager;
+    //AndroidJavaObject mWifiManager;
     
     // Use this for initialization
     void Start () {
