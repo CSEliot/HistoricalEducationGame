@@ -59,6 +59,7 @@ public class LevelTracking : MonoBehaviour {
     public void SaveData()
     {
         PlayerPrefs.SetInt("level", PlayerLevel);
+        PlayerPrefs.Save();
     }
 
     public void LoadData()
