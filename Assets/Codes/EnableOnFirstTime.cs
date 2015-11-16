@@ -7,8 +7,7 @@ public class EnableOnFirstTime : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () {
-        if (PlayerPrefs.GetInt("IsFirstTime") == 0 ||
-            PlayerPrefs.GetInt("IsFirstTime") == null)
+        if (PlayerPrefs.GetInt("IsFirstTime") == 0)
         {
             FirstTimeObj.SetActive(true);
         }

@@ -36,6 +36,8 @@ public class Buttons : MonoBehaviour {
 
     public void QuitGameActually()
     {
+        PlayerPrefs.SetInt("IsFirstTime", 1);
+        PlayerPrefs.Save();
         Debug.Log("Quitting Game . . .");
         Application.Quit();
     }
