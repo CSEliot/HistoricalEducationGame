@@ -207,14 +207,28 @@ public class TurnManager : MonoBehaviour {
             {
                 //AI can't press buttons, so we press for it.
                 int cardType = SuspendedCard.GetComponent<Card>().GetCardType();
-                if (IsDoubleList[cardType] == 1)
+                int playLocation = -1;
+                bool hasDoubleAbility = (IsDoubleList[cardType] == 1);
+                Debug.Log("AI Card: "  + cardType + "Is Double: " + hasDoubleAbility);
+                if (hasDoubleAbility)
                 {
-                    CardSpotChosen(UnityEngine.Random.Range(0, 4));
+                    //doubling cards shouldn't be placed on the right
+                    do
+                    {
+                        Debug.Log("Got Play Location: " + playLocation);
+                        playLocation = AIField.GetEmptiestLocation();
+                    } while (playLocation == 4);
                 }
                 else
                 {
-                    CardSpotChosen(UnityEngine.Random.Range(1, 5));
+                    //influence giving cards shouldn't be placed on the left
+                    do
+                    {
+                        Debug.Log("Got Play Location: " + playLocation);
+                        playLocation = AIField.GetEmptiestLocation();
+                    } while (playLocation == 0);
                 }
+                CardSpotChosen(playLocation);
             }
         }
     }

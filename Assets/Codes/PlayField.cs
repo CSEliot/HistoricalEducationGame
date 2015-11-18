@@ -16,11 +16,12 @@ public class PlayField : MonoBehaviour {
     private bool nextIsDoubled;
     private InfluenceManager MyInfluenceMan;
     private bool IsAI;
-    private int[] UnstoppableCardTypes = new int[] {11};
     private bool card15Activated; //extreme edge case
+    private int[] IsEmpty;
 
     // Use this for initialization
     void Start () {
+        IsEmpty = new int[] { 1, 1, 1, 1, 1 };
         card15Activated = false;
         MyInfluenceMan = GameObject.FindGameObjectWithTag("InfluenceManager").
             GetComponent<InfluenceManager>();
@@ -36,6 +37,7 @@ public class PlayField : MonoBehaviour {
 
     public void NewGame()
     {
+        IsEmpty = new int[] { 1, 1, 1, 1, 1 };
         card15Activated = false;
         nextIsDoubled = false;
         IsDisabled = new int[5] { 0, 0, 0, 0, 0 };
@@ -99,6 +101,7 @@ public class PlayField : MonoBehaviour {
     //From Hand, To playfield
     public void PlaceCard(Transform newCard, int pos)
     {
+        IsEmpty[pos] = 0;
         IsDisabled[pos] = 0;
         newCard.gameObject.SetActive(true);
         //get rid of any old card there.
@@ -116,7 +119,6 @@ public class PlayField : MonoBehaviour {
         field[pos].transform.GetChild(0).localPosition =
             new Vector3(0f, 0f, 0f);
         Destroy(field[pos].transform.GetChild(0).gameObject.GetComponent<Button>());
-        //field[pos].transform.GetChild(0).gameObject.AddComponent<Button>().getc
     }
 
 
@@ -170,8 +172,7 @@ public class PlayField : MonoBehaviour {
         {
             int cardType = field[stopPos].transform.GetChild(0).GetComponent<Card>().
                 GetCardType();
-            isUnstoppable = Array.
-                IndexOf(UnstoppableCardTypes, cardType) == -1? false:true;
+            isUnstoppable = cardType == 11? true:false;
         }
 
         if (containsCard && !isUnstoppable)
@@ -244,8 +245,9 @@ public class PlayField : MonoBehaviour {
 
     public void UnStop(int stopPos)
     {
-        Debug.Log("Unstopping Pos: " + stopPos + " of " + gameObject.name);
+        //Debug.Log("Unstopping Pos: " + stopPos + " of " + gameObject.name);
         IsDisabled[stopPos] = 0;
+        IsEmpty[stopPos] = 1;
     }
 
     public bool GetIf15Activated()
@@ -259,5 +261,44 @@ public class PlayField : MonoBehaviour {
     {
         yield return new WaitForSeconds(0.5f);
         card15Activated = true;
+    }
+
+    /// <summary>
+    /// Will return a random empty location, otherwise
+    /// it will return a random location.
+    /// </summary>
+    /// <returns></returns>
+    public int GetEmptiestLocation()
+    {
+        bool hasEmpty = false;
+        string emptyList = "";
+        //check to see if empty place exists
+        for (int i = 0; i < 5; i++)
+        {
+            emptyList += IsEmpty[i];
+            if (IsEmpty[i] == 1)
+            {
+                hasEmpty = true;
+            }
+        }
+        Debug.Log("EmptyList" + emptyList);
+        if (!hasEmpty) { return -1; }
+        //if an empty place exists, randomly grab one
+        else
+        {
+            bool gotEmpty = false;
+            while(!gotEmpty){
+                int testPos = UnityEngine.Random.Range(0, 5);
+                if (IsEmpty[testPos] == 1)
+                {
+                    gotEmpty = true;
+                    return testPos;
+                }
+                Debug.Log("No empty found at: " + gotEmpty);
+            }
+        }
+        //code should never reach this far, but inserted for happy compiler.
+        Debug.LogError("NEVER FOUND EMPTY SUPPOSED LOCATION");
+        return -1;
     }
 }

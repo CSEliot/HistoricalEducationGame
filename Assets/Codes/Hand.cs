@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class Hand : MonoBehaviour {
 
@@ -8,8 +9,12 @@ public class Hand : MonoBehaviour {
     public Deck deck;
     public Transform[] HandCardPositions;
 
+    private int[] clearTypes;
+
     // Use this for initialization
     void Start () {
+        clearTypes = new int[] {0,0,0,1,0,0,0,1,0,1,
+                                1,0,1,1,0,0,0,0,1,0,0};
     }
     
     // Update is called once per frame
@@ -88,8 +93,10 @@ public class Hand : MonoBehaviour {
                     //then just return the last
                     return tempObj.Value.transform;
                 }
-                if (tempObj.Value.transform.GetComponent<Card>().
-                    GetCardType() == 3)
+                //if the card is marked as 1 in the list of card clear types,
+                //don't choose it when the AI is winning.
+                if (clearTypes[tempObj.Value.transform.GetComponent<Card>().
+                    GetCardType()] == 3)
                 {
                     tempObj = tempObj.Next;
                 }
