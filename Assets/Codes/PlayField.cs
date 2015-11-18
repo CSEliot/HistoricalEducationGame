@@ -59,8 +59,7 @@ public class PlayField : MonoBehaviour {
             //don't activate if not holding a card,
             // or that position is disabled
             if (field[pos].transform.childCount != 0 &&
-                (IsDisabled[pos] != 1))
-            {
+                (IsDisabled[pos] != 1)){
                 //Debug.Log("Activating Card: " + pos);
                 //Different cards per game, different layout:
                 if (field[pos].transform.GetChild(0).
@@ -282,7 +281,7 @@ public class PlayField : MonoBehaviour {
             }
         }
         Debug.Log("EmptyList" + emptyList);
-        if (!hasEmpty) { return -1; }
+        if (!hasEmpty) { return UnityEngine.Random.Range(0, 5); }
         //if an empty place exists, randomly grab one
         else
         {
@@ -299,6 +298,7 @@ public class PlayField : MonoBehaviour {
         }
         //code should never reach this far, but inserted for happy compiler.
         Debug.LogError("NEVER FOUND EMPTY SUPPOSED LOCATION");
-        return -1;
+
+        return UnityEngine.Random.Range(0, 5);
     }
 }

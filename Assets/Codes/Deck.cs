@@ -77,6 +77,8 @@ public class Deck : MonoBehaviour {
     }
 
     private void FillDeck(int DeckLevel, int PlayerLevel){
+        myPlayerLevel = PlayerLevel;
+        myStageNum = DeckLevel;
         //the highest number special card to replace a regular one.
         int specialReplaceNum = IsAI ? DeckLevel+1 : PlayerLevel; 
         //the indice of the special card replacement number
@@ -110,7 +112,38 @@ public class Deck : MonoBehaviour {
         GameObject.FindGameObjectWithTag("SFXController").
                 GetComponent<SoundEffectManager>().PlaySound(16);
     }
-    //if (x == CardToRemove[replaceNum] &&
+
+    private void ReFillDeck()
+    {
+        //the highest number special card to replace a regular one.
+        int specialReplaceNum = IsAI ? myStageNum + 1 : myPlayerLevel;
+        //the indice of the special card replacement number
+        int BasicTypeCount = 6;
+        for (int twice = 0; twice < 2; twice++)
+        {
+            //the card type to add
+            for (int x = 0; x < BasicTypeCount; x++)
+            {
+                //how many of that type to add
+                for (int i = 0; i < CardQuantities[x]; i++)
+                {
+                    deck.AddLast(x);
+                }
+            }
+        }
+
+        FindAndReplace(specialReplaceNum);
+        //Debug.Log("Print out LinkedList");
+        //PrintLinkedList<int>(deck.First);
+        int totalShuffles = 7;
+        //SEVEN SHUFFLES CUZ MATH
+        UnityEngine.Random.seed = (int)Time.time;
+        for (int x = 0; x < totalShuffles; x++)
+        {
+            ShuffleDeck();
+        }
+    }
+    //if (x == CardToRemove[{replaceNum] &&
     //                    replaceNum < SpecialReplaceNum)
     //                {
     //                    deck.AddLast(replaceNum);
@@ -134,9 +167,9 @@ public class Deck : MonoBehaviour {
     }
 
     public GameObject Top(){
-        if (deck.Count <= 1)
+        if (deck.Count <= 2)
         {
-            FillDeck(myStageNum, myPlayerLevel);
+            ReFillDeck();
         }
         int cardNum = deck.Last.Value;
         GameObject tempCard = Instantiate(CardPrefab) as GameObject;
