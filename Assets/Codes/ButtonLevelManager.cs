@@ -6,6 +6,9 @@ public class ButtonLevelManager : MonoBehaviour {
     public LevelTracking LevelClass;
     int unlockedLevels;
 
+    //public Sprite played;
+    //public Sprite latest;
+
     // Use this for initialization
     void Start () {
         //disable ALL buttons, then enable unlocked
@@ -33,6 +36,8 @@ public class ButtonLevelManager : MonoBehaviour {
                 //Debug.Log("Disabling: x: " + x + " y:" + y);
                 transform.GetChild(x).GetChild(y).GetComponent<Button>().
                     interactable = false;
+                //transform.GetChild(x).GetChild(y).GetComponent<Button>().
+                //    image.sprite = played;
             }
         }
     }
@@ -63,6 +68,12 @@ public class ButtonLevelManager : MonoBehaviour {
         {
             transform.GetChild(activeColumns-1).GetChild(x).GetComponent<Button>().
                     interactable = true;
+            //if(Application.loadedLevelName.Contains("Pop"))
+            //if (x == buttonsInColumn - 1)
+            //{
+            //    transform.GetChild(activeColumns - 1).GetChild(x).GetComponent<Button>().
+            //        image.sprite = latest;
+            //}
         }
     }
 

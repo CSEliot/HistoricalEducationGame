@@ -91,7 +91,7 @@ public class AllSpecialFunctions : MonoBehaviour {
                 ChooseBetween();
                 break;
             case 18:
-                SplitField(4, 1);
+                SplitField(4, -1);
                 break;
             case 19:
                 ToggleInfluenceBoost();

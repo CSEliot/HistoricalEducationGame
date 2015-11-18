@@ -8,10 +8,12 @@ public class WinPanelCardUnlock : MonoBehaviour {
     public Text CardTitle;
     public Text WinText;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
+    private string OGText;
+
+    // Use this for initialization
+    void Awake () {
+        OGText = WinText.text;
+    }
 
     void OnEnable()
     {
@@ -25,11 +27,11 @@ public class WinPanelCardUnlock : MonoBehaviour {
         CardTitle.text = title;
         CardText.text = GameObject.FindGameObjectWithTag("DeckYours").
             GetComponent<Deck>().FlavorList[newLevel + 5];
-        WinText.text = WinText.text.Replace("<cardname>", title);
+        WinText.text = OGText.Replace("<cardname>", title);
     }
 
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    // Update is called once per frame
+    void Update () {
+    
+    }
 }
