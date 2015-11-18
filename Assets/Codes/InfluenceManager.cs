@@ -73,6 +73,11 @@ public class InfluenceManager : MonoBehaviour {
         InfluenceText.GetComponent<Text>().text = "" + amount + "/30";
     }
 
+    public void disableDouble()
+    {
+        DoubleCount = 1;
+    }
+
     public int GetWinStatus()
     {
         if (influenceCount >= 30)
