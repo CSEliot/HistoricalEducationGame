@@ -96,7 +96,7 @@ public class Hand : MonoBehaviour {
                 //if the card is marked as 1 in the list of card clear types,
                 //don't choose it when the AI is winning.
                 if (clearTypes[tempObj.Value.transform.GetComponent<Card>().
-                    GetCardType()] == 3)
+                    GetCardType()] == 1)
                 {
                     tempObj = tempObj.Next;
                 }
