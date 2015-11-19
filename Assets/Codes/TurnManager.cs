@@ -58,14 +58,11 @@ public class TurnManager : MonoBehaviour {
     void Update () {
         if(TurnState == Turn.FillingHand){
             CheckAbilityEnableAI();
-            CheckAbilityEnablePlayer(); 
-            
+            CheckAbilityEnablePlayer();
             if (IsPlayerTurn)
             {
                 //StartCoroutine("PlayerDrawCard");
                 PlayerHand.DrawCard();
-                TurnState = Turn.ChoosingCard;
-                Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
                 if (giveTurnlyInfluencePlayer)
                 {
                     MyInfluenceManager.IncreaseInfluence(1);
@@ -75,13 +72,13 @@ public class TurnManager : MonoBehaviour {
             {
                 //StartCoroutine("PlayerDrawCard");
                 AIHand.DrawCard();
-                TurnState = Turn.ChoosingCard;
-                Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
                 if (giveTurnlyInfluenceAI)
                 {
                     MyInfluenceManager.IncreaseInfluence(1);
                 }
             }
+            TurnState = Turn.ChoosingCard;
+            Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
         }
         if (TurnState == Turn.Launching) {
             CheckAbilityEnableAI();
@@ -129,7 +126,6 @@ public class TurnManager : MonoBehaviour {
             CheckAbilityEnableAI();
             CheckAbilityEnablePlayer();
             MyInfluenceManager.CancelDouble();
-
             int winCon = MyInfluenceManager.GetWinStatus();
             if (winCon == 0)
             {
@@ -162,11 +158,13 @@ public class TurnManager : MonoBehaviour {
                         GetComponent<LevelTracking>().LevelUp();
                     WinPanel1.SetActive(true);
                     TurnState = Turn.Waiting;
+                    Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
                 }
                 else if (LevelTracker.GetLevel() != 14)
                 {
                     WinPanel2.SetActive(true);
                     TurnState = Turn.Waiting;
+                    Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
                 }
                 else if (LevelTracker.GetLevel() == 14)
                 {
@@ -176,11 +174,14 @@ public class TurnManager : MonoBehaviour {
                         GetComponent<LevelTracking>().LevelUp();
                     WinPanel3.SetActive(true);
                     TurnState = Turn.Waiting;
+                    Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
                 }
             }
             else if (winCon == -1)
             {
                 LosePanel.SetActive(true);
+                TurnState = Turn.Waiting;
+                Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
             }
 
             GameObject.FindGameObjectWithTag("InfluenceManager").
@@ -201,13 +202,12 @@ public class TurnManager : MonoBehaviour {
         if (TurnState == Turn.ChoosingFieldPos)
         {
             CheckAbilityEnableAI();
-            CheckAbilityEnablePlayer(); 
-            
+            CheckAbilityEnablePlayer();
             if (!IsPlayerTurn)
             {
                 //AI can't press buttons, so we press for it.
                 int cardType = SuspendedCard.GetComponent<Card>().GetCardType();
-                int playLocation = -1;
+                int playLocation = 0;
                 bool hasDoubleAbility = (IsDoubleList[cardType] == 1);
                 Debug.Log("AI Card: "  + cardType + "Is Double: " + hasDoubleAbility);
                 if (hasDoubleAbility)
@@ -215,18 +215,18 @@ public class TurnManager : MonoBehaviour {
                     //doubling cards shouldn't be placed on the right
                     do
                     {
-                        Debug.Log("Got Play Location: " + playLocation);
                         playLocation = AIField.GetEmptiestLocation();
-                    } while (playLocation == 4);
+                        Debug.Log("Got Play Location: " + playLocation);
+                    } while (playLocation == 4 && AIField.GetFieldSize() < 4);
                 }
                 else
                 {
                     //influence giving cards shouldn't be placed on the left
                     do
                     {
-                        Debug.Log("Got Play Location: " + playLocation);
                         playLocation = AIField.GetEmptiestLocation();
-                    } while (playLocation == 0);
+                        Debug.Log("Got Play Location: " + playLocation);
+                    } while (playLocation == 0 && AIField.GetFieldSize() < 4);
                 }
                 CardSpotChosen(playLocation);
             }
@@ -306,6 +306,7 @@ public class TurnManager : MonoBehaviour {
                     if (SuspendedCard.GetComponent<Card>().GetCardType() != 17)
                     {
                         TurnState = Turn.ActivatingAbilities;
+                        Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
                     }
                     GameObject.FindGameObjectWithTag("EventHolderYours").
                         GetComponent<EventCardFade>().FadeObj(theChosenOne.gameObject);
@@ -341,6 +342,7 @@ public class TurnManager : MonoBehaviour {
                             GetComponent<EventCardFade>().FadeObj(theChosenOne.gameObject);
                         SuspendedCard = null;
                         TurnState = Turn.ActivatingAbilities;
+                        Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
                     }
                 }
             }

@@ -57,14 +57,6 @@ public class Card : MonoBehaviour {
             GameObject.FindGameObjectWithTag("SFXController").GetComponent
                 <SoundEffectManager>().PlaySound(4);
         }
-        else
-        {
-            OnDestroy();
-            Destroy(gameObject, 0.05f);
-            MyManager.CardSpotChosen(NumPos);
-            GameObject.FindGameObjectWithTag("SFXController").GetComponent
-                <SoundEffectManager>().PlaySound(5);
-        }
     }
 
     public bool GetIsEvent()

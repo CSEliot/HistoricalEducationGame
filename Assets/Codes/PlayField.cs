@@ -110,14 +110,12 @@ public class PlayField : MonoBehaviour {
             Destroy(field[pos].transform.GetChild(0).gameObject);
         }
         newCard.transform.SetParent(field[pos].transform, false);
-        field[pos].transform.GetChild(0).localPosition =
-            new Vector3(0f, 0f, 0f);
-        field[pos].transform.GetChild(0).localScale =
-            new Vector3(1f, 1f, 1f);
+        newCard.localPosition = new Vector3(0f, 0f, 0f);
+        newCard.localScale = new Vector3(1f, 1f, 1f);
         newCard.GetComponent<Card>().SetNumPos(pos);
-        field[pos].transform.GetChild(0).localPosition =
-            new Vector3(0f, 0f, 0f);
-        Destroy(field[pos].transform.GetChild(0).gameObject.GetComponent<Button>());
+        newCard.localPosition = new Vector3(0f, 0f, 0f);
+        Destroy(newCard.gameObject.GetComponent<Button>());
+        Debug.Log("Placed Card: " + newCard.GetComponent<Card>().GetCardType());
     }
 
 
@@ -249,6 +247,20 @@ public class PlayField : MonoBehaviour {
         IsEmpty[stopPos] = 1;
     }
 
+    public int GetFieldSize()
+    {
+        int totalSize = 0;
+        int totalSpaces = 5;
+        for (int x = 0; x < totalSpaces; x++)
+        {
+            if (field[x].transform.childCount > 0)
+            {
+                totalSize++;
+            }
+        }
+        return totalSize;
+    }
+
     public bool GetIf15Activated()
     {
         //set card15activated afterwards
@@ -285,6 +297,7 @@ public class PlayField : MonoBehaviour {
         //if an empty place exists, randomly grab one
         else
         {
+            Debug.Log("This has an empty!");
             bool gotEmpty = false;
             while(!gotEmpty){
                 int testPos = UnityEngine.Random.Range(0, 5);
