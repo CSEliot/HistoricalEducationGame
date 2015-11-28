@@ -5,52 +5,86 @@ using System;
 public class MusicManager : MonoBehaviour {
 
     public AudioClip[] Music;
-    private AudioSource CDPlayer;
+    public AudioSource CDPlayer1;
+    public AudioSource CDPlayer2;
 
-    private bool FadingOut;
+    private bool fadingOut;
+    private bool fadingIn;
 
     private int currentTrack;
     private int previousTrack;
     private float startVolume;
-    private float currentVolume;
+    private int currentCDPlayer;
+    private int cdPlayer1Num = 1;
+    private int cdPlayer2Num = 2;
+    private float lerpExactnessBuffer = 0.02f;
+    public float FadeTime;
+ 
+
     // Use this for initialization
     void Start () {
-        
-        CDPlayer = GetComponent<AudioSource>();
-        CDPlayer.clip = Music[0];
-        CDPlayer.Play();
-        startVolume = CDPlayer.volume;
-        currentVolume = startVolume;
-        FadingOut = false;
-    }
-    
-    // Update is called once per frame
-    void Update () {
-    
+
+        currentCDPlayer = 1;
+        CDPlayer1.clip = Music[0];
+        CDPlayer1.Play();
+        startVolume = CDPlayer1.volume;
+        fadingOut = false;
+
+        fadingIn = false;   
     }
 
 
-
-    private IEnumerator FadeMusicIn(int track)
+    private IEnumerator FadeMusicIn(int track, AudioSource CDPlayer)
     {
-        CDPlayer.volume = 0f;
-        CDPlayer.Stop();
+        if (fadingIn)
+            yield return null;
+
+        fadingIn = true;
         CDPlayer.clip = Music[track];
         CDPlayer.Play();
+        CDPlayer.volume = 0f;
         previousTrack = currentTrack;
         currentTrack = track;
 
-        CDPlayer.volume = 0f;
-        while(currentVolume < startVolume-0.1f)
+        float targetVolume = startVolume;
+        float startTime = Time.time;
+        float finishTime = startTime + FadeTime + 0.01f;
+        float currentVolume = CDPlayer.volume;
+        while (Time.time < finishTime)
         {
-            currentVolume = Mathf.Lerp(currentVolume, startVolume, Time.deltaTime);
+            currentVolume = Mathf.Lerp(0f, targetVolume, 
+                (Time.time - startTime) / (finishTime - startTime));
             CDPlayer.volume = currentVolume;
             yield return null;
             //Debug.Log("Fading Volume In: " + currentVolume);
         }
         //Debug.Log("Fading Volume In: " + currentVolume);
-        CDPlayer.volume = startVolume;
-        currentVolume = startVolume;
+        CDPlayer.volume = 1.0f; // max volume
+        fadingIn = false;
+    }
+
+    private IEnumerator FadeMusicOut(AudioSource CDPlayer)
+    {
+        if (fadingOut)
+            yield return null;
+
+        fadingOut = true;
+        float targetVolume = 0f; ;
+        float startTime = Time.time;
+        float finishTime = startTime + FadeTime;
+        float currentVolume = CDPlayer.volume;
+        while (Time.time < finishTime)
+        {
+            currentVolume = Mathf.Lerp(startVolume, targetVolume,
+                (Time.time - startTime) / (finishTime - startTime));
+            CDPlayer.volume = currentVolume;
+            yield return null;
+            //Debug.Log("Fading Volume In: " + currentVolume);
+        }
+        //Debug.Log("Fading Volume In: " + currentVolume);
+        CDPlayer.volume = 0.0f;
+        CDPlayer.Stop();
+        fadingOut = false;
     }
 
 
@@ -60,32 +94,27 @@ public class MusicManager : MonoBehaviour {
         Debug.Log("Set Music called on Song: " + track);
         //Debug.Log("From: " + Environment.StackTrace);
         if (track != currentTrack)
-            StartCoroutine(FadeMusicIn(track));
+        {
+            if (currentCDPlayer == cdPlayer1Num)
+            {
+                StartCoroutine(FadeMusicOut(CDPlayer1));
+                StartCoroutine(FadeMusicIn(track, CDPlayer2));
+                currentCDPlayer = cdPlayer2Num;
+            }
+            else if (currentCDPlayer == cdPlayer2Num)
+            {
+                StartCoroutine(FadeMusicOut(CDPlayer2));
+                StartCoroutine(FadeMusicIn(track, CDPlayer1));
+                currentCDPlayer = cdPlayer1Num;
+            }
+
+        }
     }
 
+    //go to previously played track
     public void Rewind()
     {
         SetMusic(previousTrack);
     }
 
 }
-//private IEnumerator FadeMusicOut(int track, float startTime)
-//{
-//    FadingOut = true;
-//    while(currentVolume > 0.1f)
-//    {
-//        currentVolume = Mathf.Lerp(currentVolume, 0f, Time.deltaTime);
-//        CDPlayer.volume = currentVolume;
-//        yield return null;
-//        Debug.Log("Fading Volume Out: " + currentVolume);
-//    }
-//    Debug.Log("Fading Volume Out: " + currentVolume);
-//    CDPlayer.volume = 0f;
-//    CDPlayer.Stop();
-//    CDPlayer.clip = Music[track];
-//    CDPlayer.Play();
-//    previousTrack = currentTrack;
-//    currentTrack = track;
-//    FadingOut = false;
-//    StartCoroutine(FadeMusicIn());
-//}

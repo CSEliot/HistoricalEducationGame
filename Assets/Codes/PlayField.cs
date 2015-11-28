@@ -56,6 +56,9 @@ public class PlayField : MonoBehaviour {
 
         for (int pos = 0; pos < 5; pos++ )
         {
+            if (field[pos].transform.childCount != 0){
+                IsEmpty[pos] = 0;
+            }
             //don't activate if not holding a card,
             // or that position is disabled
             if (field[pos].transform.childCount != 0 &&
@@ -79,6 +82,7 @@ public class PlayField : MonoBehaviour {
                 }
                 field[pos].transform.GetChild(0).
                     GetComponent<Card>().SpecialAbility();
+                
                 yield return new WaitForSeconds(ActivationTime);
             }
         }
@@ -100,7 +104,6 @@ public class PlayField : MonoBehaviour {
     //From Hand, To playfield
     public void PlaceCard(Transform newCard, int pos)
     {
-        IsEmpty[pos] = 0;
         IsDisabled[pos] = 0;
         newCard.gameObject.SetActive(true);
         //get rid of any old card there.
@@ -116,6 +119,7 @@ public class PlayField : MonoBehaviour {
         newCard.localPosition = new Vector3(0f, 0f, 0f);
         Destroy(newCard.gameObject.GetComponent<Button>());
         Debug.Log("Placed Card: " + newCard.GetComponent<Card>().GetCardType());
+        IsEmpty[pos] = 0;
     }
 
 
@@ -306,7 +310,7 @@ public class PlayField : MonoBehaviour {
                     gotEmpty = true;
                     return testPos;
                 }
-                Debug.Log("No empty found at: " + gotEmpty);
+                Debug.Log("No empty found at: " + testPos);
             }
         }
         //code should never reach this far, but inserted for happy compiler.

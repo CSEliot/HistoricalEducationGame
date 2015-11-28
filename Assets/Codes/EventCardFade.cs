@@ -7,21 +7,11 @@ public class EventCardFade : MonoBehaviour {
     public Material myMat;
     private bool beginFading;
     private float myAlpha;
+    public float FadeTime;
     
-    // Use this for initialization
-    void Start () {
-    }
-    
-    // Update is called once per frame
-    void Update () {
-        if (beginFading)
-        {
-            FadeMaterial();
-        }
-    }
-
     public void FadeObj(GameObject fadeCard)
     {
+
         if (!Application.loadedLevelName.Contains("Pop"))
         {
             fadeCard.transform.GetComponent<Image>().material = myMat;
@@ -36,23 +26,22 @@ public class EventCardFade : MonoBehaviour {
         fadeCard.transform.SetParent(transform, false);
         fadeCard.transform.localPosition = Vector3.zero;
         myAlpha = 1f;
-        beginFading = true;
-        StartCoroutine(DestroyIn(fadeCard));
+        StartCoroutine(fadeEnum(fadeCard));
     }
 
-    private void FadeMaterial()
+    private IEnumerator fadeEnum(GameObject fadeCard)
     {
-        myAlpha = Mathf.Lerp(myAlpha, 0f, Time.deltaTime/2);
-        myMat.SetColor("_Color", new Color(1f, 1f, 1f, myAlpha));
-        //Debug.Log("My alpha: " + myAlpha);
-    }
+        float startTime = Time.time;
+        float endTime = startTime + FadeTime;
+        while (Time.time < endTime)
+        {
 
-    IEnumerator DestroyIn(GameObject fadeCard)
-    {
-        while(myAlpha >= 0.3f)
+            myAlpha = Mathf.Lerp(1f, 0f, 
+                (Time.time - startTime) / (endTime - startTime));
+            myMat.SetColor("_Color", new Color(1f, 1f, 1f, myAlpha));
             yield return null;
+        }
         Destroy(fadeCard);
         myAlpha = 1f;
-        beginFading = false;
     }
 }

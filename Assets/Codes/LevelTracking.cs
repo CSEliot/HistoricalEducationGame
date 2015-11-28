@@ -17,6 +17,8 @@ public class LevelTracking : MonoBehaviour {
         if (Application.isEditor)
         {
             PlayerLevel = TempLevel;
+            if (TempLevel == 0)
+                ResetStats();
             SaveData();
         }
         DataLoaded = false;
@@ -36,7 +38,6 @@ public class LevelTracking : MonoBehaviour {
 
     public void LevelUp()
     {
-
         PlayerLevel = PlayerLevel==15?15:PlayerLevel+1;
         SaveData();
     }
@@ -48,12 +49,12 @@ public class LevelTracking : MonoBehaviour {
 
     public void ResetStats()
     {
+        PlayerPrefs.DeleteAll();
         PlayerPrefs.SetInt("IsFirstTime", 0);
         PlayerLevel = 0;
         PlayerPrefs.SetInt("level", PlayerLevel);
         PlayerPrefs.SetInt("Rating", 0);
         GetComponent<DataTracking>().WriteNewGameLine();
-        
     }
 
     public void SaveData()

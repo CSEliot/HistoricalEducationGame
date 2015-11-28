@@ -7,9 +7,11 @@ public class EnableOnFirstTime : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () {
-        if (PlayerPrefs.GetInt("IsFirstTime") == 0)
+        if (PlayerPrefs.GetInt("IsFirstTime", 0) == 0)
         {
             FirstTimeObj.SetActive(true);
+            GameObject.FindGameObjectWithTag("MenuController").
+                GetComponent<MusicManager>().SetMusic(2);
         }
         else
         {
@@ -21,4 +23,6 @@ public class EnableOnFirstTime : MonoBehaviour {
 	void Update () {
 	
 	}
+
+
 }

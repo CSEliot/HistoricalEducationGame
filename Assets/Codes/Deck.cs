@@ -111,6 +111,8 @@ public class Deck : MonoBehaviour {
         }
         GameObject.FindGameObjectWithTag("SFXController").
                 GetComponent<SoundEffectManager>().PlaySound(16);
+
+        PutLastUnlockedAtTop(specialReplaceNum);
     }
 
     private void ReFillDeck()
@@ -142,6 +144,7 @@ public class Deck : MonoBehaviour {
         {
             ShuffleDeck();
         }
+        PutLastUnlockedAtTop(specialReplaceNum);
     }
     //if (x == CardToRemove[{replaceNum] &&
     //                    replaceNum < SpecialReplaceNum)
@@ -164,6 +167,15 @@ public class Deck : MonoBehaviour {
             //6 is the first number for the special values
             deck.Find(CardToRemove[x]).Value = x + 6;
         }
+    }
+
+    private void PutLastUnlockedAtTop(int specialReplaceNum)
+    {
+        int cardAtTop = deck.Last.Value;
+        deck.Find(specialReplaceNum + 5).Value = cardAtTop;
+        Debug.Log("IsAI: "+IsAI+" Replacing number: " + specialReplaceNum);
+        deck.Last.Value = specialReplaceNum + 5;//offset for special value
+        //5 instead of 6 because specialReplaceNum starts at 0 not 1
     }
 
     public GameObject Top(){
