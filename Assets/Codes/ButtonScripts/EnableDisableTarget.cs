@@ -28,5 +28,11 @@ public class EnableDisableTarget : MonoBehaviour {
     {
         isEnabled = !isEnabled;
         Target.SetActive(isEnabled);
+        if (isEnabled)
+            GameObject.FindGameObjectWithTag("MenuController").
+                GetComponent<MusicManager>().SetMusic(2);
+        else
+            GameObject.FindGameObjectWithTag("MenuController").
+                GetComponent<MusicManager>().Rewind();
     }
 }

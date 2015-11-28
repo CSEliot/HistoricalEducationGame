@@ -31,8 +31,8 @@ public class AllMenuNav : MonoBehaviour {
 
     public void ChangeSceneTo(int MenuInt)
     {
-        //Music is scene based, and so . . .
-        MyMusicManager.SetMusic(0);
+        ////Music is scene based, and so . . .
+        //MyMusicManager.SetMusic(0);
         
         if (MenuInt == -1)
         {

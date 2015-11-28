@@ -11,6 +11,7 @@ public class InfluenceManager : MonoBehaviour {
                         //increase or decrease influence.
                         //-1 means AITurn
     private int DoubleCount;
+    private int tripleCount;
     private int SpecialModDouble;
     private bool InfluenceBooster;
 
@@ -28,6 +29,7 @@ public class InfluenceManager : MonoBehaviour {
         AITurn = 1;
         influenceCount = 15;
         DoubleCount = 1;
+        tripleCount = 1;
         SpecialModDouble = 1;
         YourBar.GetComponent<Image>().fillAmount = 0.5f;
         InfluenceText.GetComponent<Text>().text = "15/30";
@@ -37,7 +39,7 @@ public class InfluenceManager : MonoBehaviour {
     public void DecreaseInfluence(int amount)
     {
         amount *= AITurn;
-        amount *= (DoubleCount*SpecialModDouble); //applying modification from any double cards.
+        amount *= (DoubleCount*SpecialModDouble*tripleCount); //applying modification from any double cards.
         //Once double's been used, reset it.
         DoubleCount = 1;
         //floor influence at 0
@@ -54,7 +56,7 @@ public class InfluenceManager : MonoBehaviour {
             SingleIncreaseInstance();
         }
         amount *= AITurn; //AITurn = -1
-        amount *= (DoubleCount*SpecialModDouble); //applying modification from any double cards.
+        amount *= (DoubleCount*SpecialModDouble*tripleCount); //applying modification from any double cards.
         //Once double's been used, reset it.
         DoubleCount = 1;
         //cap influence at 30
@@ -96,6 +98,8 @@ public class InfluenceManager : MonoBehaviour {
     {
         AITurn = AITurn * -1;
         DoubleCount = 1;
+        tripleCount = 1;
+        SpecialModDouble = 1;
         InfluenceBooster = false;
     }
 
@@ -107,11 +111,12 @@ public class InfluenceManager : MonoBehaviour {
 
     public void TripleNext()
     {
-        DoubleCount = 3; //bad variable name, sue me.
+        tripleCount = 3; //bad variable name, sue me.
     }
 
     public void CancelDouble()
     {
+        tripleCount = 1;
         DoubleCount = 1;
         SpecialModDouble = 1;
     }
