@@ -141,10 +141,10 @@ public class InfluenceManager : MonoBehaviour {
     /// </summary>
     private void SingleIncreaseInstance()
     {
-        int amount = 1;
+        int amount = 1*AITurn;
         Debug.Log("Increasing by amount: " + amount);
-        influenceCount = ((influenceCount + amount) > 30) ? 30 :
-            influenceCount + amount;
+        
+        influenceCount = influenceCount + amount;
         YourBar.GetComponent<Image>().fillAmount = influenceCount / 30f;
         InfluenceText.GetComponent<Text>().text = "" + influenceCount + "/30";
     }

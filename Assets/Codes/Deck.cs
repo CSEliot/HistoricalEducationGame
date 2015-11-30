@@ -99,7 +99,11 @@ public class Deck : MonoBehaviour {
             }
         }
 
+
+        Debug.Log("Deckstring is: " + printDeck(deck.First));
         FindAndReplace(specialReplaceNum);
+
+        Debug.Log("Deckstring is: " + printDeck(deck.First));
         //Debug.Log("Print out LinkedList");
         //PrintLinkedList<int>(deck.First);
         int totalShuffles = 7;
@@ -161,21 +165,35 @@ public class Deck : MonoBehaviour {
     private void FindAndReplace(int specialReplaceNum)
     {
         //cieling @ 14
-        specialReplaceNum = (specialReplaceNum > 14) ? 14 : specialReplaceNum;
+        specialReplaceNum = (specialReplaceNum > 15) ? 15 : specialReplaceNum;
         for (int x = 0; x < specialReplaceNum; x++)
         {
             //6 is the first number for the special values
             deck.Find(CardToRemove[x]).Value = x + 6;
+            Debug.Log("Replacing " + deck.Find(CardToRemove[x]).Value + "with"
+                + (x + 6));
         }
     }
 
     private void PutLastUnlockedAtTop(int specialReplaceNum)
     {
+        specialReplaceNum = (specialReplaceNum > 15) ? 15 : specialReplaceNum;
         int cardAtTop = deck.Last.Value;
-        deck.Find(specialReplaceNum + 5).Value = cardAtTop;
         Debug.Log("IsAI: "+IsAI+" Replacing number: " + specialReplaceNum);
+        deck.Find(specialReplaceNum + 5).Value = cardAtTop;
         deck.Last.Value = specialReplaceNum + 5;//offset for special value
         //5 instead of 6 because specialReplaceNum starts at 0 not 1
+        
+    }
+
+    private string printDeck(LinkedListNode<int> start)
+    {
+        string deckString = "";
+        if(start.Next == null)
+            return "";
+
+        deckString += printDeck(start.Next);
+        return deckString+","+start.Value;
     }
 
     public GameObject Top(){

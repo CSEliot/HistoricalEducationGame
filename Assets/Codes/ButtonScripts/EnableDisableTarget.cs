@@ -30,11 +30,12 @@ public class EnableDisableTarget : MonoBehaviour {
 
     public void ToggleEnabled()
     {
+        Debug.Log("I ALSO MAKE BAD TIME");
         isEnabled = !isEnabled;
         Target.SetActive(isEnabled);
         if (isEnabled)
             GameObject.FindGameObjectWithTag("MenuController").
-                GetComponent<MusicManager>().SetMusic(2);
+                GetComponent<MusicManager>().SetMusic(4);
         else
             GameObject.FindGameObjectWithTag("MenuController").
                 GetComponent<MusicManager>().Rewind();

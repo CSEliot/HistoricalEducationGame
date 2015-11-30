@@ -11,10 +11,12 @@ public class EnableOnFirstTime : MonoBehaviour {
         {
             FirstTimeObj.SetActive(true);
             GameObject.FindGameObjectWithTag("MenuController").
-                GetComponent<MusicManager>().SetMusic(2);
+                GetComponent<MusicManager>().SetMusic(4);
         }
         else
         {
+            Debug.Log("I MAKE BAD TIME" + gameObject.name + "" + PlayerPrefs.GetInt("IsFirstTime", 0));
+            
             FirstTimeObj.SetActive(false);
         }
 	}
