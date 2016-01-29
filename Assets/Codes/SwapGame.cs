@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class SwapGame : MonoBehaviour {
 
@@ -8,7 +9,7 @@ public class SwapGame : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        otherSceneNum = Application.loadedLevel == 1 ? 0 : 1;
+        otherSceneNum = SceneManager.GetActiveScene().buildIndex == 1 ? 0 : 1;
 	    totalPresses = 0;
 	}
 	
@@ -19,7 +20,7 @@ public class SwapGame : MonoBehaviour {
             totalPresses = 0;
             GameObject.FindGameObjectWithTag("SFXController").
                 GetComponent<SoundEffectManager>().PlaySound(1);
-            Application.LoadLevel(otherSceneNum);
+            SceneManager.LoadScene(otherSceneNum);
         }
 	}
 

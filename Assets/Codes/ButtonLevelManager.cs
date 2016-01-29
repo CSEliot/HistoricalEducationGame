@@ -66,6 +66,7 @@ public class ButtonLevelManager : MonoBehaviour {
         }
         for (int x = 0; x < buttonsInColumn; x++)
         {
+            
             transform.GetChild(activeColumns-1).GetChild(x).GetComponent<Button>().
                     interactable = true;
             //if(Application.loadedLevelName.Contains("Pop"))

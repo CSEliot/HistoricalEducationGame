@@ -5,15 +5,16 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System;
 using System.Reflection;
+
 public class LevelTracking : MonoBehaviour {
 
     private int PlayerLevel;
     private bool DataLoaded;
-    private string filename = "SaveData.data";
     public int TempLevel;
 
     // Use this for initialization
     void Start () {
+
         if (Application.isEditor)
         {
             PlayerLevel = TempLevel;
@@ -21,6 +22,7 @@ public class LevelTracking : MonoBehaviour {
                 ResetStats();
             SaveData();
         }
+
         DataLoaded = false;
         LoadData();
         DataLoaded = true;
@@ -52,20 +54,21 @@ public class LevelTracking : MonoBehaviour {
         PlayerPrefs.DeleteAll();
         PlayerPrefs.SetInt("IsFirstTime", 0);
         PlayerLevel = 0;
-        PlayerPrefs.SetInt("level", PlayerLevel);
+        PlayerPrefs.SetInt("Level", PlayerLevel);
         PlayerPrefs.SetInt("Rating", 0);
         GetComponent<DataTracking>().WriteNewGameLine();
     }
 
     public void SaveData()
     {
-        PlayerPrefs.SetInt("level", PlayerLevel);
+        PlayerPrefs.SetInt("Level", PlayerLevel);
         PlayerPrefs.Save();
     }
 
     public void LoadData()
     {
-        PlayerLevel = PlayerPrefs.GetInt("level");
+        PlayerLevel = PlayerPrefs.GetInt("Level");
+        Debug.Log("PLayer level is: " + PlayerLevel);
     }
 
     private static char GetRandomLetter()

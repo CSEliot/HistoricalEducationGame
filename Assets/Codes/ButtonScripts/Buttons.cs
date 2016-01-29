@@ -22,6 +22,9 @@ public class Buttons : MonoBehaviour {
     public void CallSceneChange(float NewScene)
     {
         NewSceneNum = 0;
+
+
+
         if (NewScene == -1)
         {
             QuitGameActually();
@@ -36,6 +39,9 @@ public class Buttons : MonoBehaviour {
 
     public void QuitGameActually()
     {
+        GameObject.FindGameObjectWithTag("MenuController")
+            .GetComponent<DataTracking>().SaveData(false);
+        
         PlayerPrefs.SetInt("IsFirstTime", 1);
         PlayerPrefs.Save();
         Debug.Log("Quitting Game . . .");

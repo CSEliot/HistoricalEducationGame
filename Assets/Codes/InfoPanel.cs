@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class InfoPanel : MonoBehaviour {
 
@@ -42,7 +43,7 @@ public class InfoPanel : MonoBehaviour {
     /// </summary>
     private void AssignInfoStrings(){
         //Debug.Log("Info Strings Assigned");
-        if (Application.loadedLevelName.Contains("Pop"))
+        if (SceneManager.GetActiveScene().name.Contains("AB"))
         {
             InfoStrings = new string[]{
             "The eventual leader of the Democratic party, Andrew Jackson was an accomplished general of the War of 1812, most notably known for his defense of New Orleans from the British. He was President of the United States from 1828 to 1836. ",
@@ -75,7 +76,7 @@ public class InfoPanel : MonoBehaviour {
                 "In 1832, tension rose between him and Andrew Jackson that were caused by disagreements on if tariffs can be nullified by states. This results in his leave.",
                 "In 1832 Jackson issued a Proclamation of warning to South Carolina about not dissolving the Union.",
                 "In 1832, no longer Vice President, he can support South Carolina more effectively as it's Senator. By supporting South Carolina, maybe they can strengthen the possibility of complete Nullification of the Tariffs which Calhoun was against.",
-                "In January of 1830, He Gave a rousing speech to the Senate FOR Anti-Nullification.",
+                "In January of 1830, He Gave a rousing speech to the Senate AGAINST Nullification. In support of Andrew Jackson.",
                 "In 1833, Congress passes a law allowing the federal government to collect the tariffs by force.",
                 "In 1833, A compromise was made for lowering tariffs without removing them completely." ,
                 "In 1833, South Carolina couldn't win support for it's tariff nullification from other states.",
