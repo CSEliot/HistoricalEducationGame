@@ -2,6 +2,8 @@
 using System.Collections;
 using System;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
 public class TurnManager : MonoBehaviour {
 
     public Hand PlayerHand;
@@ -102,6 +104,10 @@ public class TurnManager : MonoBehaviour {
             //play teacher lady info on gameplay
             //wait for her to finish
 
+            GameObject.FindGameObjectWithTag("EventHolderYours").
+                        GetComponent<EventCardFade>().NewGame();
+            GameObject.FindGameObjectWithTag("EventHolderAI").
+                        GetComponent<EventCardFade>().NewGame();
             TurnState = Turn.FillingHand;
             Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
         }
@@ -242,7 +248,7 @@ public class TurnManager : MonoBehaviour {
     public void EndTurn(){
         TurnState = Turn.SwitchingTurn;
         Debug.Log("Turnstate is now: " + Enum.GetName(typeof(Turn), TurnState));
-        if (Application.loadedLevelName.Contains("Pop"))
+        if (SceneManager.GetActiveScene().name.Contains("AB"))
         {
             GameObject.FindGameObjectWithTag("SFXController").
                     GetComponent<SoundEffectManager>().PlaySound(15);
@@ -264,7 +270,7 @@ public class TurnManager : MonoBehaviour {
 
     public void Launch(int StageNum)
     {
-        if (Application.loadedLevelName.Contains("Pop"))
+        if (SceneManager.GetActiveScene().name.Contains("AB"))
         {
             LevelObject.GetComponent<Text>().text = GetText(StageNum);
             LevelObject.SetActive(true);

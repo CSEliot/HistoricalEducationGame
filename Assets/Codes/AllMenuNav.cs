@@ -21,7 +21,8 @@ public class AllMenuNav : MonoBehaviour {
         {
             Canvas.SetActive(false);
         }
-        if (!Application.isEditor) { CurrentCanvasNum = 0; }
+        //if (!Application.isEditor) { CurrentCanvasNum = 0; }
+        CurrentCanvasNum = 0;
         Canvases[CurrentCanvasNum].SetActive(true);
     }
     
@@ -36,13 +37,23 @@ public class AllMenuNav : MonoBehaviour {
         
         if (MenuInt == -1)
         {
-            Application.Quit();
+            PlayerPrefs.SetInt("IsFirstTime", 1);
+            GameObject.FindGameObjectWithTag("MenuController")
+            .GetComponent<DataTracking>().SaveData(false);
+
+            Debug.Log("Quitting Game . . .");
+            StartCoroutine(Quitting());
         }
         Canvases[CurrentCanvasNum].SetActive(false);
         Canvases[MenuInt].SetActive(true);
         CurrentCanvasNum = MenuInt;
     }
 
+    IEnumerator Quitting()
+    {
+        yield return new WaitForSeconds(2f);
+        Application.Quit();
+    }
     /// <summary>
     /// Only called by the level select buttons.
     /// </summary>
@@ -55,10 +66,6 @@ public class AllMenuNav : MonoBehaviour {
         setMusicNum = LevelInt > 10 ? 3 : setMusicNum;
         MyMusicManager.SetMusic(setMusicNum);
 
-        if (MenuInt == -1)
-        {
-            Application.Quit();
-        }
         Canvases[CurrentCanvasNum].SetActive(false);
         Canvases[MenuInt].SetActive(true);
         CurrentCanvasNum = MenuInt;

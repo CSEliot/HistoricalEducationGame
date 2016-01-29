@@ -5,6 +5,7 @@ using UnityEngine;
 //using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 
 
@@ -301,7 +302,7 @@ public class Reporter : MonoBehaviour {
 			catch( System.Exception e ){
 				Debug.LogException( e );
 			}
-			scenes = new string[ Application.levelCount ];
+            scenes = new string[Application.levelCount];
 			currentScene = Application.loadedLevelName;
 			DontDestroyOnLoad( gameObject );
 #if USE_OLD_UNITY
@@ -2041,7 +2042,7 @@ public class Reporter : MonoBehaviour {
                 url = "file://" + url;
 
 
-       // float startTime = Time.realtimeSinceStartup;
+       // float startTimeString = Time.realtimeSinceStartup;
 		WWW www = new WWW( url );
 		yield return www ;
 		

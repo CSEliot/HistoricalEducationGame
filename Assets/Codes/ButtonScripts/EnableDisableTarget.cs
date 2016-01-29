@@ -17,10 +17,6 @@ public class EnableDisableTarget : MonoBehaviour {
         {
             isEnabled = false;
         }
-        if (Application.loadedLevelName.Contains("Pop"))
-        {
-             
-        }
 	}
 	
 	// Update is called once per frame

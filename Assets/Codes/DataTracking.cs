@@ -6,37 +6,34 @@ using System.IO;
 using System;
 using System.Reflection;
 using System.Net.NetworkInformation;
+using UnityEngine.SceneManagement;
 
 public class DataTracking : MonoBehaviour {
 
-    private string startTime;
+    private string startTimeString;
+    private DateTime startTimeOBJ;
     private string filename;
 
     //AndroidJavaObject mWifiManager;
     
     // Use this for initialization
     void Start () {
-        startTime = "";
-        filename = Application.loadedLevelName + ".csv";
+        startTimeString = "";
+        filename = SceneManager.GetActiveScene().name + ".csv";
 
-        //if the key in GETINT doesn't exist, it returns 0
-        if (PlayerPrefs.GetInt("FirstLaunch") == 0)
-        {
-            ResetStats();
-        }
-        startTime += DateTime.Now.Second + ":";
-        startTime += DateTime.Now.Minute + ":";
-        startTime += DateTime.Now.Hour   + ":";
-        startTime += DateTime.Now.Day    + ":";
-        startTime += DateTime.Now.Month  + ":";
-        startTime += DateTime.Now.Year;
-        
+        startTimeString += DateTime.Now.Second + ":";
+        startTimeString += DateTime.Now.Minute + ":";
+        startTimeString += DateTime.Now.Hour   + ":";
+        startTimeString += DateTime.Now.Day    + ":";
+        startTimeString += DateTime.Now.Month  + ":";
+        startTimeString += DateTime.Now.Year;
+        startTimeOBJ = DateTime.Now;
     }
     
     // Update is called once per frame
     void Update () {
         if(Input.GetKeyDown("p")){
-            SaveData();
+            SaveData(false);
         }
     }
 
@@ -45,69 +42,71 @@ public class DataTracking : MonoBehaviour {
         string path = GetPath(filename);
         FileStream file = new FileStream(path, FileMode.Append, FileAccess.Write);
         StreamWriter sw = new StreamWriter(file);
-        string LineToWrite = "GameName,MacAddress,NewGameTime(Sec:Min:Hr:Day:Mo:Yr),SessionEndTime,Progress,Rating,TotalPlayTime(Sec:Min:Hr:Days)";
+        string LineToWrite = "New_Game_Started!,\nGameName,MacAddress,NewGameTime(Sec:Min:Hr:Day:Mo:Yr),SessionEndTime,Progress,Rating,TotalPlayTime(Sec:Min:Hr:Days)";
         sw.WriteLine(LineToWrite);
 
         sw.Close();
         file.Close();
-
-        ResetStats();
         //SAVED DATA
 
     }
 
     void OnApplicationQuit()
     {
-        if(!Application.isEditor)
+        if (!Application.isEditor)
             PlayerPrefs.SetInt("IsFirstTime", 1);
-
-        SaveData();
+        PlayerPrefs.Save();
     }
-    public void SaveData()
+
+    public void SaveData(bool onClose)
     {
         string path = GetPath(filename);
         FileStream file = new FileStream(path, FileMode.Append, FileAccess.Write);
         StreamWriter sw = new StreamWriter(file);
-        string LineToWrite;
-        string GameName = Application.loadedLevelName;
+        string LineToWrite = "";
+        if (onClose)
+        {
+            LineToWrite = "Following_line_saved_by_force_quit.Please_quit_via_In-game_Button.\n";
+        }
+        string GameName = SceneManager.GetActiveScene().name;
         string MACAddress = GetMacAddress();
-        string StartSession = startTime;
+        string StartSession = startTimeString;
         string EndSession = GetEndSession();
-        string GameProgess = PlayerPrefs.GetInt("Level") + "/15";
+        string GameProgess = PlayerPrefs.GetInt("Level") + " out of 15";
         string FunRating = GetFunRating();
         string TotalTime = GetTotalTimePlayed();
-        LineToWrite = GameName + "," + MACAddress + "," +
+        LineToWrite += GameName + "," + MACAddress + "," +
             StartSession + "," + EndSession + "," + GameProgess + "," +
             FunRating + "," + TotalTime;
         sw.WriteLine(LineToWrite);
 
         sw.Close();
         file.Close();
+        PlayerPrefs.Save();
 
         //SAVED DATA   
     }
 
-    private void ResetStats()
-    {
-        //Debug.Log("Reset Data!");
-        PlayerPrefs.SetInt("FirstDay", DateTime.Now.Day);
-        PlayerPrefs.SetInt("FirstMonth", DateTime.Now.Month);
-        PlayerPrefs.SetInt("FirstYear", DateTime.Now.Year);
-        PlayerPrefs.SetInt("FirstSecond", DateTime.Now.Second);
-        PlayerPrefs.SetInt("FirstMinute", DateTime.Now.Minute);
-        PlayerPrefs.SetInt("FirstHour", DateTime.Now.Hour);
-    }
 
     private string GetTotalTimePlayed()
     {
-        DateTime oldTime = new DateTime(
-            PlayerPrefs.GetInt("FirstYear"),
-            PlayerPrefs.GetInt("FirstMonth"),
-            PlayerPrefs.GetInt("FirstDay"),
-            PlayerPrefs.GetInt("FirstHour"),
-            PlayerPrefs.GetInt("FirstMinute"),
-            PlayerPrefs.GetInt("FirstSecond"));
-        TimeSpan span = DateTime.Now - oldTime;
+        
+        TimeSpan span = new TimeSpan(
+            PlayerPrefs.GetInt("TotalDay"),
+            PlayerPrefs.GetInt("TotalHour"),
+            PlayerPrefs.GetInt("TotalMinute"),
+            PlayerPrefs.GetInt("TotalSecond"));
+        //oldTime = new DateTime()
+        span += (DateTime.Now - startTimeOBJ);
+        startTimeOBJ = DateTime.Now; // reset because otherwise we're adding on
+                                     //old time already recorded in this session of play.
+
+        //The following occurs because we know that 
+        //PlayerPrefs.Save() happens later on.
+        PlayerPrefs.SetInt("TotalDay", span.Days);
+        PlayerPrefs.SetInt("TotalHour", span.Hours);
+        PlayerPrefs.SetInt("TotalMinute", span.Minutes);
+        PlayerPrefs.SetInt("TotalSecond", span.Seconds);
         string timeString = "";
         timeString += span.Seconds + ":";
         timeString += span.Minutes + ":";
@@ -120,11 +119,11 @@ public class DataTracking : MonoBehaviour {
     {
         if (PlayerPrefs.GetInt("Rating") == 0)
         {
-            return "not yet rated";
+            return "Not yet rated.";
         }
         else
         {
-            string rating = PlayerPrefs.GetInt("Rating") + "/5";
+            string rating = PlayerPrefs.GetInt("Rating") + " stars out of 5.";
             return rating;
         }
     }
@@ -174,7 +173,11 @@ public class DataTracking : MonoBehaviour {
             return Path.Combine(path, filename);
         }
     }
-    
+
+    public void ResetSessionStartDateTime()
+    {
+        startTimeOBJ = DateTime.Now;
+    }
 
     private string GetMacAddress()
     {
