@@ -39,16 +39,16 @@ public class DataTracking : MonoBehaviour {
 
     public void WriteNewGameLine()
     {
-        string path = GetPath(filename);
-        FileStream file = new FileStream(path, FileMode.Append, FileAccess.Write);
-        StreamWriter sw = new StreamWriter(file);
-        string LineToWrite = "New_Game_Started!,\nGameName,MacAddress,NewGameTime(Sec:Min:Hr:Day:Mo:Yr),SessionEndTime,Progress,Rating,TotalPlayTime(Sec:Min:Hr:Days)";
-        sw.WriteLine(LineToWrite);
+        return;
+        //string path = GetPath(filename);
+        //FileStream file = new FileStream(path, FileMode.Append, FileAccess.Write);
+        //StreamWriter sw = new StreamWriter(file);
+        //string LineToWrite = "New_Game_Started!,\nGameName,MacAddress,NewGameTime(Sec:Min:Hr:Day:Mo:Yr),SessionEndTime,Progress,Rating,TotalPlayTime(Sec:Min:Hr:Days)";
+        //sw.WriteLine(LineToWrite);
 
-        sw.Close();
-        file.Close();
+        //sw.Close();
+        //file.Close();
         //SAVED DATA
-
     }
 
     void OnApplicationQuit()
@@ -60,29 +60,33 @@ public class DataTracking : MonoBehaviour {
 
     public void SaveData(bool onClose)
     {
-        string path = GetPath(filename);
-        FileStream file = new FileStream(path, FileMode.Append, FileAccess.Write);
-        StreamWriter sw = new StreamWriter(file);
-        string LineToWrite = "";
-        if (onClose)
-        {
-            LineToWrite = "Following_line_saved_by_force_quit.Please_quit_via_In-game_Button.\n";
-        }
-        string GameName = SceneManager.GetActiveScene().name;
-        string MACAddress = GetMacAddress();
-        string StartSession = startTimeString;
-        string EndSession = GetEndSession();
-        string GameProgess = PlayerPrefs.GetInt("Level") + " out of 15";
-        string FunRating = GetFunRating();
-        string TotalTime = GetTotalTimePlayed();
-        LineToWrite += GameName + "," + MACAddress + "," +
-            StartSession + "," + EndSession + "," + GameProgess + "," +
-            FunRating + "," + TotalTime;
-        sw.WriteLine(LineToWrite);
-
-        sw.Close();
-        file.Close();
         PlayerPrefs.Save();
+
+        return;
+
+        //string path = GetPath(filename);
+        //FileStream file = new FileStream(path, FileMode.Append, FileAccess.Write);
+        //StreamWriter sw = new StreamWriter(file);
+        //string LineToWrite = "";
+        //if (onClose)
+        //{
+        //    LineToWrite = "Following_line_saved_by_force_quit.Please_quit_via_In-game_Button.\n";
+        //}
+        //string GameName = SceneManager.GetActiveScene().name;
+        //string MACAddress = GetMacAddress();
+        //string StartSession = startTimeString;
+        //string EndSession = GetEndSession();
+        //string GameProgess = PlayerPrefs.GetInt("Level") + " out of 15";
+        //string FunRating = GetFunRating();
+        //string TotalTime = GetTotalTimePlayed();
+        //LineToWrite += GameName + "," + MACAddress + "," +
+        //    StartSession + "," + EndSession + "," + GameProgess + "," +
+        //    FunRating + "," + TotalTime;
+        //sw.WriteLine(LineToWrite);
+
+        //sw.Close();
+        //file.Close();
+        //PlayerPrefs.Save();
 
         //SAVED DATA   
     }
