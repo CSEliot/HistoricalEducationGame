@@ -17,12 +17,17 @@ public class CheckPassword : MonoBehaviour {
         {
             password = "cup";
         }
+
+        //BYPASSING BELOW FOR SHOWCASE PURPOSES
+        GameObject.FindGameObjectWithTag("MenuController").
+            GetComponent<AllMenuNav>().ChangeSceneTo(1);
     }
     
     // Update is called once per frame
     void Update () {
         //GameObject.FindGameObjectWithTag("PasswordField")
         //    .GetComponent<Text>().text = "ddd";
+
     }
 
     public void Enter()
@@ -33,6 +38,7 @@ public class CheckPassword : MonoBehaviour {
             GameObject.FindGameObjectWithTag("PasswordField")
             .GetComponent<Text>().gameObject.transform.parent
             .GetComponent<InputField>().text = "";
+
             GameObject.FindGameObjectWithTag("MenuController").
             GetComponent<AllMenuNav>().ChangeSceneTo(1);
         }
